@@ -1,6 +1,6 @@
-# __SKILL_NAME__
+# automation
 
-> __SKILL_TAGLINE__. Installs as an agent skill.
+> Wire it across systems you don't own — then reconcile what you can't un-send. Installs as an agent skill.
 
 TODO — one paragraph: what problem this replaces, the workflow it runs (stages/strategies, in
 order), and what "read only what you need" the router gives you. Claude Code is the reference
@@ -9,22 +9,22 @@ Antigravity, opencode, Grok Build, and Hermes too.
 
 ## Install
 
-- npm/skills.sh: `npx skills add gabros20/__REPO_NAME__`
-- Clone + installer (per-host targets: claude | codex | cursor | antigravity | opencode | grok | hermes | agents | all): `git clone https://github.com/gabros20/__REPO_NAME__ && cd __REPO_NAME__ && ./install.sh codex`
-- Manual copy: `cp -R skills/__SKILL_NAME__ ~/.claude/skills/__SKILL_NAME__`
+- npm/skills.sh: `npx skills add gabros20/automation-skill`
+- Clone + installer (per-host targets: claude | codex | cursor | antigravity | opencode | grok | hermes | agents | all): `git clone https://github.com/gabros20/automation-skill && cd automation-skill && ./install.sh codex`
+- Manual copy: `cp -R skills/automation ~/.claude/skills/automation`
 
 ## Docs
 
-- [README.md](https://raw.githubusercontent.com/gabros20/__REPO_NAME__/main/README.md): overview, install, workflow, and repository map.
-- [skills/__SKILL_NAME__/SKILL.md](https://raw.githubusercontent.com/gabros20/__REPO_NAME__/main/skills/__SKILL_NAME__/SKILL.md): runtime router, workflow, artifact contract, and completion rules.
-- [docs/installation.md](https://raw.githubusercontent.com/gabros20/__REPO_NAME__/main/docs/installation.md): installation and verification by client.
-- [docs/usage.md](https://raw.githubusercontent.com/gabros20/__REPO_NAME__/main/docs/usage.md): activation boundary, routes, outputs, and completion.
-- [docs/recipes.md](https://raw.githubusercontent.com/gabros20/__REPO_NAME__/main/docs/recipes.md): representative starting prompts.
+- [README.md](https://raw.githubusercontent.com/gabros20/automation-skill/main/README.md): overview, install, workflow, and repository map.
+- [skills/automation/SKILL.md](https://raw.githubusercontent.com/gabros20/automation-skill/main/skills/automation/SKILL.md): runtime router, workflow, artifact contract, and completion rules.
+- [docs/installation.md](https://raw.githubusercontent.com/gabros20/automation-skill/main/docs/installation.md): installation and verification by client.
+- [docs/usage.md](https://raw.githubusercontent.com/gabros20/automation-skill/main/docs/usage.md): activation boundary, routes, outputs, and completion.
+- [docs/recipes.md](https://raw.githubusercontent.com/gabros20/automation-skill/main/docs/recipes.md): representative starting prompts.
 
-## Reference inventory (`skills/__SKILL_NAME__/references/`)
+## Reference inventory (`skills/automation/references/`)
 
 - `example.md` — TODO: what job this reference answers.
 
 ## Optional
 
-- [Visual guide](https://__REPO_NAME__.vercel.app): the workflow, boundaries, and reference map on one page.
+- [Visual guide](https://automation-skill.vercel.app): the workflow, boundaries, and reference map on one page.
