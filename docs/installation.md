@@ -6,7 +6,10 @@ Install the `automation` runtime pack from the independently versioned
 ## Prerequisites
 
 - An Agent Skills-compatible client.
-- TODO: Add only real skill-specific tools, credentials, or runtime requirements.
+- No skill-specific credentials or tools are required. `automation` is tool-agnostic; it names which
+  class of tool a job needs (an iPaaS/engine, a vendor's webhook or REST API, a secrets manager, a
+  dead-man's-switch service) and recommends re-verifying current vendor limits, retry schedules, and
+  licences at analysis time (anti-staleness), but ships no keys and requires no fixed toolchain.
 
 ## Install with skills.sh
 

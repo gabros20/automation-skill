@@ -1,187 +1,186 @@
-# Skill repository template
+# automation — Workflow Automation
 
-Create one independently owned, versioned, and installable agent-skill repository. Runtime skill
-identifiers stay short (`frontend`); GitHub repositories and Codex plugin packages use the
-`<skill>-skill` suffix (`frontend-skill`).
+**Wire it across systems you don't own — then reconcile what you can't un-send.**
 
-The template keeps agent-loaded content under `skills/<skill>/` and keeps human documentation,
-evaluation fixtures, releases, and optional site assets outside the runtime package.
+`automation` is the **Build** stage of the [Digital Product Skills](https://github.com/gabros20) family, a
+peer of `frontend`/`backend`/`data`/`ai`, for building business processes that span systems you cannot
+deploy to: Stripe, a CRM, email, Slack, a partner's API, a human approver. The distinguishing property
+is the substrate. `backend` owns async work inside a system you control — your queue, your workers, your
+database, deployable and testable end to end. `automation` owns the case where most of the steps belong
+to vendors you cannot deploy to, cannot unit-test, and cannot roll back — where the API changes with no
+deploy on your side, the quota belongs to someone else, and a person clicking "approve" is a node in the
+graph.
 
-## Quick start
+**The default reader is one person, or a small team, with no second pair of eyes.** That matters more
+here than it looks: nearly every control this domain teaches assumes a counterparty. Approval assumes an
+approver who is not the requester. Reconciliation assumes a reconciler who is not the recorder. The
+*functions* survive at n=1; the second *body* does not, and the substitute is an independent source, a
+clock, or a rule committed to in advance.
 
-```bash
-gh repo create gabros20/<skill>-skill \
-  --template gabros20/skill-template \
-  --private \
-  --clone
-cd <skill>-skill
+`automation` writes workflow definitions, integration code, connector configuration and functions. It
+does **not** author the business rule — `product` and the commercial skills own that; when no upstream
+rule exists, it is captured explicitly rather than invented silently. It works standalone when invoked
+alone, consumes compatible upstream artifacts without silently overriding them, and recommends adjacent
+skills without invoking them automatically.
 
-# Runtime skill + README/docs/evals only
-scripts/init <skill> "<Skill Title>" "<25-64 character tagline>" \
-  "#336699" "#6699cc" 220
+## Four things this pack does differently
 
-# Keep the static documentation site
-scripts/init <skill> "<Skill Title>" "<tagline>" \
-  "#336699" "#6699cc" 220 --site
+**The wedge is synthesis, not discovery, and it says so rather than dressing itself up.** Almost nothing
+in this pack is unknown — it is known in five places that have never cited each other. Distributed
+systems teaches idempotency and saga **for services you own**. Gregor Hohpe's *Conversation Patterns*
+teaches compensation **for parties you don't** — and is CC BY, twenty years old, and largely unread.
+Fintech teaches reconciliation exhaustively **as a ledger control** and never generalizes it past money
+movement. Enterprise GRC (COSO, maker-checker, delegation of authority) teaches approval authority at
+**meeting pace**, decades deep, and never answers what a system should decide at 3am. The 2026 agentic
+wave teaches guardrails **for models**. A reader wiring their business across vendors they cannot deploy
+to has to assemble one discipline out of five literatures that were never introduced to each other. That
+assembly is the pack.
 
-# Keep the site and Remotion video-authoring project
-scripts/init <skill> "<Skill Title>" "<tagline>" \
-  "#336699" "#6699cc" 220 --site --video
-```
+**Reconciliation is the flagship, and four independent channels converge on it without ever citing each
+other.** Fintech owns the *word* and never generalizes it. General integration engineering teaches the
+*mechanism* — poll a provider on a schedule to catch what a webhook missed — and never uses the word.
+Hohpe names it exactly once in his 25-pattern catalogue, in a 2005 aside, and then walked away from it
+for twenty years. And it is absent across every other shipped pack in this family. [reconciliation.md](skills/automation/references/reconciliation.md)
+states the spine plainly: **reconcile against the vendor's authoritative state, never against your own
+record of what you told it** — an ack is not evidence, and a webhook that never arrived leaves no trace
+in your logs at all.
 
-Initialization is intentionally not a release. Replace the remaining `TODO` content, then work
-through [TEMPLATE-CHECKLIST.md](TEMPLATE-CHECKLIST.md). `scripts/check-sync` fails closed until the
-runtime pack, metadata, and evaluation fixtures are complete.
+**The n=1 approval-and-reconciliation recursion is resolved, not just named.** COSO's own escape hatch
+for missing segregation of duties *is* independent reconciliation — but reconciliation, as fintech
+practices it, itself demands a reconciler who is not the recorder. For one person, the escape hatch leads
+back into the room it was supposed to get you out of. The resolution this pack ships: independence has to
+come from the source, the clock, or a rule committed to in advance — never from a second person who does
+not exist. The function survives; the second body does not need to.
 
-## Repository contract
+**Hohpe's vocabulary is used, credited — and the pack is explicit about where its own claim stops.**
+Quick Acknowledgment, Compensating Action, Heartbeat, Lease, and half a dozen more already have names in
+the *Conversation Patterns* catalogue, and this pack cites the specific pattern page rather than
+reinventing a house term. But Hohpe's Quick Acknowledgment pattern never mentions duplicates or retries —
+the reasoning that slow acknowledgment causes duplicate side effects is this pack's own addition, not
+his, and it says so rather than letting a real citation quietly absorb an uncredited claim.
 
-```text
-<skill>-skill/
-├── .codex-plugin/
-│   └── plugin.json
-├── skills/
-│   └── <skill>/
-│       ├── SKILL.md
-│       ├── agents/
-│       │   └── openai.yaml
-│       └── references/
-├── evals/
-│   ├── activation/
-│   ├── traversal/
-│   ├── output/
-│   └── compression-ablation/
-├── docs/
-├── scripts/
-├── AGENTS.md
-├── CLAUDE.md
-├── README.md
-├── CHANGELOG.md
-├── CONTRIBUTING.md
-└── LICENSE
-```
+## What it does
 
-Add runtime `scripts/` and `assets/` only when the skill has a real consumer for them. README,
-changelog, contribution guidance, research, design records, and release tooling stay outside the
-runtime directory.
+A **faceted router**: pick one primary job × one base surface (the agentic overlay stacks additively on
+top).
 
-## Runtime authoring standard
+**Primary jobs** — **reconciliation ⭐** · integration-reliability · compensation-and-recovery ·
+credentials-and-connections · approval-and-authority · trigger-design · sync-semantics ·
+workflow-observability · cost-and-quota · platform-selection · workflow-testing · process-capture.
 
-`SKILL.md` is the activation-time router, not an encyclopedia. Use this order:
+**Surfaces** — hosted iPaaS (default) · self-hosted engine · code-first durable execution ·
+platform-native · **agentic** (additive).
 
-1. Mission and ownership boundary.
-2. Conditional routes with direct Markdown links and expected contributions.
-3. Universal invariants.
-4. Short, artifact-driven workflow.
-5. Artifact contract.
-6. Evidence-based completion and handoff.
+Two grounded numbers stand in for the pack's habit of naming its source rather than repeating a folk
+figure. Google's own OAuth documentation caps refresh tokens at **100 per account per client ID**, and
+reaching the cap invalidates the oldest token **"without warning"** — two vendor blogs report the cap as
+50; both are wrong, and this pack cites Google's own docs instead. And Salesforce's `getDeleted()`
+delete-tracking API covers **no more than 15 days**, with a background purge that can invalidate the
+window *early* and return `INVALID_REPLICATION_DATE` — whose documented recovery is a full re-sync, not
+a resumable cursor. Neither number is safe to memorize past this quarter; both carry a re-verify pointer
+in the reference that cites them.
 
-Every reference begins with `Purpose`, `Read when`, `Skip when`, `Inputs`, and `Produces`. Keep
-references one level below `SKILL.md`; add an early `## Contents` when a reference exceeds 100
-lines. Prefer tested scripts for fragile or repeated mechanics.
-
-The runtime frontmatter contains only:
-
-```yaml
----
-name: <skill>
-description: <outcome, triggers, and close-neighbor exclusions>
----
-```
-
-Versions, repository URLs, licensing, and storefront metadata do not belong in runtime
-frontmatter.
-
-## Standalone and composition behavior
-
-Every generated skill must work when invoked alone. A domain skill may consume supplied upstream
-artifacts and recommend a next skill, but it must not silently invoke neighboring skills.
-Compatibility with a larger composition system is optional and must be backed by contract tests.
-
-## Evaluation layers
-
-Keep the four layers separate so a failure points to the correct fix:
-
-| Layer | Question |
-|---|---|
-| Activation | Should this skill trigger for this request? |
-| Traversal | Did it load the smallest sufficient reference set? |
-| Output | Did it satisfy the artifact and completion contracts? |
-| Compression | Did a shorter candidate preserve quality and safety? |
-
-`scripts/check-sync` validates fixture structure. Model-driven evaluation runners can be added per
-repository without changing the portable fixture contract.
-
-## Validation
+## Install
 
 ```bash
-scripts/check-sync
-scripts/count-skill-tokens
+npx skills add gabros20/automation-skill -g -y
 ```
 
-The baseline gate checks:
+Or use it in Codex with `$automation`.
 
-- Exactly one primary skill.
-- Frontmatter compatibility and description budget.
-- Direct, flat, self-describing references and long-file contents lists.
-- `agents/openai.yaml` and `.codex-plugin/plugin.json` alignment.
-- Runtime placeholders, broken paths, script executability, and eval fixtures.
-- README, `AGENTS.md`, `CLAUDE.md`, contribution, changelog, and license files.
-- Plugin version alignment with the latest released changelog entry.
-- Initializer safety with punctuation-heavy values.
-
-Specialized repositories may add domain-specific checks after the baseline gate; they must not
-replace it.
-
-Repository agents should read [AGENTS.md](AGENTS.md); Claude Code receives the same rules through
-the lightweight [CLAUDE.md](CLAUDE.md) pointer. Derived repositories must rewrite both files for
-their own ownership boundary and non-negotiable invariants.
-
-## Versioning and releases
-
-Release each repository independently. The canonical release version lives in:
-
-- `.codex-plugin/plugin.json`
-- The newest released `CHANGELOG.md` heading
-- Git tag `v<version>` and the matching GitHub Release
-
-Do not duplicate the version in `SKILL.md`. Research or design records are appropriate for material
-decisions, not mandatory ceremony for every patch.
-
-## Invocation and installation language
-
-Use `/skill` only as documentation shorthand. Client-facing examples must name the actual form:
-
-- Codex: `$skill`
-- Slash-command clients: `/skill`
-- Other hosts: `@skill`, a skill tool, or natural-language activation
-
-The generated installer keeps Codex and cross-agent paths separate:
+## Examples
 
 ```text
-codex  → ${CODEX_HOME:-$HOME/.codex}/skills
-agents → $HOME/.agents/skills
+$automation my automation fired twice and charged someone — I need to know why and stop it happening again
+
+$automation the Stripe-to-CRM sync has been quietly dead for a week and nobody noticed
+
+$automation a webhook never arrived and an order is missing from the CRM — find the gap and close it
+
+$automation should this refund step wait for me to approve it, and what happens if I don't answer in time
+
+$automation we're moving off Zapier onto n8n — tell me what actually breaks
+
+$automation design a Stripe-to-CRM sync that survives a missed webhook
 ```
 
-## Optional publishing profiles
+## Route by job
 
-The README is every repository's primary GitHub storefront. `--site` keeps the static site and
-Vercel files; `--video` additionally keeps Remotion. Site and video work never block runtime skill
-correctness unless that repository explicitly makes them part of its release scope.
+| User intent | Reads | Contribution |
+|---|---|---|
+| Prove what actually happened — catch what the webhook missed, diff against the vendor, close the gap ⭐ | [reconciliation](skills/automation/references/reconciliation.md) | **Flagship.** Reconcile against the vendor's authoritative state, never your own record; tiered cadence; ID-set diff before field diff; matched / within-tolerance / exception; alert-first at n=1 |
+| Stop duplicates and missed work — delivery semantics, dedup, at-least-once | [integration-reliability](skills/automation/references/integration-reliability.md) | Quick Acknowledgment (ack fast, process async); dedup keyed on the business event; the completion-check false positive; per-vendor delivery guarantees |
+| A step failed after an earlier one already sent, charged or wrote | [compensation-and-recovery](skills/automation/references/compensation-and-recovery.md) | Compensation is a forward action, not a rollback; hardest-to-revert last; compensation as a human act; resume-vs-restart before any irreversible step |
+| Manage API keys and OAuth across many vendors; something silently stopped authenticating | [credentials-and-connections](skills/automation/references/credentials-and-connections.md) | The credential fleet; silent-expiry traps; scheduled pre-expiry refresh; credential health as its own monitored resource; the shared-account bus factor |
+| Put a human in the loop — who approves, what happens on timeout | [approval-and-authority](skills/automation/references/approval-and-authority.md) | Translating meeting-paced GRC (maker-checker, delegation of authority) into machine-timeout policy; no engine ships a default; the n=1 compensating control |
+| Decide what starts the workflow; a trigger fires too often, too broadly, or twice | [trigger-design](skills/automation/references/trigger-design.md) | Trigger taxonomy; over-broad conditions; the cron/DST comparison; trigger idempotency across two delivery paths |
+| Keep two systems in step; records duplicated, deleted rows diverging, a loop | [sync-semantics](skills/automation/references/sync-semantics.md) | The A→B→A loop; deletes are invisible to incremental sync; `updated_at` is a lie; conflict policy as a decision; backfill-to-incremental cutover |
+| Tell whether it is still running, and what "green" does not mean | [workflow-observability](skills/automation/references/workflow-observability.md) | A workflow that stopped is not a workflow that failed; no engine alerts by default; missing-heartbeat over failure notification; audit of what ran on whose authority |
+| Cap what this costs; a loop or a retry is burning quota | [cost-and-quota](skills/automation/references/cost-and-quota.md) | Per-task billing; the quota is the vendor's and its blast radius is the whole account; retry × 429; the workflow circuit breaker |
+| Choose or leave a platform — no-code, self-hosted, code-first | [platform-selection](skills/automation/references/platform-selection.md) | The four tiers; resume-capability as a selection criterion; licence and liveness; exit cost asked up front |
+| Test a workflow that spans vendors you cannot control | [workflow-testing](skills/automation/references/workflow-testing.md) | What is genuinely untestable and what replaces it — dry run, narrow canary, first-then-bulk gate, fixture replay |
+| Turn a business rule into a workflow — or decide not to automate at all | [process-capture](skills/automation/references/process-capture.md) | Capturing the rule at n=1; the control-flow vocabulary worth having; when not to automate; prefer the API, and what you buy when there isn't one |
 
-**Color-identity system.** Family sites share one chrome — the type system, layout grammar,
-light/dark theming, hero-terminal, and "Start here" shapes — while each skill owns a unique accent:
-the `<accent-light-hex> <accent-dark-hex> <oklch-hue>` triple passed to `scripts/init`, rendered
-into the site tokens and mirrored by the Remotion palette (`remotion/src/theme.ts`).
+## Surfaces
 
-**Designed per skill, not copied.** The site skeleton is a scaffold. [site/README.md](site/README.md)
-is the binding design brief: inventory the skill's mental model, reshape the sections to match it,
-build purpose-built components, and storyboard a Remotion hero for that skill. Reference build:
-[orchestrate-skill.vercel.app](https://orchestrate-skill.vercel.app).
+| Surface | Reads | When |
+|---|---|---|
+| Hosted iPaaS — Zapier/Make-class, connectors and a visual builder | [surface-hosted-ipaas](skills/automation/references/surface-hosted-ipaas.md) | **Default** |
+| Self-hosted engine — n8n/Windmill/Activepieces/Kestra | [surface-self-hosted-engine](skills/automation/references/surface-self-hosted-engine.md) | You run the engine |
+| Code-first durable execution — Temporal/Inngest/Restate/Step Functions | [surface-code-first-durable](skills/automation/references/surface-code-first-durable.md) | The workflow is code, steps are durable |
+| Platform-native — Actions, cron, cloud schedulers | [surface-platform-native](skills/automation/references/surface-platform-native.md) | No engine; the platform is the scheduler |
+| **Agentic ⭐ (additive)** | [surface-agentic](skills/automation/references/surface-agentic.md) | **Stacks on a base surface.** A model is a step, or is the trigger |
 
-**GitHub About area.** At release, set the repository description (family style, "Agent skill for
-… — …"), the canonical site alias as homepage, and topics (`agent-skills ai-agents claude
-claude-code` plus domain topics) with `gh repo edit` — see TEMPLATE-CHECKLIST §6.
+Plus [handoff](skills/automation/references/handoff.md) — the `handoff.yaml` companion for downstream
+work, typically to `operate` to run and watch the workflow, or to `quality` to verify it before it ships.
+
+## Outputs
+
+An automation artifact carries: the business rule and its owner · the trigger and what it will *also*
+fire on · every irreversible step, named · the idempotency key and its window · the failure and
+compensation path per step · the reconciliation loop, or an explicit statement that there is none · how
+you learn it stopped · the credentials it uses and when they expire · and its cost per run with a
+ceiling — plus fillable worksheets and a `handoff.yaml` companion, since a dependency in this domain can
+change with no deploy on your side.
+
+## Digital Product lifecycle
+
+`automation` sits at the **Build** stage, alongside `frontend`, `backend`, `data`, and `ai` — the peer
+that owns the case where the system on the other end of the wire is not one you deploy to. It does not
+own async work, queues, or the idempotency-key primitive **inside a system you control** (`backend`); a
+model's cognition or guardrails (`ai`); the warehouse or analytical plane (`data`); deploying or watching
+the workflow in production (`operate`); the ship/claim decision (`quality`); or authoring the business
+rule itself (`product` and the commercial skills). It consumes an upstream business rule or contract when
+one is supplied, works standalone when it isn't, and hands off a compact artifact — typically to
+`operate` to run and watch what got built, or to `quality` to verify it before it ships.
+
+## Reference and asset library
+
+18 references under `skills/automation/references/` (12 primary jobs, 4 base surfaces, 1 agentic
+additive overlay, 1 handoff contract) and 7 fillable assets under `skills/automation/assets/`:
+
+- **Assets:** `irreversibility-inventory.md` · `reconciliation-worksheet.md` · `credential-register.md` ·
+  `approval-policy-card.md` · `trigger-audit-sheet.md` · `run-cost-table.md` · `handoff.yaml`
+
+## Repository layout
+
+```text
+skills/automation/  runtime skill (SKILL.md + 18 references + 7 assets + agents/openai.yaml)
+evals/               activation · traversal · output · compression-ablation fixtures
+research/            5-channel research corpora + build-gate synthesis
+docs/                installation, usage, and recipes
+.codex-plugin/       plugin manifest
+```
+
+## Documentation & releases
+
+- [docs/installation.md](docs/installation.md) · [docs/usage.md](docs/usage.md) ·
+  [docs/recipes.md](docs/recipes.md)
+- [CHANGELOG.md](CHANGELOG.md) — release history (current: v0.1.0)
+- [SOURCES.md](skills/automation/SOURCES.md) — source attribution and license posture, including the
+  four-clause licensing rule this skill follows and the numbers it refuses to ship
+- [CONTRIBUTING.md](CONTRIBUTING.md) — local validation (`scripts/lint-skill`, `scripts/check-sync`)
 
 ## License
 
-[MIT](LICENSE)
+MIT — see [LICENSE](LICENSE).

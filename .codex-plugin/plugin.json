@@ -1,6 +1,6 @@
 {
   "name": "automation-skill",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Wire it across systems you don't own — then reconcile what you can't un-send",
   "author": {
     "name": "gabros20",
@@ -9,17 +9,28 @@
   "homepage": "https://automation-skill.vercel.app",
   "repository": "https://github.com/gabros20/automation-skill",
   "license": "MIT",
-  "keywords": ["agent-skill", "automation"],
+  "keywords": [
+    "agent-skill",
+    "automation",
+    "workflow",
+    "integration",
+    "reconciliation",
+    "webhooks",
+    "ipaas",
+    "zapier",
+    "n8n",
+    "business-process"
+  ],
   "skills": "./skills/",
   "interface": {
     "displayName": "Workflow Automation",
     "shortDescription": "Wire it across systems you don't own — then reconcile what you can't un-send",
-    "longDescription": "Wire it across systems you don't own — then reconcile what you can't un-send",
+    "longDescription": "Faceted-router skill for building business processes that span systems you do not own: 12 primary jobs (reconciliation, integration reliability, compensation and recovery, credentials and connections, approval and authority, trigger design, sync semantics, workflow observability, cost and quota, platform selection, workflow testing, process capture) across 4 base surfaces (hosted iPaaS, self-hosted engine, code-first durable execution, platform-native) plus an additive agentic overlay. Reconciles against the vendor's authoritative state rather than the system's own record of what it told it, treats compensation as a forward action rather than a rollback, and defaults to a solo/small-team posture where independence comes from the source, the clock, or a pre-committed rule rather than a second approver.",
     "developerName": "gabros20",
     "category": "Productivity",
     "capabilities": [],
     "defaultPrompt": [
-      "Use $automation to TODO: provide one short starter request."
+      "Use $automation to design a Stripe-to-CRM sync that survives a missed webhook."
     ],
     "brandColor": "#0891b2"
   }
