@@ -1,8 +1,65 @@
 [
   {
-    "id": "representative-ablation",
-    "prompt": "TODO: add a request that exercises a load-bearing instruction.",
+    "_category_note": "ABLATION UNIT IS A CONTENT CLUSTER, NOT A SINGLE FILE, per this family's established convention (learned the hard way on the quality-skill build): SKILL.md's invariants restate references' headline rules at low resolution, and a reference's mechanism is sometimes mirrored into a paired fillable asset (each asset's header names its source reference explicitly). A single-file ablation risks testing nothing if the specific claim under test survives elsewhere. Every case below names its full co-ablation set and states the exact grep command and file count behind its uniqueness claim — re-run the greps before trusting this file if the pack changes.",
+    "id": "drop-reconciliation-cluster-cannot-resolve-n1-recursion",
+    "prompt": "I'm the only person in my business. Someone told me the reason I can lean on reconciliation as my n=1 safety net is exactly the same reason it can't work for someone solo — because reconciliation itself needs a second person, same as approval does. Is that actually a contradiction, and if so, what's the way out of it?",
     "variants": ["no-skill", "current", "compressed-candidate"],
-    "preserve": ["task success", "safety", "artifact completeness", "required-reference recall"]
+    "ablated_files": [
+      "references/reconciliation.md",
+      "assets/reconciliation-worksheet.md"
+    ],
+    "fixture_note": "grep -rn 'minimise the risk of errors and fraud' skills/automation/ -> 1 file, 1 occurrence (references/reconciliation.md only) -- the Stripe verbatim quote is single-homed. grep -rn 'leads back into the trap' skills/automation/ -> 1 file only (same file) -- the 'escape hatch leads back into the room it was supposed to get you out of' framing is single-homed. grep -rn 'alternative control activities' skills/automation/ -> 2 files (references/reconciliation.md AND references/approval-and-authority.md, since approval-and-authority.md §4 independently quotes the same COSO line) -- the COSO quote alone survives ablation via approval-and-authority.md, but that file explicitly declines to re-derive the argument, verbatim: 'That is reconciliation.md's intellectual core (its §9); this reference does not re-derive it' -- so the actual contradiction, COSO's escape hatch stated against Stripe's segregation requirement and resolved, is single-homed to reconciliation.md §9. assets/reconciliation-worksheet.md is co-ablated as the paired fillable asset (header: 'Source: references/reconciliation.md'); it carries an 'Independence source (I6)' row and a one-line pointer ('that is the recursion in reconciliation.md §9') but not the quotes or the argument itself. CAUTION: SKILL.md's I6 invariant and approval-and-authority.md's one-sentence pointer survive ablation and let a careful agent still gesture at the general shape of the n=1 answer -- this is intentional defense-in-depth per this pack's own convention, not leakage; the preserve criteria below target the specific quotes and the sharp contradiction framing, not the bare directional judgment.",
+    "preserve": [
+      "With the cluster present: states the Stripe verbatim quote ('the person who records transactions should not be the same person who reconciles accounts') alongside the COSO verbatim quote ('management selects and develops alternative control activities'), and names the contradiction explicitly as the escape hatch leading back into the room it was supposed to get you out of",
+      "With the cluster present: resolves the contradiction via I6 -- independence must come from the source (the vendor's own authoritative state), the clock, or a pre-committed rule, never from a second person who does not exist -- and states this resolution is a translation of COSO's own language, not a discovery",
+      "With the cluster ablated: may still state the general n=1 approval answer (an alternative-control-activities escape hatch exists per COSO) via SKILL.md's I6 invariant and approval-and-authority.md's own pointer -- this partial survival is acceptable, intentional defense-in-depth, not a failure of the ablation -- but cannot produce the Stripe verbatim quote, the 'leads back into the trap' framing, or state the contradiction as sharply as reconciliation.md §9 does",
+      "Under ablation, does NOT fabricate a plausible-sounding Stripe or COSO quotation, and does NOT misattribute the resolution as reconciliation's own discovery rather than a credited translation of COSO"
+    ]
+  },
+  {
+    "id": "drop-credentials-cluster-cannot-cite-six-month-clock",
+    "prompt": "We have a Google Sheets automation that only runs once a month, and it's been running fine every time. Could the Google connection actually be at risk of dying anyway, even though nothing has errored?",
+    "variants": ["no-skill", "current", "compressed-candidate"],
+    "ablated_files": [
+      "references/credentials-and-connections.md",
+      "assets/credential-register.md"
+    ],
+    "fixture_note": "grep -rln 'six consecutive months\\|Six consecutive months' skills/automation/ -> 1 file only (references/credentials-and-connections.md). grep -rn 'only an explicit' skills/automation/references/*.md -> 1 file, 1 occurrence (same file) -- the 'ordinary API calls do not reset this clock, only an explicit grant_type=refresh_token POST does' mechanism is single-homed. grep -rln '100 refresh tokens' skills/automation/ -> 1 file only (same file) -- the 100-token-per-account-per-client-ID cap, and the correction that two vendor blogs wrongly state 50, is also single-homed. Checked assets/credential-register.md directly: its example row contains only a generic table-cell illustration ('e.g. six months' inactivity') with no explanation of the ordinary-calls-don't-reset-the-clock mechanism or the 100-token cap -- co-ablated anyway as the paired fillable asset (header: 'Source: references/credentials-and-connections.md'), per this pack's convention. SKILL.md's job-router row names 'silent-expiry traps' and 'scheduled pre-expiry refresh' generically with no numbers attached -- that general framing survives ablation; the specific figures do not.",
+    "preserve": [
+      "With the cluster present: states Google's refresh token dies after six consecutive months of inactivity, and that ordinary API calls do NOT reset this clock -- only an explicit grant_type=refresh_token POST does -- so a monthly automation that only ever calls the API is drifting toward silent death on a clock nothing in its own logs shows moving",
+      "With the cluster present: states the 100-refresh-token-per-account-per-client-ID cap, oldest invalidated silently without warning, and notes that two vendor blogs wrongly state the cap as 50",
+      "With the cluster ablated: still states the general principle that credential health is its own monitored resource, checked independent of whether a workflow ran (I7 survives via SKILL.md), but cannot name the six-month figure, the ordinary-calls-don't-reset-the-clock detail, or the 100-token cap",
+      "Under ablation, does NOT invent a plausible-sounding inactivity window or token-cap number to make the answer sound sourced"
+    ]
+  },
+  {
+    "id": "drop-sync-semantics-cluster-cannot-cite-salesforce-delete-visibility",
+    "prompt": "We sync Salesforce leads into our own database using an incremental updated_at cursor. If someone deletes a lead in Salesforce, will our sync ever notice?",
+    "variants": ["no-skill", "current", "compressed-candidate"],
+    "ablated_files": [
+      "references/sync-semantics.md"
+    ],
+    "fixture_note": "grep -rln 'INVALID_REPLICATION_DATE' skills/automation/ -> 1 file only (references/sync-semantics.md). grep -rln 'getDeleted' skills/automation/ -> 1 file only (same file). grep -n '15 days' references/sync-semantics.md -> 2 occurrences, both in this file -- the Salesforce getDeleted() 15-day retention window, the early-invalidation purge behavior, and the full-re-sync recovery requirement are all single-homed here. No paired fillable asset exists for this reference -- checked: grep -rl 'sync-semantics' skills/automation/assets/*.md returns no match, so the ablation unit is the single file. grep -rln 'deletes are invisible\\|cannot see deletes' skills/automation/ -> 2 files (SKILL.md's I5 invariant restatement, general, and sync-semantics.md's full treatment) -- the general rule survives ablation via SKILL.md, the vendor-specific evidence does not.",
+    "preserve": [
+      "With the cluster present: states Salesforce's getDeleted() covers no more than 15 days, that a background purge can invalidate the window early and return INVALID_REPLICATION_DATE, and that the documented recovery from that state is a full re-sync, not a resumable cursor",
+      "With the cluster present: contrasts this with Stripe's good case (soft-delete, retrievable with 'deleted': true, plus a customer.deleted event on the Events API) to show the mechanism differs meaningfully by vendor rather than one uniform rule",
+      "With the cluster ablated: still states the general rule that an incremental cursor cannot see deletes unless the vendor names a specific mechanism, and that mechanism's retention window must then be checked (I5 survives via SKILL.md), but cannot name Salesforce's specific 15-day window, the INVALID_REPLICATION_DATE error, or the full-re-sync recovery requirement",
+      "Under ablation, does NOT fabricate a specific retention window number or a plausible-sounding error code for Salesforce or any other vendor"
+    ]
+  },
+  {
+    "id": "drop-surface-agentic-cluster-cannot-cite-i12-evidence",
+    "prompt": "We're building an agent that can call tools in a loop until it decides the task is done, with no per-step limit configured yet. Someone says that's fine because it'll just fail like any other broken step and we'll get an alert. Is that actually true?",
+    "variants": ["no-skill", "current", "compressed-candidate"],
+    "ablated_files": [
+      "references/surface-agentic.md"
+    ],
+    "fixture_note": "grep -rln '7417' skills/automation/ -> 1 file only (references/surface-agentic.md) -- the langgraph checkpoint-replay-silently-re-runs-a-tool-call bug is single-homed. grep -rln '7071' skills/automation/ -> 1 file only (same file) -- the autogen termination-condition-true-but-stream-keeps-processing bug is single-homed. grep -rln '6370\\|CWE-770' skills/automation/ -> 1 file only (same file) -- the CrewAI PR adding the 500 max_iter / 100-hop caps, citing CWE-770 and CWE-835, is single-homed. grep -rln 'Replit' skills/automation/ -> 1 file only (same file) -- the production-database-deleted-during-a-code-freeze incident is single-homed. No paired asset carries this evidence: run-cost-table.md and irreversibility-inventory.md are where the overlay's ceilings get FILLED, but neither restates the agentic evidence itself (checked both directly -- no mention of 'agentic', 'langgraph', 'CrewAI', or 'Replit' in either asset). grep -rn 'fails by continuing' skills/automation/ -> 3 files (SKILL.md's I12 invariant restatement, cost-and-quota.md's one-clause mention, and surface-agentic.md's full treatment) -- the PHRASE survives ablation via the other two; the EVIDENCE behind it does not.",
+    "preserve": [
+      "With the cluster present: states I12 -- an agentic step fails by continuing, not by throwing -- and cites at least one of the filed evidence items (langgraph #7417's silent checkpoint-replay duplicate, autogen #7071's stream continuing after its own termination condition evaluated true, or CrewAI PR #6370's CWE-770/CWE-835-cited hard ceiling) rather than asserting the claim generically",
+      "With the cluster present: names the deterministic envelope this pack owns around the step regardless of what the model decides -- a spend ceiling, a step/iteration ceiling, a wall-clock deadline, and a kill switch -- as what reintroduces loud failure, not a stronger prompt",
+      "With the cluster ablated: may still state the bare I12 sentence ('an agentic step fails by continuing... a deterministic ceiling') from SKILL.md's invariant or cost-and-quota.md's one-clause mention -- this partial survival is acceptable, intentional defense-in-depth -- but cannot cite any of the four filed evidence items, and cannot name the specific deterministic-envelope components (spend/step/deadline/kill-switch) as a complete list",
+      "Under ablation, does NOT fabricate a specific GitHub issue number, a plausible-sounding CWE citation, or an invented incident to make the claim sound evidenced"
+    ]
   }
 ]

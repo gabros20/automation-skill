@@ -68,12 +68,26 @@ Google's own OAuth documentation (`developers.google.com/identity/protocols/oaut
 2026-07-27, re-verify — OAuth behaviours change) names concrete ways a refresh token dies, several
 with zero notification to the integration that holds it:
 
-- **Six consecutive months of inactivity invalidates the token** — verbatim, *"The refresh token has
-  not been used for six months."* The counterintuitive part, and the one worth stating plainly
-  because it inverts the obvious assumption: **ordinary API calls do not reset this clock. Only an
-  explicit `grant_type=refresh_token` POST does.** A monthly automation that only ever calls the API
-  — and never explicitly refreshes — is drifting toward silent death on a clock nothing in its own
-  logs shows moving. "It ran fine every month" is not evidence the credential is healthy.
+These are two genuinely different mechanisms, and a reader diagnosing a dead credential needs to know
+which one they're looking at — they fail on different triggers and point to different fixes:
+
+- **Disuse: six consecutive months of inactivity invalidates the token** — verbatim, *"The refresh
+  token has not been used for six months."* The counterintuitive part, and the one worth stating
+  plainly because it inverts the obvious assumption: **ordinary API calls do not reset this clock.
+  Only an explicit `grant_type=refresh_token` POST does.** A monthly automation that only ever calls
+  the API — and never explicitly refreshes — is drifting toward silent death on a clock nothing in
+  its own logs shows moving. "It ran fine every month" is not evidence the credential is healthy.
+  This bites a *working* automation that simply never triggers a refresh often enough.
+- **Configuration: a consent screen left in "Testing" carries a 7-day refresh-token expiry** —
+  verbatim, *"A Google Cloud Platform project with an OAuth consent screen configured for an external
+  user type and a publishing status of 'Testing' is issued a refresh token expiring in 7 days, unless
+  the only OAuth scopes requested are a subset of name, email address, and user profile."* **The
+  exception clause matters as much as the number**: a sign-in-only integration requesting nothing
+  beyond name/email/profile does *not* get the 7-day expiry — acting on the bare number without the
+  exception would send a reader hunting for a problem that doesn't apply to their scope, or worse,
+  convince them the rule doesn't apply at all. This bites something that was *never published* to
+  production, regardless of how often it runs — a different failure shape from the disuse clock
+  above, and a common trap for an internal-only automation nobody thought needed "publishing."
 - **A hard cap of 100 refresh tokens per Google Account per OAuth client ID** — verbatim, *"If the
   limit is reached, creating a new refresh token automatically invalidates the oldest refresh token
   without warning."* Two vendor blogs (Nango, Unipile) state the cap as 50; both are wrong. Use
@@ -82,8 +96,6 @@ with zero notification to the integration that holds it:
 - **A password change on the vendor side revokes tokens carrying sensitive scopes** — the credential
   dies because a human changed their own password for reasons that have nothing to do with the
   automation.
-- **Testing-mode consent screens carry a short-lived grant** if the OAuth app was never moved to
-  production — a common trap for an internal-only automation nobody thought needed "publishing."
 - **Explicit revocation** (someone clicks "remove this app" in their account) and **admin policy
   changes restricting a scope after the fact** both kill a token with no action on your side at all.
 
