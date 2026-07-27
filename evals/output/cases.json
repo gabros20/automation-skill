@@ -1,10 +1,56 @@
 [
   {
-    "id": "primary-artifact",
-    "prompt": "TODO: add a representative execution request.",
+    "id": "full-workflow-stripe-to-crm-artifact-completeness",
+    "prompt": "Build me a workflow: when a Stripe payment succeeds, create a customer record in our CRM and send them a welcome email.",
     "assertions": [
-      "TODO: name an observable artifact requirement",
-      "TODO: name an objective validation or completion requirement"
+      "Names the business rule and its owner, or states plainly that no upstream owner supplied one, rather than inventing one silently",
+      "Names the trigger (Stripe's payment-succeeded event) and states an explicit false-positive class — what else could also fire it, such as a duplicate webhook redelivery or a refund-then-recharge — not just the intended case",
+      "Names every irreversible step explicitly — the CRM record write and the welcome email send — in run order, with the harder-to-revert step (the email, once delivered) placed last",
+      "States an idempotency key derived from the payment's own business identity, not the webhook delivery ID alone, and states the dedup window it is stored for",
+      "States a distinct failure/compensation path per step (e.g. the CRM write retried or dead-lettered vs. the email send suppressed on retry) rather than one blanket 'retry on failure' for the whole workflow",
+      "States the reconciliation loop against Stripe's own state, or an explicit statement that none exists and drift will go undetected — not silence on the question"
+    ]
+  },
+  {
+    "id": "nightly-sync-missing-heartbeat-and-cost-ceiling",
+    "prompt": "Set up a nightly automation that pulls new orders from our e-commerce platform and pushes them to our fulfillment tool.",
+    "assertions": [
+      "States how you would learn the automation stopped running silently — a missing-heartbeat check on a cadence shorter than the expected run interval — not just how you'd learn it errored",
+      "Names a cost per run with a stated ceiling and its blast radius (this workflow only vs. the whole account), not just 'it should be cheap'",
+      "Does not treat 'the dashboard shows no failures' as evidence the automation is still working correctly"
+    ]
+  },
+  {
+    "id": "refund-approval-credential-expiry",
+    "prompt": "Build an automation that auto-approves refunds under $100 and routes anything over that to a person before Stripe issues it.",
+    "assertions": [
+      "Names the credential(s) the workflow depends on and states when they expire or need refresh, not just that a Stripe connection exists",
+      "Names an explicit timeout policy for the human approval gate (deny/allow/escalate) rather than leaving 'what happens if nobody responds' unstated",
+      "States that the person who requested or triggered a refund is never also the one who approves it"
+    ]
+  },
+  {
+    "id": "duplicate-order-idempotency-window",
+    "prompt": "We keep getting the same order processed twice from our webhook — build me a fix.",
+    "assertions": [
+      "States the idempotency key explicitly, derived from the order's business identity rather than the webhook delivery ID alone, and states the dedup window it is stored for",
+      "Names a failure/compensation path for what happens if the order was already partially processed when the duplicate arrives, rather than only saying 'ignore duplicates'"
+    ]
+  },
+  {
+    "id": "cancellation-flow-ordering-and-reconciliation-statement",
+    "prompt": "Automate our subscription cancellation flow: cancel the subscription in Stripe, remove their access in our app, and email them a cancellation confirmation.",
+    "assertions": [
+      "Names every irreversible step (the Stripe cancellation, the access removal, the confirmation email) explicitly and orders the hardest-to-revert step (the email) last",
+      "States a reconciliation loop checking that Stripe's cancellation state actually matches the app's access-removal state, or an explicit statement that no such loop exists and drift will go undetected — not left unaddressed"
+    ]
+  },
+  {
+    "id": "simple-sounding-request-still-gets-a-complete-artifact",
+    "prompt": "Just wire Zapier to sync new HubSpot contacts into our email tool whenever they're created — should be simple.",
+    "assertions": [
+      "Does not treat 'should be simple' as license to skip the cost per run and its ceiling, or the credential(s)' expiry — a minimal-sounding request still gets a complete artifact",
+      "Names what this trigger will also fire on (e.g. a contact updated rather than newly created, or a bulk import creating many contacts at once) as an explicit false-positive class, rather than leaving it implicit"
     ]
   }
 ]

@@ -1,12 +1,68 @@
 [
   {
-    "id": "positive-explicit",
-    "prompt": "Use $automation to TODO: add a realistic in-scope request.",
-    "should_trigger": true
+    "id": "positive-duplicate-charge-loop",
+    "prompt": "My Zap fired twice and the customer got charged for the same order twice — how do I stop that from happening again?",
+    "should_trigger": true,
+    "expected_route": "automation — integration-reliability.md's ack-timeout duplicate trap and idempotency-key design"
   },
   {
-    "id": "negative-near-miss",
-    "prompt": "TODO: add a realistic request owned by the closest neighboring skill.",
-    "should_trigger": false
+    "id": "positive-sync-duplicate-records",
+    "prompt": "The sync between our CRM and our billing tool created 35 duplicate contact records overnight.",
+    "should_trigger": true,
+    "expected_route": "automation — sync-semantics.md, likely the A→B→A loop or a missing dedup key"
+  },
+  {
+    "id": "positive-silent-automation-stopped",
+    "prompt": "Our automation stopped running three days ago and nobody noticed until a customer complained — how do I catch that earlier?",
+    "should_trigger": true,
+    "expected_route": "automation — workflow-observability.md's missing-heartbeat discipline (I8)"
+  },
+  {
+    "id": "positive-missed-webhook-lost-order",
+    "prompt": "How do I make sure a failed or missing webhook doesn't just lose the order silently?",
+    "should_trigger": true,
+    "expected_route": "automation — reconciliation.md, the flagship (I1)"
+  },
+  {
+    "id": "positive-approval-gate-refunds",
+    "prompt": "We need someone to approve any refund over $500 before it actually goes out through Stripe.",
+    "should_trigger": true,
+    "expected_route": "automation — approval-and-authority.md"
+  },
+  {
+    "id": "negative-decline-to-backend-retry-queue",
+    "prompt": "Add a retry to my job queue so failed background jobs get reprocessed.",
+    "should_trigger": false,
+    "expected_route": "backend — async work, queues, and retries inside a system you control; no vendor boundary is crossed"
+  },
+  {
+    "id": "negative-decline-to-quality-integration-tests",
+    "prompt": "Write the integration tests for our checkout flow.",
+    "should_trigger": false,
+    "expected_route": "quality — writes and grades tests; automation writes workflow logic, not the test suite verifying it"
+  },
+  {
+    "id": "negative-decline-to-ai-agent-wrong-output",
+    "prompt": "Why is my agent giving the wrong answer when customers ask about pricing?",
+    "should_trigger": false,
+    "expected_route": "ai — owns the model's cognition, prompts, and retrieval; automation owns the graph around a model step, not what the model reasons"
+  },
+  {
+    "id": "negative-decline-to-data-warehouse-model",
+    "prompt": "Help me build the warehouse model for our revenue data.",
+    "should_trigger": false,
+    "expected_route": "data — owns the analytical/governed dataset and its modeling, distinct from the write path into an operational system of record"
+  },
+  {
+    "id": "negative-decline-to-operate-deploy-monitoring",
+    "prompt": "Deploy this service to production and set up monitoring and alerting for it.",
+    "should_trigger": false,
+    "expected_route": "operate — deploys and runs the monitoring platform; automation designs a workflow's failure semantics but does not run infrastructure"
+  },
+  {
+    "id": "negative-decline-to-orchestrate-agent-fleet",
+    "prompt": "Coordinate three coding agents to refactor this repository in parallel.",
+    "should_trigger": false,
+    "expected_route": "orchestrate — coordinates agents inside a development session; not a lifecycle skill automation would own"
   }
 ]

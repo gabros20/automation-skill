@@ -143,12 +143,26 @@ not "recall". Every item below carries its verification date; all are `verified 
 - All 13 engine repos confirmed **live** (pushed within 72h of 2026-07-27).
 
 **Vendor behaviours:**
-- Google OAuth: **100** refresh tokens per account per client ID, oldest silently invalidated at the
-  cap — *"without warning"*, Google's own docs. **Two vendor blogs say 50; they are wrong.**
-- Google OAuth: a refresh token dies after **six consecutive months unused** — and **only an explicit
-  `grant_type=refresh_token` POST resets the clock; ordinary API calls do not.**
-- Salesforce `getDeleted()`: covers **no more than 15 days**; a 2-hourly purge can invalidate the
-  window early and return `INVALID_REPLICATION_DATE`, whose documented recovery is a **full re-sync**.
+- Google OAuth: **100** refresh tokens per account per client ID. **Controller-verified verbatim
+  against developers.google.com, 2026-07-27:** *"There is currently a limit of 100 refresh tokens per
+  Google Account per OAuth 2.0 client ID. If the limit is reached, creating a new refresh token
+  automatically invalidates the oldest refresh token without warning."* **Two vendor blogs say 50;
+  they are wrong.**
+- Google OAuth: a refresh token dies after **six consecutive months unused** — verbatim: *"The refresh
+  token has not been used for six months."* And **only an explicit `grant_type=refresh_token` POST
+  resets the clock; ordinary API calls do not.**
+- **NEWLY CLEARED — the testing-mode 7-day expiry, WITH its exception, which materially changes the
+  advice.** A writer conservatively dropped this magnitude; controller-verified verbatim 2026-07-27:
+  *"A Google Cloud Platform project with an OAuth consent screen configured for an external user type
+  and a publishing status of 'Testing' is issued a refresh token expiring in 7 days, **unless the only
+  OAuth scopes requested are a subset of name, email address, and user profile.**"* **Ship the
+  exception with the number — without it the advice is wrong for the commonest case.**
+- Salesforce `getDeleted()`: **controller-verified verbatim against developer.salesforce.com,
+  2026-07-27:** *"Results are returned for no more than 15 days previous to the day the call is
+  executed (or earlier if an administrator has purged the Recycle Bin)."* On `INVALID_REPLICATION_DATE`
+  the documented recovery is, verbatim: *"If you get this exception, do a full pull of the table."*
+  A background purge runs **every two hours**, removing delete-log entries above a computed limit
+  (15,000 × org licences), oldest first — **so the window can close early and without notice.**
 - Stripe: soft-delete — object stays retrievable with `"deleted": true`, and a `customer.deleted`
   event fires.
 - Stripe reconciliation, verbatim: *"To minimise the risk of errors and fraud, the person who records

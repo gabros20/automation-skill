@@ -1,8 +1,125 @@
 [
   {
-    "id": "primary-route",
-    "prompt": "TODO: add a request that selects one reference.",
-    "expected_references": ["references/example.md"],
-    "forbidden_references": []
+    "id": "flagship-reconciliation-webhook-gap",
+    "prompt": "We take payments through Stripe on Zapier, and I'm worried a webhook could just never arrive and we'd never know a payment came in. How do I catch that?",
+    "expected_references": ["references/reconciliation.md", "references/surface-hosted-ipaas.md"],
+    "forbidden_references": [],
+    "must_include": [
+      "States I1 — reconcile against Stripe's own authoritative state, never against your own record of what you told it, since a webhook that never arrived leaves no trace in your logs",
+      "Names a tiered cadence (a frequent recent-activity pass, a daily pass, a periodic close) rather than one single interval",
+      "Compares the ID set before the fields, and classifies every discrepancy into matched / matched-within-tolerance / exception, never a binary match/no-match",
+      "States alert-first, not auto-heal-first, as the n=1 default"
+    ]
+  },
+  {
+    "id": "composite-duplicate-two-delivery-paths-i4",
+    "prompt": "We just added a reconciliation poll on top of our existing Stripe webhook, and now the same payment sometimes triggers our 'send receipt' step twice — once from the webhook and once from the poll.",
+    "expected_references": ["references/integration-reliability.md", "references/trigger-design.md"],
+    "forbidden_references": [],
+    "must_include": [
+      "States I4 — derive the idempotency key from the business event's own identity (the payment/charge, not 'webhook delivery' vs. 'poll run'), so the two delivery paths collapse to one execution",
+      "Names this as the expected cost of adding a reconciliation poll — it creates a second delivery path for the same business event and therefore a new duplicate class, not a sign something is broken"
+    ]
+  },
+  {
+    "id": "surface-job-pair-self-hosted-credential-silence",
+    "prompt": "We're running n8n ourselves and our Salesforce OAuth connection to it just quietly stopped working — nobody changed anything on our side.",
+    "expected_references": ["references/credentials-and-connections.md", "references/surface-self-hosted-engine.md"],
+    "forbidden_references": [],
+    "must_include": [
+      "Cites the n8n #34916 case — a Salesforce OAuth2 refresh that drops instance_url, after which the workflow runs fine for roughly a day and then fails on every execution until a manual reconnect",
+      "States I7 — credential health is its own monitored resource, checked on its own schedule, independent of whether the workflow happened to run — rather than waiting for the workflow itself to fail loudly"
+    ]
+  },
+  {
+    "id": "agentic-overlay-stacks-on-hosted-ipaas",
+    "prompt": "We're on Zapier and want to add an AI step that decides whether to escalate a support ticket to a human or auto-respond — what do I need to think about?",
+    "expected_references": ["references/surface-hosted-ipaas.md", "references/surface-agentic.md"],
+    "forbidden_references": [],
+    "must_include": [
+      "Reads surface-hosted-ipaas.md as the base surface and adds surface-agentic.md on top of it as an additive overlay, not in place of it — the base surface's reconciliation, credential, and cost posture still apply",
+      "States I12 — an agentic step fails by continuing — and requires a spend ceiling, a step/iteration ceiling, a wall-clock deadline, and a kill switch, since the step now decides rather than following a fixed condition"
+    ]
+  },
+  {
+    "id": "agentic-overlay-skipped-for-bounded-classification-step",
+    "prompt": "On our n8n workflow there's a step where a model classifies an inbound email as 'billing' or 'support' before we route it — everything else is a normal fixed flow.",
+    "expected_references": ["references/surface-self-hosted-engine.md"],
+    "forbidden_references": ["references/surface-agentic.md"],
+    "must_include": [
+      "Does not add surface-agentic.md's spend/iteration/kill-switch machinery for a model performing a bounded, deterministic classification inside one step — the surrounding graph's control flow, retries, and branching are unaffected by what the model returns, so this is a base-surface workflow with a model-shaped function call in it, not the agentic overlay"
+    ]
+  },
+  {
+    "id": "compensation-charge-already-happened-before-failure",
+    "prompt": "Our workflow charges the customer's card first, then creates the invoice record, then sends the confirmation email — step 2 just failed after the charge went through. What do I do?",
+    "expected_references": ["references/compensation-and-recovery.md"],
+    "forbidden_references": [],
+    "must_include": [
+      "States that compensation is a new forward action with its own side effects, not a rollback — the charge already happened and stays true; a refund is a distinct transaction that offsets it, not an un-charge",
+      "Checks whether the engine resumes from the point of failure or restarts the whole run from the trigger (I9) before retrying, given the charge already fired and a restart would charge it again",
+      "Treats the partial-completion state as 'the charge is permanently true, steps 2 and 3 did not happen' rather than '30% failed', and decides per remaining step whether to skip, retry, compensate, or halt and escalate"
+    ]
+  },
+  {
+    "id": "credentials-google-six-month-inactivity",
+    "prompt": "We have a Google Sheets automation that only runs once a month — could the connection just die on its own even if nothing else changes?",
+    "expected_references": ["references/credentials-and-connections.md"],
+    "forbidden_references": [],
+    "must_include": [
+      "States the six-consecutive-month Google refresh-token inactivity rule, and that ordinary API calls do not reset that clock — only an explicit grant_type=refresh_token POST does",
+      "Recommends a credential health check on its own schedule (I7), independent of whether the workflow happens to run, rather than trusting 'it ran fine every month' as evidence of health"
+    ]
+  },
+  {
+    "id": "approval-n1-requester-never-approver",
+    "prompt": "I'm the only person in the business and I want a human approval step before we auto-send a wire transfer confirmation over $10k — but I'm worried about what happens if I don't see the approval request in time.",
+    "expected_references": ["references/approval-and-authority.md"],
+    "forbidden_references": [],
+    "must_include": [
+      "States that the requester may never also be the approver, and that at n=1 independence comes from a pre-committed rule, an independent source, or the clock instead of a second person who doesn't exist (I6)",
+      "Requires a named timeout policy decided before the gate ships (I13) — for an action this irreversible and high-value, defaulting to fail closed (deny/hold) rather than fail open"
+    ]
+  },
+  {
+    "id": "sync-semantics-bidirectional-a-b-a-loop",
+    "prompt": "We sync contacts between our CRM and our marketing tool in both directions, and it looks like changes are ping-ponging back and forth between them.",
+    "expected_references": ["references/sync-semantics.md"],
+    "forbidden_references": [],
+    "must_include": [
+      "Names the A→B→A loop as a structural property of any bidirectional sync, not a bug in one implementation of it",
+      "States that no engine auto-detects or auto-kills a cross-system loop by default, citing Workato's and Zapier's own official docs each handing the problem back to the user",
+      "Recommends source-tagging the write and an updated-by filter as the vendor-documented mitigations, and names the loop counter and quiet/debounce window as this pack's own additions, not established vendor practice"
+    ]
+  },
+  {
+    "id": "cost-quota-green-dashboard-runaway",
+    "prompt": "Our Zapier bill has quadrupled this month and none of our workflows show as failing — what's going on and how do I cap it?",
+    "expected_references": ["references/cost-and-quota.md"],
+    "forbidden_references": [],
+    "must_include": [
+      "States that a dashboard showing green, successful executions is exactly what an over-broad trigger, a sync loop, or a looping agentic step all look like from the outside — the cost line, not the status line, is often the first honest signal",
+      "Recommends the n=1 minimum: a spend/usage alert turned on deliberately, a per-flow cost ceiling, a kill switch that actually disables the workflow, and a deliberate blast-radius decision (I10)"
+    ]
+  },
+  {
+    "id": "workflow-testing-no-vendor-sandbox",
+    "prompt": "We're about to wire an automation that sends a real SMS through a vendor with no test mode or sandbox at all — how do we verify it before trusting it against every customer?",
+    "expected_references": ["references/workflow-testing.md"],
+    "forbidden_references": [],
+    "must_include": [
+      "States plainly that this step is genuinely untestable in the ordinary sense given no vendor sandbox, and names the mitigations that replace testing rather than pretending a dry run covers it: a narrow canary, manual first-run review, and idempotency as a safety net",
+      "Names the first-task-then-bulk gate — run against exactly one real item, inspect the effect by hand, then release against the rest — before trusting the workflow against a full batch"
+    ]
+  },
+  {
+    "id": "process-capture-no-upstream-rule",
+    "prompt": "I want to automate our refund policy but nobody's ever actually written down what the rule is — it's just something I've done in my head for two years.",
+    "expected_references": ["references/process-capture.md"],
+    "forbidden_references": [],
+    "must_include": [
+      "Captures the rule as a one-page rule card — a trigger statement, ordered steps, a decision table covering every branch, and an exceptions list — rather than running a facilitated workshop process that assumes a gap between who knows the rule and who builds it",
+      "States plainly that no upstream owner exists rather than inventing one, since the reader is both the source of the rule and its implementer"
+    ]
   }
 ]
