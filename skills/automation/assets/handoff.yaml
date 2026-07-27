@@ -1,0 +1,130 @@
+# automation → operate/quality/backend/ai handoff envelope
+# Fill every field for a real run; delete these comments once filled.
+# Only `objective` is required — every other field may be empty; a consumer must tolerate it
+# absent, never treat absence as a schema violation. See references/handoff.md for field-by-field
+# meaning.
+#
+# This file is a routing index, never a copy of the workflow definitions, connector configs, or
+# functions it points at — it points at artifact paths, it does not restate them.
+#
+# THIS FILE IS THE SINGLE SOURCE OF TRUTH FOR THE SCHEMA. references/handoff.md explains these
+# fields and what automation adds beyond the family shape; it does not define a second copy.
+
+handoff_version: 1
+skill: automation
+status: complete               # complete | partial | blocked
+
+objective: ""                   # one sentence: what process this wires, across which vendors,
+                                  # at what point — e.g. "Stripe payment → CRM record → Slack
+                                  # notify, reconciled nightly against Stripe's ledger"
+
+surface: ""                     # surface-hosted-ipaas (default) | surface-self-hosted-engine |
+                                  # surface-code-first-durable | surface-platform-native |
+                                  # +surface-agentic (additive overlay — record alongside the base)
+
+inputs_used:
+  - path: ""                    # e.g. artifacts/business-rule.md, artifacts/backend-contract.md
+    type: ""                    # e.g. business-rule, contract, nfr-budget
+    owner: ""                   # product | architecture | backend | ai | (none — say so)
+
+artifacts_created:
+  - path: ""
+    type: ""                    # workflow-definition | connector-config | function-code
+    owner: automation
+
+# --- Irreversible steps (I3, I9) ------------------------------------------------
+# Every step that sends, charges, writes to a system of record, or contacts a person. Order
+# matters: the hardest to revert should run last. An irreversible step with no compensation and no
+# resume-vs-restart answer is not a completed inventory row.
+irreversible_steps:
+  - step: ""                    # what it sends/charges/writes
+    order_position: ""          # where in the flow — confirm hardest-to-revert runs last
+    compensation: ""            # the forward compensating action, or "none — human act required"
+    resume_or_restart: ""       # does the engine skip this step on retry, or restart from the
+                                  # trigger and repeat it? (I9) — name the engine's actual behaviour,
+                                  # not its reputation
+
+# --- Idempotency (I4) -----------------------------------------------------------
+idempotency:
+  - key_source: ""              # the business event's identity, not the trigger mechanism
+    dedup_window: ""
+    collapses_triggers: []      # e.g. ["webhook", "reconciliation poll"] — must collapse to one run
+
+# --- Reconciliation loop (I1) ----------------------------------------------------
+# If none exists, say so explicitly here — do not leave this block empty and let a reader assume
+# drift is covered.
+reconciliation_loop:
+  exists: ""                    # yes | no
+  compares: ""                  # what is diffed
+  against: ""                   # the vendor's authoritative state — never our own record of what
+                                  # we told it
+  cadence: ""
+  window: ""
+  on_discrepancy: ""            # alert | auto-heal — alert-first at n=1
+
+# --- Credentials (I7) ------------------------------------------------------------
+credentials:
+  - vendor: ""
+    expires: ""
+    refresh_mechanism: ""       # e.g. "scheduled pre-expiry refresh" | "manual reconnect only"
+    health_check: ""            # how this is monitored, on its own schedule, independent of
+                                  # whether any workflow happened to run
+
+# --- Human gates and timeout policy (I13) -----------------------------------------
+human_gates:
+  - gate: ""
+    approvers: ""               # never the requester
+    timeout: ""
+    on_timeout: ""              # deny | allow | escalate — named before the gate went live
+
+# --- Evidence: what was actually verified against the live vendor, vs assumed -----
+# Same four-state vocabulary as quality/operate. Field name matches theirs: evidence_state.
+evidence:
+  - item: ""                    # e.g. "irreversible step X is idempotent under a duplicate trigger"
+    evidence_state: ""          # observed | inferred | not_tested | blocked — REQUIRED, exactly one
+    source: ""                  # canary run, vendor doc, fixture replay — not scraped prose
+
+# --- Residual risk carried forward ------------------------------------------------
+residual_risks:
+  - risk: ""
+    band: ""                    # Critical | High | Medium | Low
+    owner: ""                   # a named person or role, never "the team"
+    expiry: ""                  # a date or triggering event
+    accepted_by: ""
+
+# --- Deliberately not verified / not exercised ------------------------------------
+not_verified:
+  - item: ""
+    reason: ""                  # below risk line | out of declared scope | deferred to a sibling
+                                  # skill | no vendor test mode exists | not yet canaried
+    owner: ""
+    revisit_by: ""
+
+# --- Defects routed to owning skills -----------------------------------------------
+defects:
+  - id: ""
+    summary: ""
+    severity: ""
+    repro: ""
+    routed_to: ""                # backend | ai | operate | quality | product
+    status: ""                   # open | acknowledged | fixed-unverified | verified-fixed
+
+# --- Volatile facts relied on -------------------------------------------------------
+volatile_facts:
+  - fact: ""                     # e.g. "vendor OAuth refresh-token cap", "quota reset window",
+                                   # "engine resume semantics", "licence terms"
+    value: ""
+    as_of: ""                    # date this was checked
+    reverify_at: ""              # URL or doc to recheck against
+
+unresolved:
+  - owner: ""
+    question: ""
+
+recommended_next:
+  - skill: operate
+    reason: ""                   # e.g. "workflow is live; deploy the worker process and wire the
+                                   # missing-heartbeat alert operate owns"
+  - skill: quality
+    reason: ""                   # e.g. "independent verification of the reconciliation loop and
+                                   # the irreversible-step idempotency claims"

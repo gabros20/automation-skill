@@ -175,6 +175,96 @@ not "recall". Every item below carries its verification date; all are `verified 
   `instance_url`; runs fine ~a day, then fails every execution until manual reconnect).
 - MIT Sloan, DeBrusk 2017-10-24, on RPA — **name the interest: Oliver Wyman partner, consulting.**
 
+**§5 AMENDMENT 1 — the A→B→A loop (added 2026-07-27 after WR5 correctly stopped and asked).**
+My original §5 under-populated this. Source quality is **differentiated**; the ruling is per-source.
+
+- ✅ **CLEARED — Workato, official product docs, *Infinite loops*. Controller-verified directly.**
+  Verbatim: loops occur *"most commonly when the recipe is performing a **bi-directional** sync, such
+  as when there is more than one application and data moves from application A to application B and
+  back to A."* Its three indicators — *"unexpectedly high transaction count"*, triggering *"when
+  there are no new trigger events"*, and *"many duplicates of an object"* — are **diagnostic, not
+  preventive**: the docs describe no automatic stop, and place responsibility on the user to
+  architect defensively. Mitigations: trigger filters and a custom "already synced" field.
+- ✅ **CLEARED — Zapier, official help article, *Zap is stuck in a loop*. Controller-verified
+  directly.** Four named shapes, quotable: two-Zap loops (*"an action in one Zap that triggers
+  another Zap and the second Zap has an action that triggers the first"*) · single-Zap loops (*"an
+  action in a Zap that also triggers that same Zap"*) · **"New or Updated" trigger loops** (*"the Zap
+  updates the same record that triggered it"*) · email auto-reply loops. **Zapier does not auto-detect
+  or auto-stop loops**; the remedy is *"Turn off the Zap that is looping right away."* Prevention:
+  unique identifiers plus Filter steps, or Find-or-Create instead of Create.
+  **Also cleared and load-bearing for `cost-and-quota.md`:** *"Loops can quickly use up your plan
+  tasks if they are not resolved."* — the vendor's own link between a sync loop and quota burn (I10).
+- ⚠️ **CLEARED ONLY AS DOWNGRADED — Make.** A community thread, not official docs, thread date not
+  re-verified. May be cited as *"a community-reported case"*: Make **does** ship configurable safety
+  valves (max cycles per run, consecutive-error limit, runs-per-minute cap), and they still did not
+  stop the loop, **because those caps bound one scenario's own recursion, not cross-system feedback.**
+  **DROP the specific 1/3/100 numbers — those were one user's configuration, not documented defaults.**
+- ❌ **EXCLUDED — the n8n loop claim.** Sole source is an **undated third-party blog**. Fails the
+  liveness/provenance clauses. Do not cite, and do not assert n8n loop behaviour either way.
+- ✅ **CLEARED — the convergent claim, which is the real finding:** **no engine auto-detects or
+  auto-kills a cross-system A→B→A loop by default.** Supported by two independently verified official
+  vendor docs that each hand the problem back to the user. This is the pack's thesis in miniature —
+  every vendor documents the same failure separately, none names it as a shared pattern.
+- ✍️ **ORIGINATION — label it as ours, do not dress it as cited:** the **loop counter** and the
+  **quiet/debounce window** are mitigations **no vendor documents.** Source-tagging and updated-by
+  filters are theirs; these two are our addition.
+
+**§5 AMENDMENT 2 — Hohpe pattern URLs + an ATTRIBUTION TRAP (controller-verified 2026-07-27).**
+
+Exact filenames, so no one fabricates a deep link (a writer correctly refused to invent one):
+`QuickAck.html` (Quick Acknowledgment) · `CompensatingAction.html` · `RenewalReminder.html` ·
+`HeartBeat.html` · `Lease.html` · `AcquireToken.html` · `RotateTokens.html` · `UserGrantsAccess.html` ·
+`Polling.html` · `SubscribeNotify.html` · `RequestResponseRetry.html` · `TryConfirmCancel.html`
+(Tentative Operation) · `IgnoreError.html` · `CoordinatedAgreement.html`.
+All under `https://www.enterpriseintegrationpatterns.com/patterns/conversation/`.
+
+**Quick Acknowledgment — verified verbatim, CC BY (problem/solution statements only):**
+- Problem: *"How can a client be sure the service accepted a request, even if processing the request
+  takes a long time?"*
+- Solution: *"The service provider sends Quick Acknowledgment message shortly after receiving the
+  request, followed by the operation results later."*
+
+**⚠️ THE TRAP — read before attributing anything to this pattern.**
+1. **It is written from the PROVIDER's side.** Hohpe's actor is a service provider acking a client.
+   Our reader is the **webhook consumer**, which means they occupy the *provider* role while the
+   vendor plays the *client*. The mapping is sound but **must be stated explicitly, not assumed** —
+   a reader who knows the pattern will otherwise think we've inverted it.
+2. **The pattern does NOT discuss duplicates or retries.** It supports "ack first, do the slow work
+   after" — verified: *"time-consuming activities… are performed after the acknowledgment."* It does
+   **not** support "ack fast **or the vendor will redeliver and you will get duplicates.**"
+   **That rationale is OURS.** Credit Hohpe for the shape and the name; claim the
+   duplicate-avoidance reasoning as our own. Attributing it to him would be a misattribution of
+   exactly the kind this pack's I15 forbids.
+
+**§5 AMENDMENT 3 — cost, quota and rate limits (added after WR6 correctly stopped and asked).**
+My original §5 omitted this evidence base entirely; that was my defect. Ruling is per-source.
+
+- ✅ **CLEARED — GitHub REST rate limits, controller-verified directly against docs.github.com.**
+  Unauthenticated **60/hr** · authenticated PAT **5,000/hr** · GitHub App installation (non-Enterprise)
+  **5,000/hr** · `GITHUB_TOKEN` in Actions **1,000/hr per repository**.
+  **The best quote in the whole cost channel, verbatim:** *"These secondary rate limits are subject to
+  change without notice. You may also encounter a secondary rate limit for undisclosed reasons."*
+  Plus: *"If the `retry-after` response header is present, you should not retry your request until
+  after that many seconds has elapsed."* The undisclosed-limits admission is load-bearing for I11 and
+  I15 — a vendor stating plainly that you cannot know all its limits.
+- ✅ **CLEARED — Salesforce 24-hour org-wide API bucket, tiered by edition** (primary-sourced).
+  **Teach the shape — a shared org-wide 24h bucket that every integration draws from — and cite at
+  most one anchor number with its date.** Do not recite the full edition table; it will rot.
+- ✅ **CLEARED — Zapier: tasks are held, not deleted, on limit; replay available; an
+  approaching-limit email is sent** (primary, help.zapier.com, dated).
+- ✅ **CLEARED — n8n execution-based billing, and the overage invoice lag** (primary, n8n.io/pricing).
+- ⚠️ **DOWNGRADED — Make's free-tier account-wide pause.** Community/partner forum only, not primary.
+  Cite as a community report or omit; **do not attach the size figure.**
+- ✅ **CLEARED AS CANONICAL LITERATURE — Brooker, "Exponential Backoff and Jitter", AWS Architecture
+  Blog**, for the jitter mechanism; and the **Google SRE book** chapter on cascading failures for the
+  **retry-budget** concept. **⚠️ The Google SRE books are CC BY-NC-ND — ideas and citation only, NO
+  lifted prose.** Cite Brooker by name, year and venue; do not quote at length.
+
+**GENERAL RULE this amendment establishes, and it applies to every writer:** where a vendor publishes
+a table of numbers, **teach the shape and cite one dated anchor.** A pack that recites five editions'
+quotas is stale in a quarter; a pack that teaches "this is a shared org-wide 24h bucket, here is one
+dated example, go read your own plan" stays true.
+
 **Practitioner quotes — ONLY these two, both with markers:**
 - The idempotency-false-positive ($7,000 sequence self-terminated after a retry corrupted the event
   log; caught only by a normally-skipped audit of the failed queue). Founder describing his own
