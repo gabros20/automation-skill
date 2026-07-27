@@ -1,14 +1,12 @@
 ---
 name: automation
 description: >-
-  Build business processes that span systems you do not own — reconciliation against a vendor's
-  authoritative state, idempotency and compensation across an uncontrolled boundary, multi-vendor
-  credentials, human approval as a process node, triggers, sync semantics, workflow observability,
-  quota and rate limits, platform selection and testing. Use to wire Stripe/CRM/email/Slack
-  together, fix a duplicate or a sync loop, catch an automation that silently stopped, design an
-  approval gate, or choose between Zapier/n8n/Temporal. Defaults to a solo or small-team posture.
-  Not for your own server's jobs and queues (→ backend), the model's cognition (→ ai), the
-  analytical plane (→ data), deploy and monitoring (→ operate), or the ship gate (→ quality).
+  Build business processes spanning systems you do not own — reconciliation against the vendor's
+  own state, idempotency and compensation, multi-vendor credentials, human approval, triggers,
+  sync, observability, quota and platform choice. Use to wire Stripe/CRM/email/Slack together, fix
+  a duplicate or a sync loop, catch an automation that silently stopped, design an approval gate,
+  or pick between Zapier/n8n/Temporal. Not your own server's jobs and queues (→ backend), model
+  cognition (→ ai), analytics (→ data), deploy and monitoring (→ operate), or tests (→ quality).
 ---
 
 # Workflow Automation

@@ -1,6 +1,6 @@
 interface:
   display_name: "Workflow Automation"
-  short_description: "Wire it across systems you don't own — then reconcile what you can't un-send"
-  default_prompt: "Use $automation to TODO: provide one short, realistic starting request."
+  short_description: "Processes across systems you don't own"
+  default_prompt: "Use $automation to design a Stripe-to-CRM sync that survives a missed webhook."
 policy:
   allow_implicit_invocation: true

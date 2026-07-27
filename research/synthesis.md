@@ -265,6 +265,41 @@ a table of numbers, **teach the shape and cite one dated anchor.** A pack that r
 quotas is stale in a quarter; a pack that teaches "this is a shared org-wide 24h bucket, here is one
 dated example, go read your own plan" stays true.
 
+**§5 AMENDMENT 4 — WHAT §5 ACTUALLY GATES (clarification; my original wording was imprecise).**
+
+Three writers independently had to interpret this, and two reached different answers — that is a
+defect in my gate, not in their judgment. **The correct reading, now binding:**
+
+**§5 gates VOLATILE FACTS: magnitudes, prices, quotas, limits, retention windows, timeouts,
+version-specific behaviour, and verbatim quotations.** These rot, and shipping one unverified is how
+a pack becomes wrong without anyone editing it.
+
+**§5 does NOT gate stable terminology or the existence of a well-known mechanism** — maker-checker,
+delegation-of-authority, segregation of duties, the Workflow Patterns catalogue, decision tables,
+`.waitForTaskToken`, signals-and-timers. Naming a mechanism that has existed for a decade is not a
+volatile claim. **Naming its default timeout is.**
+
+Test before shipping any specific: *could this be different next quarter without anyone telling me?*
+If yes it needs §5 or a dated verification. If no, name it freely.
+
+**§5 AMENDMENT 5 — engine approval primitives CLEARED (mechanism level).** Primary-sourced by the
+stage-2 approval worker against vendor docs. Clears what is already written in
+`surface-code-first-durable.md`: **Temporal** signals + await-with-timeout · **Inngest**
+`step.waitForEvent(event, {timeout})` resolving to `null` on timeout · **AWS Step Functions**
+`.waitForTaskToken`, with AWS's docs naming "Human in the loop" as a first-class use case, plus
+`HeartbeatSeconds`/`TimeoutSeconds` and a `Catch` on `States.Timeout` · **Cloudflare Workflows**
+`step.waitForEvent()` · **BPMN/Camunda/Zeebe** User Task with assignee/candidate groups and
+**boundary timer events** for escalation (interrupting vs non-interrupting).
+
+**Two conditions on this clearance:**
+1. **Any duration attached to these is a volatile fact** and needs a date-stamp or removal — including
+   the "recommended beyond 30 minutes" guidance. Mechanism names are cleared; **their numbers are not.**
+2. The **policy** stays in `approval-and-authority.md` (I13) and the **mechanism** stays in the
+   surface file. That split is correct and deliberate — do not let either file grow the other's half.
+
+**The load-bearing claim across all of them is unchanged and is the point of the table:** every engine
+ships the mechanism; **not one ships a default policy.**
+
 **Practitioner quotes — ONLY these two, both with markers:**
 - The idempotency-false-positive ($7,000 sequence self-terminated after a retry corrupted the event
   log; caught only by a normally-skipped audit of the failed queue). Founder describing his own
