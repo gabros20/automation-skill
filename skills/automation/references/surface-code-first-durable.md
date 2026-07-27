@@ -103,14 +103,16 @@ at all.
 
 Every engine on this surface ships a pause-and-resume primitive. **None ships a default answer to
 what happens on timeout.** The policy — deny / allow / escalate — routes to
-[approval-and-authority](approval-and-authority.md) (I13); what follows is mechanism only.
+[approval-and-authority](approval-and-authority.md) (I13); what follows is mechanism only, verified
+2026-07-27 against each vendor's own docs — **re-verify any specific number below before relying on
+it; this is exactly the class of vendor detail that moves without a deploy on your side (I15).**
 
 | Engine | Primitive |
 |---|---|
 | **Temporal** | Signals + await-with-timeout — a durable wait on an external signal, raced against a timer. |
 | **Inngest** | `step.waitForEvent(event, { timeout })`; on timeout it resolves to `null`. Inngest's own docs, verbatim: *"There is no default-deny or default-allow… you decide."* — the most honest single statement found on this question anywhere in the tier. |
 | **Restate** | "Suspensions" let a handler pause for an external event without paying for wait time on serverless. Timeout mechanics **not independently verified this session** — flag before relying on a specific default. |
-| **Cloudflare Workflows** | `step.waitForEvent()`, recommended once a timeout exceeds 30 minutes. No approval-specific primitive beyond this building block. |
+| **Cloudflare Workflows** | `step.waitForEvent()`, recommended for longer waits rather than short ones (verified 2026-07-27, re-verify against Cloudflare's current guidance for the exact threshold). No approval-specific primitive beyond this building block. |
 | **AWS Step Functions** | `.waitForTaskToken` — AWS's own docs name "Human in the loop" as a first-class use case (e.g. a funds-transfer confirmation). `HeartbeatSeconds`/`TimeoutSeconds` plus a `Catch` on `States.Timeout` give you the scaffolding; AWS ships no default outcome. |
 | **Trigger.dev** | Not independently verified this session. |
 

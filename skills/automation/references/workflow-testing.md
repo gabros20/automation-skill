@@ -25,7 +25,7 @@ Skip when:
   [workflow-observability](workflow-observability.md).
 
 Inputs: the step sequence with each step's external effect named — the same
-[irreversibility inventory](../assets/irreversibility-inventory.md)
+[irreversibility inventory](../assets/irreversibility-inventory.md) that
 [compensation-and-recovery](compensation-and-recovery.md) uses; whether the vendor at each step
 offers a test mode, a sandbox, or neither; the smallest real population you could safely run the
 workflow against.
@@ -47,6 +47,14 @@ what stops it if it goes wrong.
 
 ## The honest starting point: sandbox is not production
 
+**The untestable case is the normal case here, not the exception.** Most of the failure modes this
+pack teaches only occur against live vendor state — a webhook that never arrives, a field that goes
+null on the vendor's side, a trigger condition broader than intended — and none of those are things a
+sandbox, a fixture, or a dry-run mode can surface, because by construction they only manifest against
+production traffic you do not control. That is precisely why the canary, the first-task-then-bulk
+gate, and idempotency-as-safety-net below exist: not as nice-to-haves layered on top of "real"
+testing, but as the actual testing discipline for the majority of this pack's failure surface.
+
 Where a vendor test mode exists, it is a different environment running against a different dataset,
 under different conditions, from the one your workflow will actually run against. A test mode can
 confirm your workflow's logic executes as written; it cannot confirm the vendor's *live* endpoint will
@@ -59,9 +67,16 @@ whole reason this file exists as separate from ordinary test-writing guidance.
 
 ## What a vendor test mode actually buys you, and its limit
 
-Where a vendor invests in one, a test mode typically gives you isolated test credentials, a set of
-synthetic inputs that deterministically trigger specific scenarios (a decline, a retry, a delayed
-response), and a way to fire the vendor's own webhook events on demand without touching real records.
+Where a vendor invests in one, a test mode gives you isolated test credentials, synthetic inputs that
+deterministically trigger specific scenarios (a decline, a retry, a delayed response), and — the part
+that matters most for a workflow rather than a single API call — a way to fire the vendor's own
+webhook events on demand without touching real records. **Stripe's test mode is the canonical,
+most-copied example of this category**: a dedicated test-mode key pair, and a CLI (`stripe listen` to
+forward Stripe's events to a local endpoint, `stripe trigger` to fire a specific named event on
+demand) built for exactly this workflow-testing use case, not just for testing a single API call.
+That pairing — isolated credentials plus an event-forwarding CLI — is the shape to look for when
+checking whether any other vendor offers the same thing.
+
 That is a genuine, usable asset where it exists — it lets you exercise failure paths you could not
 safely provoke against a live account. **The honest corollary is that most of the SaaS tools a small
 business actually wires together — CRMs, spreadsheets, niche vertical tools, most email and messaging
@@ -69,17 +84,24 @@ platforms — have no equivalent.** No test mode, no synthetic failure trigger, 
 Building your verification plan around "the vendor's test mode will catch it" only works for the
 minority of vendors that built one; assume you do not have it unless you have specifically confirmed
 that vendor does, and re-confirm before every major workflow change, since a vendor can retire or
-narrow a test mode with no deploy on your side to notice it.
+narrow a test mode with no deploy on your side to notice it. (Any specific number a vendor's test mode
+publishes — how fast a test transaction settles, how many synthetic scenarios it covers — is a
+volatile fact; check the vendor's own current docs rather than relying on what this file or anything
+else says about it.)
 
 ## Local development: forwarding and tunnels
 
 Webhook-triggered workflows need a public endpoint, which a local development machine does not have.
-Where a vendor supports it, a forwarding CLI or tunnel lets you receive real (or sandboxed) webhook
-deliveries on your own machine during development, without deploying anything or exposing your
-machine directly to the internet. This tests delivery *shape* — payload structure, headers, signature
-verification — against something closer to the real transport than a hand-written fixture. It still
-does not tell you whether the vendor's production trigger conditions match what you assumed; that
-requires a live run.
+Two mechanisms fill that gap, and they are not the same thing. A **vendor-provided forwarding CLI**
+(Stripe's `stripe listen`, above, is the named example) forwards only that one vendor's own events to
+your local machine. A **generic tunnel tool** — the well-known category; `ngrok` is the long-standing
+example — exposes any local port to a public URL, vendor-agnostic, covering the far larger set of
+webhook sources that ship no forwarding CLI of their own. Where a vendor supports its own forwarding
+CLI, prefer it — it typically also lets you fire a named test event on demand, which a generic tunnel
+cannot do. Either way, this tests delivery *shape* —
+payload structure, headers, signature verification — against something closer to the real transport
+than a hand-written fixture. It still does not tell you whether the vendor's production trigger
+conditions match what you assumed; that requires a live run.
 
 ## Fixture replay: testing your own logic, not the vendor's current behavior
 
