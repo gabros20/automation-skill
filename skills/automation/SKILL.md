@@ -5,8 +5,9 @@ description: >-
   own state, idempotency and compensation, multi-vendor credentials, human approval, triggers,
   sync, observability, quota and platform choice. Use to wire Stripe/CRM/email/Slack together, fix
   a duplicate or a sync loop, catch an automation that silently stopped, design an approval gate,
-  or pick between Zapier/n8n/Temporal. Not your own server's jobs and queues (→ backend), model
-  cognition (→ ai), analytics (→ data), deploy and monitoring (→ operate), or tests (→ quality).
+  or pick between Zapier/n8n/Temporal. Not your own server's jobs, queues or tests (→ backend), model
+  cognition (→ ai), analytics (→ data), deploy and monitoring (→ operate), or the ship gate
+  (→ quality).
 ---
 
 # Workflow Automation
@@ -39,7 +40,10 @@ invoke them automatically unless the user explicitly requested a composition wor
 
 ## Route before acting
 
-1. Identify the **one primary job** and the **one base surface**. Read one of each.
+1. Identify the **one primary job** and the **one base surface**. Read one of each. **If the request
+   names no platform, do not stall — proceed on the job alone, or assume the default surface
+   (hosted iPaaS) and say which you assumed.** Many questions (approval policy, when not to automate)
+   are surface-independent.
 2. Add `surface-agentic.md` **on top of** a base surface only when a model is a step or the trigger.
    It is additive, never a replacement.
 3. **Re-verify anything volatile before using it.** Vendor limits, retry schedules, retention
@@ -84,7 +88,8 @@ Emitting for downstream work → [handoff](references/handoff.md).
 | The model's cognition — prompts, agent loop, retrieval, evals, model-level guardrails | `ai` |
 | The warehouse, ETL/ELT, analytical modelling, the governed dataset | `data` |
 | Deploying the workflow, running the monitoring platform, incident response | `operate` |
-| Independent verification and the ship/claim decision | `quality` |
+| **Write tests for a service, endpoint or model** — including integration tests for code you own | the owning build skill: `backend` · `frontend` · `data` · `ai`. **Not `quality`**, which declines test-writing in its own description. `automation`'s [workflow-testing](references/workflow-testing.md) covers only workflows that cross vendors you cannot deploy to |
+| Independent verification, the ship/claim decision, or judging whether a suite can be believed | `quality` |
 | Authoring the business rule, or customer-facing comms | `product` · `marketing` · `sales` · `success` |
 | System shape, contracts, NFR budgets, threat model | `architecture` |
 | Coordinating **agents inside a development session** to produce artifacts | `orchestrate` (not a lifecycle skill) |

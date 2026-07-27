@@ -172,7 +172,7 @@
   .tblwrap{overflow-x:auto; border:1px solid var(--line); border-radius:8px; margin-top:20px}
   table{border-collapse:collapse; width:100%; font-size:14px; background:var(--panel)}
   th{font-family:"Avenir Next Condensed","Arial Narrow",system-ui,sans-serif; text-transform:uppercase; letter-spacing:.08em; font-size:12.5px; font-weight:600; text-align:left; color:var(--muted); padding:10px 16px; border-bottom:1px solid var(--line)}
-  td{padding:11px 16px; border-bottom:1px solid var(--line); vertical-align:top}
+  td{padding:11px 16px; border-bottom:1px solid var(--line); vertical-align:top; overflow-wrap:break-word; word-break:break-word}
   tr:last-child td{border-bottom:none}
   td code{background:var(--code-bg); padding:1px 6px; border-radius:4px; font-size:12.5px; white-space:nowrap}
   td code a{color:inherit; text-decoration:none}
@@ -460,7 +460,8 @@
   reshapes how the job applies to what's actually running, plus the <b>additive agentic overlay</b>
   when a model decides which tool to call, in what order, or is the trigger itself. Read the selected
   references completely; load one or two at most, never the whole pack.</p>
-  <div class="tblwrap"><table>
+  <div class="tblwrap"><table style="table-layout:fixed">
+    <colgroup><col style="width:15%"><col style="width:45%"><col style="width:40%"></colgroup>
     <tr><th>facet</th><th>options</th><th>rule</th></tr>
     <tr>
       <td class="job">① Primary job</td>
@@ -474,7 +475,7 @@
     </tr>
     <tr>
       <td class="job">③ Agentic overlay <span style="color:var(--tok-dim)">⭐</span></td>
-      <td class="dim">surface-agentic — spend ceiling, step/iteration limit, wall-clock deadline, kill switch, blast-radius scope</td>
+      <td class="prod"><b style="font-family:ui-monospace,Menlo,monospace; color:var(--tok-dim)">surface-agentic</b> — spend ceiling, step/iteration limit, wall-clock deadline, kill switch, blast-radius scope</td>
       <td class="canon"><b>Additive.</b> Stacks <i>on top of</i> the base surface, only when a model decides which tool to call, in what order, or is the trigger. A model doing one bounded, deterministic task inside a step is not this overlay.</td>
     </tr>
   </table></div>
@@ -600,7 +601,7 @@
       itself — not a bounded, deterministic task inside one step. <b>Stacks on, does not replace.</b>
       A named spend ceiling, step/iteration limit, wall-clock deadline, kill switch, and blast-radius
       scope for every agentic step, on top of any base surface.</p>
-      <p class="lens"><span class="k">reshapes</span>I12 — an agentic step fails by continuing · what's <code>ai</code>'s (the model's cognition) vs ours (the deterministic envelope around it)</p>
+      <p class="lens"><span class="k">reshapes</span>I12 — an agentic step fails by continuing · what's <i>ai</i>'s (the model's cognition) vs ours (the deterministic envelope around it)</p>
     </div>
   </div>
 </section>

@@ -10,6 +10,20 @@ The release procedure synchronizes `.codex-plugin/plugin.json`, this changelog, 
 ### Added
 - Queue unreleased changes here.
 
+## [0.1.1] — 2026-07-27
+
+### Fixed
+
+- **Router sent test-writing to `quality`, which declines it.** The frontmatter description read
+  "or tests (→ quality)"; `quality`'s own description says "Not for writing tests (→ frontend,
+  backend, data, ai)". A user following the shorthand hit a dead end. The description now routes
+  tests to `backend`, and "Not this skill" gains an explicit row naming the owning build skill and
+  stating that `automation`'s workflow-testing covers only workflows crossing vendors you cannot
+  deploy to. Found by smoke test.
+- **Routing stalled when no platform was named.** Step 1 demanded one base surface with no guidance
+  for requests that name none (an approval-policy question, for instance). It now says to proceed on
+  the job alone or assume the default surface and state the assumption.
+
 ## [0.1.0] — 2026-07-27
 
 ### Added
