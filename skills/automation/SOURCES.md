@@ -37,7 +37,9 @@ check liveness, because **archived ≠ recommendable**.
 | **Nango** | **Elastic License 2.0** — source-available, not OSI open source; GitHub reports `NOASSERTION` | Self-hosting for internal use is unrestricted. Never call it "open source" |
 | Activepieces (core) · Temporal · `agentkitai/agentgate` | MIT | Cite freely |
 | Windmill | AGPLv3 core + Apache-2.0 clients | Cite; note the split |
-| Kestra | Apache-2.0 | Cite freely |
+| Kestra · **Trigger.dev** | Apache-2.0 | Cite freely |
+| **Restate** | **Business Source License 1.1**, converting to Apache-2.0 after four years | Source-available, not OSI open source today. Describe accurately |
+| **Inngest** | **Server Side Public License 1.0** | Not OSI open source. Describe accurately |
 | **Pipedream** | **Not open source**, despite listicles implying otherwise | Describe accurately |
 
 All engine repositories were confirmed **live** (pushed within 72 hours of 2026-07-27), not merely
@@ -88,8 +90,9 @@ Named here so no reader mistakes them for established practice.
 - **"An agentic step fails by continuing"** — and that the fix is to reintroduce the deterministic
   ceiling that made non-agentic automation fail loudly.
 - **Rotation calendars and a credential inventory** for a team with no IAM function.
-- **Bus-factor and succession for a solo operator's automations** — genuinely unwritten, as it was
-  for `operate`.
+- **Binding a credential to a named human, and the offboarding revocation that follows** — the pack
+  teaches the hazard and a checklist, not a succession plan. We did not search this to exhaustion and
+  do not claim it is unwritten.
 
 ## 5. Numbers this skill refuses to ship
 

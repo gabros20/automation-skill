@@ -21,10 +21,10 @@ That collapses a distinction worth keeping:
   entirely and something on the other side already consumed it. A sent email, once opened. A message
   posted to a shared or public channel, once seen. A webhook payload already acted on by a partner's
   own downstream automation — deleting your copy of the record does not reach into their system and
-  undo what they triggered off it. Hohpe's own example is this tier: *"A mailed letter to a customer
-  can be compensated by a phone call asking the customer to ignore the letter"* — the letter's having
-  been sent is permanent; the call only offsets what it caused next. (Hohpe, *Compensating Action*,
-  enterpriseintegrationpatterns.com, CC BY 4.0, problem/solution statements only — see
+  undo what they triggered off it. Hohpe's *Compensating Action* illustrates this tier with a letter
+  already in the post: what offsets it is a phone call asking the recipient to disregard it. The
+  sending is permanent; the call only offsets what it caused next. (Paraphrased from Hohpe,
+  *Compensating Action*, enterpriseintegrationpatterns.com — see
   `../references/compensation-and-recovery.md`.)
 
 The tier a step lands in is not fixed by the action type alone — a captured payment sitting alone is

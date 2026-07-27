@@ -95,11 +95,16 @@ The mechanism is a scheduled check-in, not a passive wait for an error: a workfl
 behind it, per [credentials-and-connections](credentials-and-connections.md) §3) should ping a
 dead-man's-switch on a cadence shorter than its expected run interval, and the alert fires on the
 **absence** of that ping, not on a failure event. `operate` already owns this mechanism in depth —
-see its dead-man's-switch treatment (`operate-skill/skills/operate/references/recoverability.md:136-139`)
-for the tooling (Healthchecks.io, BSD-3-Clause, self-hostable) and the general pattern; do not
-re-teach it here. What belongs in this pack specifically is the instruction to wire it **per
+see its dead-man's-switch treatment (`operate-skill/skills/operate/references/recoverability.md`
+§4, "Managed-platform hazards") for the tooling (Healthchecks.io, BSD-3-Clause, self-hostable) and
+the general pattern; do not re-teach it here. What belongs in this pack specifically is the
+instruction to wire it **per
 automation and per credential**, given §2's finding that no engine will do it for you, and given that
 a missing heartbeat is the only signal shaped correctly to catch a stoppage rather than a failure.
+The per-credential instance of this same check is what
+[credential-register](../assets/credential-register.md)'s "Detection (canary / heartbeat)" column
+is for — fill it with the actual mechanism (a canary call, a heartbeat ping), not left blank on the
+assumption that a dead credential will announce itself.
 
 ## 5. Scheduled workflows can be disabled out from under you
 
@@ -121,13 +126,11 @@ matter of trust in the system's own word:
 - **Log the raw event and the workflow's interpretation of it as two separate facts, not one** (I2).
   A completion check that can only confirm itself against its own prior write is unfalsifiable — it
   cannot distinguish "this genuinely completed" from "something upstream corrupted the record in a
-  way that reads as completion." This is not a hypothetical: a retry against an event-logging store
-  produced an ambiguous log entry that a workflow's own "have I done this already?" check read as
-  confirmation of completion, silently terminating a several-thousand-dollar sequence having sent
-  nothing — caught only because a normally-skipped audit of the "failed" queue surfaced a timestamp
-  mismatch. The fix the operator who lived through it settled on: log source and interpretation
-  separately, and auto-detect every mismatch between them, rather than trusting the interpretation
-  alone.
+  way that reads as completion." This is not a hypothetical — see
+  [integration-reliability](integration-reliability.md) §7 for the practitioner case where exactly
+  this happened and how it was caught; the fix here is the same one that incident points to: log
+  source and interpretation separately, and auto-detect every mismatch between them, rather than
+  trusting the interpretation alone.
 - **Authority, not just occurrence.** When a human step or an approval gate is in the graph, the audit
   record needs to capture *who* acted, not only *that* an action happened — this is the record
   [approval-and-authority](approval-and-authority.md) depends on when a timeout or an escalation

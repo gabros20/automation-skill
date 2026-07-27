@@ -61,9 +61,10 @@ Acknowledgment** — verbatim, problem: *"How can a client be sure the service a
 if processing the request takes a long time?"* Solution: *"The service provider sends Quick
 Acknowledgment message shortly after receiving the request, followed by the operation results later."*
 (Gregor Hohpe, Enterprise Integration Patterns — Conversation Patterns,
-enterpriseintegrationpatterns.com/patterns/conversation/QuickAck.html, © 2003, 2023, CC BY 4.0 —
-problem/solution statements only; everything else on the site is paraphrase-only.) Use his name; do not
-invent a term for something the field already named.
+enterpriseintegrationpatterns.com/patterns/conversation/QuickAck.html, © 2003, 2023 — CC BY 4.0
+applies to the pattern name and the bolded problem/solution statement on this specific pattern page,
+not the catalogue index or the rest of the site; everything past those two statements is
+paraphrase-only.) Use his name; do not invent a term for something the field already named.
 
 **The role mapping needs stating explicitly, because it inverts on first read.** Hohpe's pattern is
 written from the *provider's* side: a service accepts a request from a client and acks it before the
@@ -150,7 +151,8 @@ This is the sharpest failure mode this file teaches, and it inverts the directio
 guard against. The usual worry is a completion check missing a duplicate. The one that actually
 burned a real business: a retry corrupted the event log, and the workflow's own "have we already done
 this?" check read that corruption as **confirmation of completion** — and self-terminated a paid
-sequence having sent nothing at all. Verbatim, from the practitioner who caught it:
+sequence having sent nothing at all. Verbatim, from the practitioner who caught it — a founder
+describing his own business, the closest to neutral of any source in the survey:
 
 > "There was an issue with the event logging because of a retry and our n8n scenario thought the
 > client already received the upgrade proposal, marked the sequence as 'completed,' and stopped all
@@ -176,8 +178,8 @@ these — look each one up per vendor before you build.** Primary docs, verified
 | Vendor | Ordering | Ack deadline | Automatic retry | Dedup key(s) | Manual replay |
 |---|---|---|---|---|---|
 | Stripe | Not guaranteed (named example: related events out of sequence) | No fixed number; return success before complex logic | Multi-day, backoff | `event.id` (+ object ID + type for the rare two-events-one-action case) | Self-serve, weeks-scale — does **not** suppress the automatic track |
-| Shopify | Not guaranteed | Hard, single-digit seconds | **8 retries over ~4h** — anchor for "budgets are finite and vendor-owned" | Two distinct IDs, two scopes (§5) | Not self-serve; vendor's own fix is a periodic reconciliation job — corroborates `reconciliation.md` from the sender's side |
-| GitHub | Moot — one attempt only | Hard, ~10s | **Zero** — anchor for "no-retry is a shipped policy, not a bug" | One GUID per attempt | Self-serve redelivery, days-scale — the usual trigger for §3's human-replayed duplicate |
+| Shopify | Not guaranteed | Hard, single-digit seconds | **8 retries over 4 hours** — anchor for "budgets are finite and vendor-owned" | Two distinct IDs, two scopes (§5) | Not self-serve; vendor's own fix is a periodic reconciliation job — corroborates `reconciliation.md` from the sender's side |
+| GitHub | Moot — one attempt only | Hard, 10 seconds | **Zero** — anchor for "no-retry is a shipped policy, not a bug" | One GUID per attempt | Self-serve redelivery, days-scale — the usual trigger for §3's human-replayed duplicate |
 | Slack | Not stated | Hard, tightest of the four | Small fixed count, short named backoff | One global event ID | Not self-serve in pages checked |
 
 Some vendors publish exact numbers in crawlable docs; others gate them behind an authenticated portal.

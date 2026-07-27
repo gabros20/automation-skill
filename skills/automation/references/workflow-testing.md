@@ -147,8 +147,8 @@ item — do not release the trigger against the whole batch on faith that the si
 correct. Run it against exactly one real item first, inspect the actual side effect by hand, and only
 then release it against the rest. This costs nothing beyond the wait and catches, cheaply, the exact
 failure shape of an over-broad trigger condition or a field mapping that was correct on paper and
-wrong against the vendor's actual current data — the same failure whether "35 records got touched
-instead of 1" or "an unintended subset got a charge or a message." Make this gate a named step in the
+wrong against the vendor's actual current data — the same failure whether, for example, 35 records got
+touched instead of 1, or an unintended subset got a charge or a message. Make this gate a named step in the
 workflow's rollout, not an ad hoc habit some runs get and others skip.
 
 ## The n=1 reality: your staging environment is a second free account, or nothing

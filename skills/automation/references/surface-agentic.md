@@ -95,23 +95,20 @@ tool call*. Route those there — this overlay does not re-teach them.
 **We own the deterministic envelope around the step**, regardless of what the model inside it
 decides:
 
-- **Spend ceiling** — a hard, physical cap, not a request to the model to behave. The pattern (budget
-  enforced by the credential itself, not by agent self-restraint) is real independent of any vendor:
-  an Ask HN thread on monitoring agents in production (2026-03-08) describes pre-funded API keys with
-  hard spend limits — *"you can hand one to an agent and it physically can't exceed the budget you
-  set."*
+- **Spend ceiling** — a hard, physical cap, not a request to the model to behave. Enforce the budget
+  in the credential itself: a pre-funded or spend-limited key cannot be talked past, whereas an
+  instruction to stay under budget is only as reliable as the loop reading it.
 - **Step/iteration ceiling** — CrewAI #6370 above, CWE-classified, the most rigorously labelled
   guardrail found in this evidence set.
 - **Wall-clock deadline and loop/repeat detection** — a hard stop independent of whether the model
   thinks it is making progress.
 - **Blast-radius scoping** — which systems the agent may write to, decided by construction, not by
-  instruction. The same Ask HN thread names the pattern directly: *"llm does not act on production...
-  clone your customer data and run everything blank."* The sharpest real case for why this is ours and
-  not a prompt: the **Replit incident** (2025-07; reported by Business Insider; discussed on HN,
-  179 pts/160 comments) — an agent deleted a production database **during an explicit code freeze**.
-  The failure was not the model saying something wrong. It was the agent holding write access it
-  should never have been scoped to hold. Idempotency keys, dry-run scopes, and staging clones are
-  what prevent this — not a stronger instruction.
+  instruction. The strongest form is that the agent never holds production write access at all: point
+  it at a cloned or synthetic dataset and let the production write happen behind a separate, narrower
+  credential. The argument for this being structural rather than a prompt is already in the evidence
+  above — an agent that **continues past its own stop signal** (autogen #7071) or **silently re-runs a
+  completed side-effecting call** (langgraph #7417) is not going to be restrained by an instruction it
+  is capable of reasoning around. Scope the credential, not the sentence.
 - **Kill switch** — a mechanism to stop the run from outside it, independent of the agent's own
   loop-exit logic.
 

@@ -1,5 +1,11 @@
 <!doctype html>
-<!-- skill-site scaffold: shared family chrome; identity = the accent triple PLUS sections, components, and a hero designed for THIS skill. Read site/README.md (the design brief) before editing — filling the TODOs is not a site. Keep the hero-terminal and Start-here shapes. -->
+<!-- automation skill · visual guide. Shared family chrome (tokens, type, hero-terminal, footer);
+     identity = cyan accent + sections/diagrams/hero designed for THIS skill's faceted router
+     (12 jobs × 4 base surfaces × 1 additive agentic overlay + handoff = 18 references) — the
+     Build stage, spanning vendor boundaries you cannot deploy to. Its flagship is reconciliation:
+     an ack is not evidence, and a webhook that never arrived leaves no trace in your logs. The
+     agentic overlay carries the violet token (--tok-dim), the same convention operate/quality/data
+     use for their own additive overlay. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -7,14 +13,14 @@
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f6f7fa">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#12151d">
 <title>automation — Wire it across systems you don't own — then reconcile what you can't un-send</title>
-<meta name="description" content="TODO — one to two sentence description of the skill for search engines.">
+<meta name="description" content="A faceted agent skill for workflow automation — reconciliation against a vendor's authoritative state, idempotency and compensation, multi-vendor credentials, human approval, triggers, sync, observability, quota, and platform choice. Defaults to a solo operator with no second pair of eyes; the agentic overlay is additive, never assumed. 12 jobs across 4 surfaces plus the overlay and a handoff — flagship is reconciliation, because an ack is not evidence and a webhook that never arrived leaves no trace.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://automation-skill.vercel.app/">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 
 <meta property="og:type" content="website">
 <meta property="og:title" content="automation — Wire it across systems you don't own — then reconcile what you can't un-send">
-<meta property="og:description" content="TODO — one to two sentence description for social previews.">
+<meta property="og:description" content="You cannot deploy a fix into someone else's system, and you cannot un-send. 12 jobs across 4 surfaces plus an additive agentic overlay — reconciled against the vendor's own state, never your record of what you told it.">
 <meta property="og:url" content="https://automation-skill.vercel.app/">
 <meta property="og:image" content="https://automation-skill.vercel.app/og.png">
 <meta property="og:image:width" content="1200">
@@ -23,7 +29,7 @@
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="automation — Wire it across systems you don't own — then reconcile what you can't un-send">
-<meta name="twitter:description" content="TODO — one to two sentence description for social previews.">
+<meta name="twitter:description" content="Deploy is theirs, not yours. Reconcile against the vendor's own state, never your record of what you told it. Solo/small-team is the default reader; the agentic overlay is additive.">
 <meta name="twitter:image" content="https://automation-skill.vercel.app/og.png">
 
 <script type="application/ld+json">
@@ -31,9 +37,9 @@
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   "name": "automation",
-  "applicationCategory": "DesignApplication",
+  "applicationCategory": "DeveloperApplication",
   "operatingSystem": "Claude Code / agent CLIs",
-  "description": "TODO — one to two sentence description of the skill.",
+  "description": "A faceted agent skill for workflow automation — processes spanning systems you do not own. Reconciliation against a vendor's authoritative state (flagship), integration reliability and delivery semantics, compensation and recovery, multi-vendor credential fleets, human approval and timeout policy, trigger design, sync semantics, workflow observability, cost and quota, platform selection, workflow testing, and process capture. Covers hosted iPaaS, self-hosted engine, code-first durable execution, and platform-native surfaces, plus an additive agentic overlay for when a model is a step or the trigger. Defaults to a solo operator or small team with no second pair of eyes. Not for jobs/queues inside a system you control, model cognition, the analytical data plane, deployment and monitoring, or independent verification — those route to backend, ai, data, operate, and quality respectively.",
   "url": "https://automation-skill.vercel.app/",
   "offers": {
     "@type": "Offer",
@@ -50,27 +56,34 @@
     --bg:#f6f7fa; --panel:#ffffff; --ink:#1c2333; --muted:#5a6478; --line:#d8dde8;
     --accent:#0891b2; --accent-ink:#ffffff; --amber:#a97a10; --amber-bg:#fdf6e3;
     --good:#1e7f4f; --bad:#b3403a; --code-bg:#eef1f7; --glyph:#8391ad;
-    --tok-strat:#0891b2; --tok-dim:#8146c9; --tok-val:#1e7f4f; --tok-file:#a97a10;
+    --tok-dim:#8146c9; --tok-val:#1e7f4f; --tok-file:#a97a10;
+    --dim-bg:rgba(129,70,201,.08);
   }
   @media (prefers-color-scheme: dark){ :root{
     --bg:#12151d; --panel:#1a1f2b; --ink:#e6eaf3; --muted:#93a0b8; --line:#2b3245;
     --accent:#22d3ee; --accent-ink:#0d1220; --amber:#d9a72e; --amber-bg:#26200f;
     --good:#4cc38a; --bad:#e5726c; --code-bg:#141824; --glyph:#5d6a85;
-    --tok-strat:#22d3ee; --tok-dim:#b98aef; --tok-val:#4cc38a; --tok-file:#d9a72e;
+    --tok-dim:#b98aef; --tok-val:#4cc38a; --tok-file:#d9a72e;
+    --dim-bg:rgba(185,138,239,.14);
   }}
   :root[data-theme="dark"]{
     --bg:#12151d; --panel:#1a1f2b; --ink:#e6eaf3; --muted:#93a0b8; --line:#2b3245;
     --accent:#22d3ee; --accent-ink:#0d1220; --amber:#d9a72e; --amber-bg:#26200f;
     --good:#4cc38a; --bad:#e5726c; --code-bg:#141824; --glyph:#5d6a85;
-    --tok-strat:#22d3ee; --tok-dim:#b98aef; --tok-val:#4cc38a; --tok-file:#d9a72e;
+    --tok-dim:#b98aef; --tok-val:#4cc38a; --tok-file:#d9a72e;
+    --dim-bg:rgba(185,138,239,.14);
   }
   :root[data-theme="light"]{
     --bg:#f6f7fa; --panel:#ffffff; --ink:#1c2333; --muted:#5a6478; --line:#d8dde8;
     --accent:#0891b2; --accent-ink:#ffffff; --amber:#a97a10; --amber-bg:#fdf6e3;
     --good:#1e7f4f; --bad:#b3403a; --code-bg:#eef1f7; --glyph:#8391ad;
-    --tok-strat:#0891b2; --tok-dim:#8146c9; --tok-val:#1e7f4f; --tok-file:#a97a10;
+    --tok-dim:#8146c9; --tok-val:#1e7f4f; --tok-file:#a97a10;
+    --dim-bg:rgba(129,70,201,.08);
   }
   *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%; text-size-adjust:100%}
+  html,body{overflow-x:hidden; max-width:100%}
+  .wedgegrid>*,.seam>*,.downstream>*,.seambox,.popsplit>*,.boundary>*{min-width:0}
   body{background:var(--bg); color:var(--ink); font:16px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif; margin:0; -webkit-font-smoothing:antialiased}
   .wrap{max-width:1060px; margin:0 auto; padding:0 24px 96px}
   code,.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
@@ -81,7 +94,7 @@
   h2::after{content:""; flex:1; height:1px; background:var(--line)}
   h2 .lu{color:var(--accent); width:20px; height:20px}
   section{margin-top:64px}
-  .lede{font-size:19px; color:var(--muted); max-width:60ch; margin:0}
+  .lede{font-size:19px; color:var(--muted); max-width:64ch; margin:0}
   .hosts{display:flex; flex-wrap:wrap; align-items:center; gap:7px; margin:16px 0 0}
   .hosts .hl{font-family:"Avenir Next Condensed","Arial Narrow",system-ui,sans-serif; text-transform:uppercase; letter-spacing:.14em; font-weight:600; font-size:11px; color:var(--muted); margin-right:2px}
   .hosts span:not(.hl){font-family:ui-monospace,Menlo,monospace; font-size:11.5px; color:var(--muted); background:var(--code-bg); border-radius:5px; padding:3px 8px; white-space:nowrap}
@@ -90,13 +103,14 @@
   p{max-width:68ch}
   a{color:var(--accent)}
 
-  /* lucide icons */
   .lu{width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:1.75; stroke-linecap:round; stroke-linejoin:round; flex:none; vertical-align:-3px}
 
-  /* top nav */
-  nav{display:flex; flex-wrap:wrap; gap:8px; margin-top:26px}
-  nav a{font-family:ui-monospace,Menlo,monospace; font-size:12.5px; text-decoration:none; color:var(--muted); border:1px solid var(--line); border-radius:999px; padding:4px 12px; background:var(--panel)}
-  nav a:hover,nav a:focus-visible{color:var(--accent); border-color:var(--accent); outline:none}
+  nav.toplinks{display:flex; flex-wrap:wrap; gap:8px; margin-top:26px}
+  nav.toplinks a{font-family:ui-monospace,Menlo,monospace; font-size:12.5px; text-decoration:none; color:var(--muted); border:1px solid var(--line); border-radius:999px; padding:4px 12px; background:var(--panel)}
+  nav.toplinks a:hover,nav.toplinks a:focus-visible{color:var(--accent); border-color:var(--accent); outline:none}
+  .secnav{display:flex; flex-wrap:wrap; gap:8px; margin-top:26px}
+  .secnav a{font-family:ui-monospace,Menlo,monospace; font-size:12.5px; text-decoration:none; color:var(--muted); border:1px solid var(--line); border-radius:999px; padding:4px 12px; background:var(--panel)}
+  .secnav a:hover,.secnav a:focus-visible{color:var(--accent); border-color:var(--accent); outline:none}
   .secnav a::before{content:"#"; color:var(--glyph); margin-right:5px}
   .secnav a:hover::before,.secnav a:focus-visible::before{color:var(--accent)}
 
@@ -105,82 +119,174 @@
   .term .c{color:var(--muted)}
   .term .p{color:var(--accent); font-weight:600}
 
-  /* the arc — animated explainer: a Remotion video, light/dark, swapped in
-     as progressive enhancement over the static one-line arc fallback below */
-  .vidwrap{display:none; margin-top:20px}
+  .vidwrap{display:none; margin-top:22px}
   .vidwrap video{display:block; width:100%; aspect-ratio:16/9; border:1px solid var(--line); border-radius:10px; background:var(--bg); box-shadow:0 30px 70px -40px rgba(0,0,0,.45)}
   body.has-vid .vidwrap{display:block}
-  body.has-vid .poster{display:none}
-  .poster{background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:20px; margin-top:20px}
-  .arcline{font-family:ui-monospace,Menlo,monospace; font-size:14.5px; line-height:2; color:var(--muted); margin:0}
-  .arcline b{color:var(--ink); font-weight:600}
-  .arcline .ar{color:var(--glyph); margin:0 2px}
+  body.has-vid .herofallback{display:none}
+
+  .router{background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:22px 24px; margin-top:22px}
+  .gate{display:flex; align-items:center; gap:10px; font-family:ui-monospace,Menlo,monospace; font-size:12.5px; color:var(--muted); padding:0 0 16px; margin-bottom:16px; border-bottom:1px dashed var(--line)}
+  .gate .lu{width:16px; height:16px; color:var(--accent); flex:none}
+  .gate b{color:var(--ink)}
+  .rlane{display:grid; grid-template-columns:150px 1fr; gap:14px 16px; align-items:center}
+  .rlane + .rlane{margin-top:12px}
+  .rlabel{font-family:"Avenir Next Condensed","Arial Narrow",system-ui,sans-serif; text-transform:uppercase; letter-spacing:.1em; font-weight:600; font-size:12px; color:var(--muted); text-align:right; line-height:1.25}
+  .rlabel small{display:block; font-family:ui-monospace,Menlo,monospace; text-transform:none; letter-spacing:0; font-weight:400; font-size:10.5px; color:var(--glyph)}
+  .chips{display:flex; flex-wrap:wrap; gap:7px}
+  .chip{font-family:ui-monospace,Menlo,monospace; font-size:12.5px; padding:5px 11px; border-radius:8px; white-space:nowrap; color:var(--muted); background:var(--bg); border:1px solid var(--line)}
+  .chip.on{color:var(--accent-ink); background:var(--accent); border-color:var(--accent); font-weight:600}
+  .chip.star{color:var(--accent-ink); background:var(--accent); border-color:var(--accent); font-weight:600}
+  .chip.dimon{color:var(--tok-dim); background:var(--dim-bg); border-color:var(--tok-dim); font-weight:600}
+  .rdown{display:flex; align-items:center; gap:10px; margin:16px 0 14px; color:var(--glyph)}
+  .rdown::before,.rdown::after{content:""; flex:1; height:1px; background:var(--line)}
+  .rdown span{font-family:ui-monospace,Menlo,monospace; font-size:12px; color:var(--muted)}
+  .readset{display:flex; flex-wrap:wrap; gap:9px; align-items:center}
+  .readset code{font-family:ui-monospace,Menlo,monospace; font-size:12.5px; padding:6px 12px; border-radius:8px; color:var(--accent); background:var(--code-bg); border:1px solid var(--accent)}
+  .readset .cnt{font-family:ui-monospace,Menlo,monospace; font-size:12px; color:var(--muted); margin-left:4px}
+  .readset .cnt b{color:var(--ink)}
+  .rrule{margin:16px 0 0; font-size:13.5px; color:var(--muted); display:flex; gap:9px; line-height:1.55}
+  .rrule .lu{color:var(--accent); flex:none; margin-top:1px; width:17px; height:17px}
+  .rrule b{color:var(--ink)}
   .pcap{font-size:13.5px; color:var(--muted); margin:14px 0 0; max-width:68ch}
   .pcap b{color:var(--ink)}
+  @media (max-width:560px){ .rlane{grid-template-columns:1fr; gap:6px} .rlabel{text-align:left} }
 
-  /* numbered stage timeline */
-  .steps{margin-top:20px; counter-reset:step}
-  .steps>div{position:relative; padding:0 0 22px 46px; --sc:var(--accent)}
-  .steps>div::before{counter-increment:step; content:counter(step); position:absolute; left:0; top:-3px; width:28px; height:28px; border-radius:50%; background:var(--panel); border:2px solid var(--sc); color:var(--sc); font-family:ui-monospace,Menlo,monospace; font-size:13px; font-weight:600; display:flex; align-items:center; justify-content:center}
-  .steps>div::after{content:""; position:absolute; left:13px; top:31px; bottom:-6px; width:2px; background:var(--line)}
-  .steps>div:last-child{padding-bottom:0}
-  .steps>div:last-child::after{display:none}
-  .steps b{display:flex; align-items:center; gap:8px; font-family:ui-monospace,Menlo,monospace; font-size:14px; margin:2px 0 4px}
-  .steps b .lu{width:15px; height:15px; color:var(--sc)}
-  .steps span{font-size:13.5px; color:var(--muted); display:block; line-height:1.55; max-width:66ch}
-  .steps span b{display:inline; font-family:inherit; font-size:inherit; color:var(--ink); margin:0; font-weight:600}
-  .steps span code{font-size:12px; background:var(--code-bg); padding:1px 4px; border-radius:4px; overflow-wrap:anywhere}
+  .boundary{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:20px}
+  .bcol{border:1px solid var(--line); border-radius:10px; padding:16px 18px; background:var(--panel)}
+  .bcol.own{border-left:3px solid var(--accent)}
+  .bcol.off{border-left:3px solid var(--glyph)}
+  .bcol h3{font-family:ui-monospace,Menlo,monospace; font-size:13.5px; margin:0 0 4px; display:flex; align-items:center; gap:8px}
+  .bcol.own h3{color:var(--accent)} .bcol.own h3 .lu{color:var(--accent)}
+  .bcol.off h3{color:var(--muted)} .bcol.off h3 .lu{color:var(--glyph)}
+  .bcol .sub{font-size:12.5px; color:var(--muted); margin:0 0 12px}
+  .bitems{list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:8px}
+  .bitems li{font-size:13.5px; line-height:1.4}
+  .bitems li b{font-family:ui-monospace,Menlo,monospace; font-weight:600; font-size:12.5px; color:var(--ink)}
+  .bitems.hand li b{color:var(--tok-dim)}
+  .bitems li .d{color:var(--muted)}
+  .bnote{margin-top:14px; font-size:13.5px; color:var(--muted); display:flex; gap:9px; line-height:1.55}
+  .bnote .lu{color:var(--accent); flex:none; margin-top:1px; width:17px; height:17px}
+  .bnote b{color:var(--ink)}
+  @media (max-width:640px){ .boundary{grid-template-columns:1fr} }
 
-  /* reference cards, grouped by stage */
-  /* reference map — stage → chips definition list (voids impossible by construction; lighter
-     than the card-heavy neighbouring sections, so it varies the page rhythm) */
-  .refmap{margin-top:20px}
-  .refrow{display:grid; grid-template-columns:200px 1fr; gap:8px 18px; padding:14px 0; align-items:start}
-  .refrow + .refrow{border-top:1px solid var(--line)}
-  .refrow dt, .refrow dd{margin:0}
-  .reflabel{display:flex; align-items:center; gap:8px; font-family:ui-monospace,Menlo,monospace; font-size:14px; letter-spacing:-.01em; color:var(--ink)}
-  .reflabel .lu{color:var(--accent); width:16px; height:16px; flex:none}
-  .reflabel .ct{margin-left:auto; font-size:11px; color:var(--accent); border:1px solid var(--accent); border-radius:999px; padding:1px 8px; font-family:system-ui; flex:none}
-  .refchips{display:flex; flex-wrap:wrap; gap:7px 8px; align-items:baseline}
-  .refchips .ref{display:inline-flex; align-items:baseline; gap:6px}
-  .refchips code{background:var(--code-bg); padding:2px 8px; border-radius:5px; font-size:12px; white-space:nowrap}
-  .refchips .d{font-size:11.5px; color:var(--muted)}
-  @media (max-width:640px){
-    .refrow{grid-template-columns:1fr; gap:9px 0}
-    .reflabel .ct{margin-left:8px}
-  }
-
-  /* tables */
   .tblwrap{overflow-x:auto; border:1px solid var(--line); border-radius:8px; margin-top:20px}
   table{border-collapse:collapse; width:100%; font-size:14px; background:var(--panel)}
   th{font-family:"Avenir Next Condensed","Arial Narrow",system-ui,sans-serif; text-transform:uppercase; letter-spacing:.08em; font-size:12.5px; font-weight:600; text-align:left; color:var(--muted); padding:10px 16px; border-bottom:1px solid var(--line)}
-  td{padding:10px 16px; border-bottom:1px solid var(--line); vertical-align:top}
+  td{padding:11px 16px; border-bottom:1px solid var(--line); vertical-align:top}
   tr:last-child td{border-bottom:none}
   td code{background:var(--code-bg); padding:1px 6px; border-radius:4px; font-size:12.5px; white-space:nowrap}
   td code a{color:inherit; text-decoration:none}
   td code a:hover{text-decoration:underline}
-  td.dim{font-weight:600; font-family:ui-monospace,Menlo,monospace; font-size:13px; color:var(--tok-dim); white-space:nowrap}
-  td .d{color:var(--muted)}
+  td.job{font-weight:600; color:var(--ink); line-height:1.4}
+  td .canon{color:var(--muted); font-size:12.5px; line-height:1.5}
+  td .canon b{color:var(--ink); font-weight:600}
+  td .prod{color:var(--muted); font-size:12.5px; line-height:1.45}
+  td.dim{font-weight:600; font-family:ui-monospace,Menlo,monospace; font-size:12.5px; color:var(--tok-dim); white-space:nowrap}
 
   .note{background:var(--amber-bg); border:1px solid var(--amber); border-radius:8px; padding:12px 16px; font-size:14px; margin-top:16px; max-width:none}
   .note b{color:var(--amber)}
 
-  /* rails — the laws */
-  .rules{list-style:none; padding:0; margin:20px 0 0; display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:12px}
-  .rules li{background:var(--panel); border:1px solid var(--line); border-left:3px solid var(--amber); border-radius:6px; padding:12px 16px; font-size:14px; line-height:1.5}
-  .rules li b{display:flex; align-items:center; gap:7px; font-family:ui-monospace,Menlo,monospace; font-size:13px; margin-bottom:3px}
-  .rules li b .lu{width:15px; height:15px; color:var(--amber)}
-  /* if the laws list ends on an orphan cell, make the last item a full-width capstone
-     (title | text) so the wide card reads as a deliberate closing emphasis, not a gap */
-  .rules li:last-child{grid-column:1 / -1; display:flex; align-items:baseline; gap:22px}
-  .rules li:last-child b{margin-bottom:0; flex:none; width:230px}
-  @media (max-width:620px){ .rules li:last-child{flex-direction:column; gap:3px} .rules li:last-child b{width:auto} }
-  .loopback{display:flex; gap:10px; margin-top:12px; font-size:13.5px; color:var(--muted); line-height:1.55; max-width:none}
-  .loopback .ic{color:var(--accent); flex:none; margin-top:1px}
-  .loopback .ic .lu{width:17px; height:17px}
-  .loopback b{color:var(--ink)}
+  .overlays{display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:12px; margin-top:20px}
+  .ov{border:1px solid var(--line); border-radius:10px; padding:15px 17px; background:var(--panel)}
+  .ov.wedge{border-color:var(--tok-dim); box-shadow:0 0 0 1px var(--tok-dim) inset; background:linear-gradient(180deg,color-mix(in srgb,var(--tok-dim) 7%,var(--panel)),var(--panel))}
+  .ov h3{font-family:ui-monospace,Menlo,monospace; font-size:14px; margin:0 0 3px; display:flex; align-items:center; gap:8px; color:var(--ink)}
+  .ov h3 .lu{color:var(--accent); width:16px; height:16px}
+  .ov.wedge h3 .lu{color:var(--tok-dim)}
+  .ov .file{font-family:ui-monospace,Menlo,monospace; font-size:11px; color:var(--muted); margin-left:auto; font-weight:400}
+  .ov .reshape{font-size:13px; color:var(--muted); margin:6px 0 10px; line-height:1.5}
+  .ov .reshape b{color:var(--ink); font-weight:600}
+  .ov .lens{font-size:12px; color:var(--muted); border-top:1px solid var(--line); padding-top:9px; display:flex; gap:7px}
+  .ov .lens .k{font-family:"Avenir Next Condensed","Arial Narrow",system-ui,sans-serif; text-transform:uppercase; letter-spacing:.08em; font-weight:600; color:var(--accent); flex:none}
+  .ov.wedge .lens .k{color:var(--tok-dim)}
+  .ov .badge{display:inline-block; font-family:"Avenir Next Condensed","Arial Narrow",system-ui,sans-serif; text-transform:uppercase; letter-spacing:.08em; font-weight:600; font-size:10.5px; color:var(--accent-ink); background:var(--tok-dim); border-radius:999px; padding:1px 9px; margin-left:auto}
 
-  /* details / appendix */
+  .wedgehead{background:var(--accent); color:var(--accent-ink); border-radius:10px 10px 0 0; padding:14px 20px; font-family:ui-monospace,Menlo,monospace; font-size:15px; font-weight:600; display:flex; align-items:center; gap:10px; margin-top:20px}
+  .wedgehead .lu{width:19px; height:19px}
+  .wedgebody{border:1px solid var(--accent); border-top:none; border-radius:0 0 10px 10px; padding:20px; background:var(--panel)}
+  .wedgegrid{display:grid; grid-template-columns:1.05fr 1fr; gap:18px}
+  @media (max-width:720px){ .wedgegrid{grid-template-columns:1fr} }
+  .wcol h3{font-family:ui-monospace,Menlo,monospace; font-size:13px; margin:0 0 8px; color:var(--ink)}
+  .ladder{list-style:none; padding:0; margin:0 0 16px; display:flex; flex-direction:column; gap:6px}
+  .ladder li{font-size:12.5px; line-height:1.4; display:flex; gap:9px; align-items:baseline}
+  .ladder li .t{font-family:ui-monospace,Menlo,monospace; font-weight:600; font-size:12px; flex:none; width:120px; color:var(--ink)}
+  .ladder li .d{color:var(--muted)}
+  .ladder li.good .t{color:var(--good)} .ladder li.warn .t{color:var(--amber)} .ladder li.bad .t{color:var(--bad)}
+  .sharprule{margin-top:18px; background:var(--amber-bg); border:1px solid var(--amber); border-radius:8px; padding:13px 16px; font-size:13.5px; line-height:1.5}
+  .sharprule b{color:var(--amber)}
+  .sharprule .cc{display:flex; flex-wrap:wrap; gap:6px; margin-top:9px}
+  .sharprule .cc span{font-family:ui-monospace,Menlo,monospace; font-size:11.5px; color:var(--muted); background:var(--panel); border:1px solid var(--line); border-radius:5px; padding:2px 8px}
+
+  .popbar{display:flex; height:38px; border-radius:8px; overflow:hidden; border:1px solid var(--line); font-family:ui-monospace,Menlo,monospace; font-size:11.5px; font-weight:600}
+  .popcohort{background:var(--good); color:#fff; display:flex; align-items:center; justify-content:center; white-space:nowrap; flex:0 0 auto}
+  .poptol{background:var(--amber); color:#0d1220; display:flex; align-items:center; justify-content:center; white-space:nowrap; flex:0 0 auto}
+  .poprest{background:var(--bad); color:#fff; display:flex; align-items:center; justify-content:center; flex:1 1 auto}
+  .poplegend{display:flex; flex-direction:column; gap:6px; margin-top:10px}
+  .pill{font-size:12px; line-height:1.4; padding:6px 10px; border-radius:7px; border:1px solid var(--line)}
+  .pill.good{color:var(--good); border-color:var(--good); background:color-mix(in srgb, var(--good) 8%, var(--panel))}
+  .pill.amber{color:var(--amber); border-color:var(--amber); background:var(--amber-bg)}
+  .pill.bad{color:var(--bad); border-color:var(--bad); background:color-mix(in srgb, var(--bad) 8%, var(--panel))}
+
+  .bandgrid{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:20px}
+  @media (max-width:720px){ .bandgrid{grid-template-columns:1fr} }
+  .band{border:1px solid var(--line); border-radius:10px; padding:17px 19px; background:var(--panel)}
+  .band.sub{border-top:3px solid var(--accent)}
+  .band.stale{border-top:3px solid var(--amber)}
+  .band h3{font-family:ui-monospace,Menlo,monospace; font-size:14px; margin:0 0 4px; display:flex; align-items:center; gap:9px; color:var(--ink)}
+  .band.sub h3 .lu{color:var(--accent)} .band.stale h3 .lu{color:var(--amber)}
+  .band .sub2{font-size:12.5px; color:var(--muted); margin:0 0 12px; line-height:1.5}
+  .band .sub2 b{color:var(--ink)}
+  .subrules{list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:9px}
+  .subrules li{font-size:13px; line-height:1.45; display:flex; gap:9px}
+  .subrules li .lu{flex:none; margin-top:1px; width:15px; height:15px}
+  .band.sub .subrules li .lu{color:var(--accent)} .band.stale .subrules li .lu{color:var(--amber)}
+  .subrules li b{color:var(--ink); font-family:ui-monospace,Menlo,monospace; font-size:12px; font-weight:600}
+  .subrules li .d{color:var(--muted)}
+
+  .rules{list-style:none; padding:0; margin:20px 0 0; display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:12px}
+  .rules li{background:var(--panel); border:1px solid var(--line); border-left:3px solid var(--amber); border-radius:6px; padding:12px 16px; font-size:13.5px; line-height:1.5}
+  .rules li b{display:flex; align-items:center; gap:7px; font-family:ui-monospace,Menlo,monospace; font-size:13px; margin-bottom:3px; color:var(--ink)}
+  .rules li b .lu{width:15px; height:15px; color:var(--amber)}
+  .rules li:last-child{grid-column:1 / -1; display:flex; align-items:baseline; gap:22px}
+  .rules li:last-child b{margin-bottom:0; flex:none; width:250px}
+  @media (max-width:620px){ .rules li:last-child{flex-direction:column; gap:3px} .rules li:last-child b{width:auto} }
+
+  .vloop{display:flex; flex-wrap:wrap; align-items:stretch; gap:0; margin-top:20px; border:1px solid var(--line); border-radius:10px; overflow:hidden; background:var(--panel)}
+  .vstep{flex:1 1 0; min-width:130px; padding:14px 16px; border-right:1px solid var(--line); display:flex; flex-direction:column; gap:5px}
+  .vstep:last-child{border-right:none}
+  .vstep .n{font-family:ui-monospace,Menlo,monospace; font-size:11px; color:var(--glyph)}
+  .vstep .t{font-family:ui-monospace,Menlo,monospace; font-size:13.5px; color:var(--ink); font-weight:600; display:flex; align-items:center; gap:6px}
+  .vstep .t .lu{color:var(--accent); width:15px; height:15px}
+  .vstep .d{font-size:11.5px; color:var(--muted); line-height:1.4}
+  @media (max-width:640px){ .vstep{flex-basis:45%; border-right:1px solid var(--line)} }
+
+  .artgrid{display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:12px; margin-top:20px}
+  .art{border:1px solid var(--line); border-radius:10px; padding:15px 17px; background:var(--panel)}
+  .art h3{font-family:ui-monospace,Menlo,monospace; font-size:13.5px; margin:0 0 4px; display:flex; align-items:center; gap:8px; color:var(--ink)}
+  .art h3 .lu{color:var(--accent); width:16px; height:16px; flex:none}
+  .art .file{display:block; font-family:ui-monospace,Menlo,monospace; font-size:11px; color:var(--muted); margin:0 0 8px}
+  .art p{font-size:12.5px; color:var(--muted); margin:0; line-height:1.5; max-width:none}
+  .art p b{color:var(--ink); font-weight:600}
+
+  .seam{display:grid; grid-template-columns:1fr auto 1fr; gap:0 18px; align-items:stretch; margin-top:20px}
+  .seambox{border:1px solid var(--line); border-radius:10px; padding:16px 18px; background:var(--panel)}
+  .seambox.mid{border-color:var(--accent); background:var(--code-bg)}
+  .seambox h3{font-family:ui-monospace,Menlo,monospace; font-size:13.5px; margin:0 0 8px; display:flex; align-items:center; gap:8px; color:var(--ink)}
+  .seambox h3 .lu{width:16px; height:16px; color:var(--accent)}
+  .seambox p{font-size:12.5px; color:var(--muted); margin:0; line-height:1.5; max-width:none}
+  .seamyaml{font-family:ui-monospace,Menlo,monospace; font-size:11.5px; line-height:1.7; color:var(--muted); margin:0; white-space:pre; overflow-x:auto; min-width:0; max-width:100%}
+  .seamyaml .k{color:var(--accent)} .seamyaml .v{color:var(--ink)} .seamyaml .req{color:var(--tok-val)}
+  .seamarrows{display:flex; flex-direction:column; justify-content:center; gap:16px; color:var(--accent); font-family:ui-monospace,Menlo,monospace; font-size:22px}
+  .downstream{display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px}
+  @media (max-width:900px){ .downstream{grid-template-columns:1fr} }
+  @media (max-width:760px){
+    .seam{grid-template-columns:1fr; gap:14px}
+    .seamarrows{flex-direction:row; justify-content:center; gap:40px}
+    .seamarrows span{transform:rotate(90deg)}
+  }
+  .seamnote{margin-top:14px; font-size:13.5px; color:var(--muted); display:flex; gap:9px; line-height:1.55}
+  .seamnote .lu{color:var(--accent); flex:none; margin-top:1px; width:17px; height:17px}
+  .seamnote b{color:var(--ink)}
+
   details.disc{background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:0; margin-top:14px}
   details.disc summary{cursor:pointer; padding:13px 18px; font-family:ui-monospace,Menlo,monospace; font-size:13.5px; color:var(--accent); list-style:none; display:flex; align-items:center; gap:8px}
   details.disc summary::before{content:"▸"; color:var(--glyph); transition:transform .12s ease}
@@ -190,146 +296,564 @@
   details.disc .tblwrap{margin-top:8px}
   details.disc p{font-size:13.5px; color:var(--muted)}
 
-  /* files */
   .files{background:var(--code-bg); border:1px solid var(--line); border-radius:8px; padding:16px 20px; font-family:ui-monospace,Menlo,monospace; font-size:13px; line-height:1.9; overflow-x:auto; white-space:pre; margin-top:8px}
   .files .d{color:var(--muted)}
   .files .hl{color:var(--accent); font-weight:600}
 
   footer{margin-top:72px; padding-top:20px; border-top:1px solid var(--line); font-size:13px; color:var(--muted); display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px}
-  /* iOS 26 chrome tint: Safari samples fixed edge elements; theme-color alone is ignored */
   .edge{position:fixed; left:0; right:0; height:8px; background:var(--bg); z-index:0; pointer-events:none}
   .edge.top{top:0} .edge.bottom{bottom:0}
-  @media (max-width:720px){
-    .prow{flex-direction:column; align-items:flex-start}
-    .prow .arr{transform:rotate(90deg); margin-left:18px}
-  }
 </style>
 </head>
 <body>
 <div class="edge top" aria-hidden="true"></div>
 <div class="edge bottom" aria-hidden="true"></div>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <symbol id="lu-file-input" viewBox="0 0 24 24"><path d="M4 11V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.706.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-1"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M2 15h10"/><path d="m9 18 3-3-3-3"/></symbol>
+  <symbol id="lu-route" viewBox="0 0 24 24"><circle cx="6" cy="19" r="3"/><path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"/><circle cx="18" cy="5" r="3"/></symbol>
+  <symbol id="lu-git-fork" viewBox="0 0 24 24"><circle cx="12" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/><path d="M18 9v2c0 .6-.4 1-1 1H7c-.6 0-1-.4-1-1V9"/><path d="M12 12v3"/></symbol>
+  <symbol id="lu-refresh-cw" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></symbol>
+  <symbol id="lu-shield-alert" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="M12 8v4"/><path d="M12 16h.01"/></symbol>
   <symbol id="lu-shield-check" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></symbol>
-  <symbol id="lu-scroll-text" viewBox="0 0 24 24"><path d="M15 12h-5"/><path d="M15 8h-5"/><path d="M19 17V5a2 2 0 0 0-2-2H4"/><path d="M8 21h12a2 2 0 0 0 2-2v-1a1 1 0 0 0-1-1H11a1 1 0 0 0-1 1v1a2 2 0 1 1-4 0V5a2 2 0 1 0-4 0v2a1 1 0 0 0 1 1h3"/></symbol>
-  <symbol id="lu-clipboard-list" viewBox="0 0 24 24"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/></symbol>
-  <symbol id="lu-clipboard-check" viewBox="0 0 24 24"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></symbol>
-  <symbol id="lu-search-check" viewBox="0 0 24 24"><path d="m8 11 2 2 4-4"/><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
-  <symbol id="lu-file-output" viewBox="0 0 24 24"><path d="M4.226 20.925A2 2 0 0 0 6 22h12a2 2 0 0 0 2-2V8a2.4 2.4 0 0 0-.706-1.706l-3.588-3.588A2.4 2.4 0 0 0 14 2H6a2 2 0 0 0-2 2v3.127"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="m5 11-3 3"/><path d="m5 17-3-3h10"/></symbol>
+  <symbol id="lu-lock" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+  <symbol id="lu-bot" viewBox="0 0 24 24"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></symbol>
+  <symbol id="lu-scale" viewBox="0 0 24 24"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></symbol>
+  <symbol id="lu-arrow-left-right" viewBox="0 0 24 24"><path d="m16 3 4 4-4 4"/><path d="M20 7H4"/><path d="m8 21-4-4 4-4"/><path d="M4 17h16"/></symbol>
+  <symbol id="lu-file-check" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="m9 15 2 2 4-4"/></symbol>
+  <symbol id="lu-file-input" viewBox="0 0 24 24"><path d="M4 11V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.706.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-1"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M2 15h10"/><path d="m9 18 3-3-3-3"/></symbol>
   <symbol id="lu-files" viewBox="0 0 24 24"><path d="M15 2h-4a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8"/><path d="M16.706 2.706A2.4 2.4 0 0 0 15 2v5a1 1 0 0 0 1 1h5a2.4 2.4 0 0 0-.706-1.706z"/><path d="M5 7a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h8a2 2 0 0 0 1.732-1"/></symbol>
-  <symbol id="lu-sliders-horizontal" viewBox="0 0 24 24"><path d="M10 5H3"/><path d="M12 19H3"/><path d="M14 3v4"/><path d="M16 17v4"/><path d="M21 12h-9"/><path d="M21 19h-5"/><path d="M21 5h-7"/><path d="M8 10v4"/><path d="M8 12H3"/></symbol>
+  <symbol id="lu-layers" viewBox="0 0 24 24"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/><path d="m6.08 9.5-3.5 1.6a1 1 0 0 0 0 1.81l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9a1 1 0 0 0 0-1.83l-3.5-1.59"/><path d="m6.08 14.5-3.5 1.6a1 1 0 0 0 0 1.81l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9a1 1 0 0 0 0-1.83l-3.5-1.59"/></symbol>
   <symbol id="lu-gauge" viewBox="0 0 24 24"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></symbol>
   <symbol id="lu-coins" viewBox="0 0 24 24"><path d="M13.744 17.736a6 6 0 1 1-7.48-7.48"/><path d="M15 6h1v4"/><path d="m6.134 14.768.866-.5 2 3.464"/><circle cx="16" cy="8" r="6"/></symbol>
-  <symbol id="lu-split" viewBox="0 0 24 24"><path d="M16 3h5v5"/><path d="M8 3H3v5"/><path d="M12 22v-8.3a4 4 0 0 0-1.172-2.872L3 3"/><path d="m15 9 6-6"/></symbol>
-  <symbol id="lu-copy-x" viewBox="0 0 24 24"><line x1="12" x2="18" y1="12" y2="18"/><line x1="12" x2="18" y1="18" y2="12"/><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></symbol>
   <symbol id="lu-workflow" viewBox="0 0 24 24"><rect width="8" height="8" x="3" y="3" rx="2"/><path d="M7 11v4a2 2 0 0 0 2 2h4"/><rect width="8" height="8" x="13" y="13" rx="2"/></symbol>
-  <symbol id="lu-layers" viewBox="0 0 24 24"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/><path d="m6.08 9.5-3.5 1.6a1 1 0 0 0 0 1.81l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9a1 1 0 0 0 0-1.83l-3.5-1.59"/><path d="m6.08 14.5-3.5 1.6a1 1 0 0 0 0 1.81l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9a1 1 0 0 0 0-1.83l-3.5-1.59"/></symbol>
+  <symbol id="lu-server" viewBox="0 0 24 24"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></symbol>
+  <symbol id="lu-activity" viewBox="0 0 24 24"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/></symbol>
+  <symbol id="lu-bell" viewBox="0 0 24 24"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></symbol>
+  <symbol id="lu-zap" viewBox="0 0 24 24"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></symbol>
+  <symbol id="lu-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+  <symbol id="lu-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
   <symbol id="lu-eye" viewBox="0 0 24 24"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="lu-split" viewBox="0 0 24 24"><path d="M16 3h5v5"/><path d="M8 3H3v5"/><path d="M12 22v-8.3a4 4 0 0 0-1.172-2.872L3 3"/><path d="m15 9 6-6"/></symbol>
+  <symbol id="lu-search-check" viewBox="0 0 24 24"><path d="m8 11 2 2 4-4"/><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+  <symbol id="lu-clipboard-list" viewBox="0 0 24 24"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/></symbol>
 </svg>
 <div class="wrap">
 <header>
-  <div class="eyebrow">TODO: an agent skill · one short descriptor chip</div>
+  <div class="eyebrow">an agent skill · workflow automation — the Build stage, spanning what you don't own</div>
   <nav class="toplinks" aria-label="external links">
     <a href="https://github.com/gabros20/automation-skill" target="_blank" rel="noopener">GitHub</a>
     <a href="https://github.com/gabros20/automation-skill#install" target="_blank" rel="noopener">Install</a>
     <a href="/llms.txt">llms.txt</a>
   </nav>
   <h1><span class="sl">/</span>automation</h1>
-  <p class="lede">TODO sentence 1 — the generic, forgettable result an agent produces without this
-  skill. TODO sentence 2 — what automation replaces that with, ending on Wire it across systems you don't own — then reconcile what you can't un-send.</p>
-  <div class="term" style="margin-top:22px"><span class="c"># that's the whole start</span>
-<span class="p">/automation</span> TODO — the shortest real ask that would trigger this skill</div>
+  <p class="lede">Ask an agent to wire Stripe to your CRM and it writes the webhook handler, watches it
+  return <code>200</code>, and calls the integration done. Nobody checked whether the vendor's side
+  still holds what you think it holds, what a refund actually undoes, or what happens when the
+  approval gate times out at 3am with nobody watching. <b>automation</b> builds the processes that
+  span vendors — credentials, triggers, sync, approval, cost — on the property every technique here
+  has to survive: <b>you cannot deploy a fix into someone else's system, and you cannot un-send.</b></p>
+  <div class="term" style="margin-top:22px"><span class="c"># natural language — no flags, no fixed pipeline</span>
+<span class="p">/automation</span> the Stripe charge succeeded but the CRM record never got created — was the webhook ever sent?</div>
   <p class="hosts"><span class="hl">runs on</span><span class="ref">Claude Code</span><span>Codex</span><span>Cursor</span><span>Antigravity</span><span>opencode</span><span>Grok Build</span><span>Hermes</span></p>
   <nav class="secnav" aria-label="page sections">
-    <a href="#arc">the arc</a><a href="#laws">the laws</a><a href="#pick">pick by job</a>
-    <a href="#refs">reference map</a><a href="#start">start here</a>
+    <a href="#mission">mission</a><a href="#router">the router</a><a href="#jobs">by job</a>
+    <a href="#surfaces">surfaces</a><a href="#flagship">reconciliation ⭐</a><a href="#distinct">what's distinct</a>
+    <a href="#laws">invariants</a><a href="#artifacts">artifacts</a><a href="#handoff">handoff</a><a href="#start">start here</a>
   </nav>
-</header>
 
-<section id="arc">
-  <h2><svg class="lu" aria-hidden="true"><use href="#lu-workflow"/></svg>The workflow arc</h2>
-  <p>TODO: state the arc here — how many stages/strategies, and whether the agent can enter at
-  any point or must run it start to finish.</p>
   <div class="vidwrap" id="vidwrap"></div>
   <!-- render from remotion/, see remotion/README -->
-  <div class="poster" role="img" aria-label="TODO: describe the diagram this poster stands in for.">
-    <p class="arcline"><b>TODO stage 1</b> <span class="ar">→</span> <b>TODO stage 2</b> <span class="ar">→</span> <b>TODO stage 3</b></p>
+  <div class="herofallback router" role="img" aria-label="An ack is not evidence: a 200 response, a queued job, a webhook subscription you believe is active are none of them proof the vendor's side actually holds what you think it holds. A reconciliation loop asks the vendor directly, on a schedule, what it actually has, diffs the ID set first, then classifies every discrepancy into matched, matched-within-tolerance, or exception — never a binary match/no-match. Then one primary job (reconciliation, the flagship) composes with at most one base surface (hosted iPaaS, the default) plus the additive agentic overlay to resolve to the smallest sufficient reference set — two files, read fully, out of eighteen.">
+    <div class="gate"><svg class="lu" aria-hidden="true"><use href="#lu-shield-alert"/></svg><span><b>A reconciliation result is classified into three buckets, never two.</b> Timing skew and rounding land in <code>within-tolerance</code>; only <code>exception</code> escalates — collapsing them into one bucket is how the queue stops getting read.</span></div>
+    <div class="rlane">
+      <div class="rlabel">classification<small>never binary</small></div>
+      <div class="chips">
+        <span class="chip" style="color:var(--good); border-color:var(--good)">matched</span>
+        <span class="chip" style="color:var(--amber); border-color:var(--amber)">within-tolerance</span>
+        <span class="chip" style="color:var(--bad); border-color:var(--bad)">exception</span>
+      </div>
+    </div>
+    <div class="rlane">
+      <div class="rlabel">① primary job<small>exactly one, of 12</small></div>
+      <div class="chips">
+        <span class="chip star">reconciliation ⭐</span><span class="chip">integration-reliability</span>
+        <span class="chip">compensation-and-recovery</span><span class="chip">credentials-and-connections</span>
+        <span class="chip">approval-and-authority</span><span class="chip">trigger-design</span>
+        <span class="chip">sync-semantics</span><span class="chip">workflow-observability</span>
+        <span class="chip">cost-and-quota</span><span class="chip">platform-selection</span>
+        <span class="chip">workflow-testing</span><span class="chip">process-capture</span>
+      </div>
+    </div>
+    <div class="rlane">
+      <div class="rlabel">② base surface<small>at most one, of 4</small></div>
+      <div class="chips">
+        <span class="chip on">hosted iPaaS</span><span class="chip">self-hosted engine</span>
+        <span class="chip">code-first durable</span><span class="chip">platform-native</span>
+      </div>
+    </div>
+    <div class="rlane">
+      <div class="rlabel">③ agentic overlay<small>additive ⭐ — a model in the graph</small></div>
+      <div class="chips">
+        <span class="chip dimon">surface-agentic</span><span class="chip" style="border-style:dashed">off by default — stacks on only when a model decides or triggers</span>
+      </div>
+    </div>
+    <div class="rdown"><span>compose →</span></div>
+    <div class="readset">
+      <code>reconciliation.md</code><code>surface-hosted-ipaas.md</code>
+      <span class="cnt"><b>2 of 18</b> loaded · read fully</span>
+    </div>
+    <p class="rrule"><svg class="lu" aria-hidden="true"><use href="#lu-route"/></svg><span><b>Route before acting.</b> One job, at most one base surface — the agentic overlay is added only when a model decides which tool to call, in what order, or is the trigger itself, never assumed.</span></p>
   </div>
-  <p class="pcap">TODO: note which stages (if any) also stand alone, entered without the rest of the arc.</p>
+  <p class="pcap"><b>The router is the skill.</b> There is no fixed pipeline to run start-to-finish —
+  each job stands alone and enters where your request is. The animation traces one path (a
+  reconciliation loop closing a gap nothing else caught); the sections below map the whole surface it
+  routes across.</p>
+</header>
 
-  <div class="steps">
-    <div><b><svg class="lu" aria-hidden="true"><use href="#lu-sliders-horizontal"/></svg>TODO stage 1</b><span>TODO one-line job for this stage. → <code>references/example.md</code></span></div>
-    <div><b><svg class="lu" aria-hidden="true"><use href="#lu-files"/></svg>TODO stage 2</b><span>TODO one-line job for this stage.</span></div>
-    <div><b><svg class="lu" aria-hidden="true"><use href="#lu-file-output"/></svg>TODO stage 3</b><span>TODO one-line job for this stage.</span></div>
+<section id="mission">
+  <h2><svg class="lu" aria-hidden="true"><use href="#lu-git-fork"/></svg>Own what spans the boundary you cannot deploy to</h2>
+  <p>Build processes that span systems, schedules, events and human approvals — and make them survive
+  the fact that <b>you cannot deploy a fix into someone else's system, and you cannot un-send.</b>
+  <code>backend</code> owns async work <b>inside</b> a system you control: your queue, your workers,
+  your database, deployable and testable end to end. <code>automation</code> owns the case where most
+  of the steps belong to vendors you cannot deploy to, cannot unit-test, and cannot roll back — where
+  the API changes with no deploy on your side, the quota belongs to someone else, and a person
+  clicking "approve" is a node in the graph. It writes workflow definitions, integration code,
+  connector configuration and functions — it does <b>not</b> author the business rule; when no
+  upstream rule exists, it captures it explicitly rather than inventing one silently.</p>
+  <div class="boundary">
+    <div class="bcol own">
+      <h3><svg class="lu" aria-hidden="true"><use href="#lu-shield-check"/></svg>automation owns</h3>
+      <p class="sub">the wiring across a boundary you don't control</p>
+      <ul class="bitems">
+        <li><b>reconciliation against the vendor's state ⭐</b> <span class="d">— an ack is not evidence; the loop that catches what a webhook missed</span></li>
+        <li><b>every irreversible step, named</b> <span class="d">— sends, charges, writes to a system of record; hardest-to-revert runs last</span></li>
+        <li><b>the credential fleet</b> <span class="d">— API keys and OAuth across many vendors, monitored as its own resource, not a side effect of a workflow running</span></li>
+        <li><b>human approval, trigger design, sync, cost</b> <span class="d">— a timeout policy named before the gate ships; what a trigger will also fire on; drift between two systems; a quota that belongs to the vendor</span></li>
+      </ul>
+    </div>
+    <div class="bcol off">
+      <h3><svg class="lu" aria-hidden="true"><use href="#lu-git-fork"/></svg>hands off to</h3>
+      <p class="sub">the "Not this skill" table — eight asks this skill declines by design</p>
+      <ul class="bitems hand">
+        <li><b>backend</b> <span class="d">— jobs, queues, outbox, saga inside your own system; the idempotency-key primitive itself</span></li>
+        <li><b>ai</b> <span class="d">— the model's cognition: prompts, retrieval, evals, model-level guardrails</span></li>
+        <li><b>data</b> <span class="d">— the warehouse, ETL/ELT, analytical modelling, the governed dataset</span></li>
+        <li><b>operate</b> <span class="d">— deploying the workflow, running the monitoring platform, incident response</span></li>
+        <li><b>quality</b> <span class="d">— independent verification and the ship/claim decision</span></li>
+        <li><b>product / marketing / sales / success</b> <span class="d">— authoring the business rule, or customer-facing comms</span></li>
+        <li><b>architecture</b> <span class="d">— system shape, contracts, NFR budgets, threat model</span></li>
+        <li><b>orchestrate</b> <span class="d">— coordinating agents inside a development session; not a lifecycle skill</span></li>
+      </ul>
+    </div>
   </div>
-  <div class="loopback"><span class="ic"><svg class="lu" aria-hidden="true"><use href="#lu-shield-check"/></svg></span><span>TODO: state the loop-back rule, if this skill has a review/QA gate that can send work back through an earlier stage.</span></div>
+  <p class="bnote"><svg class="lu" aria-hidden="true"><use href="#lu-shield-alert"/></svg><span><b>The default reader is one person, or a small team, with no second pair of eyes.</b>
+  That matters more than it looks: nearly every control this domain teaches assumes a counterparty.
+  Approval assumes an approver who is not the requester. Reconciliation assumes a reconciler who is
+  not the recorder. The <i>functions</i> survive at n=1; the second <i>body</i> does not — the
+  substitute is an independent source, a clock, or a rule committed to in advance (I6).</span></p>
+</section>
+
+<section id="router">
+  <h2><svg class="lu" aria-hidden="true"><use href="#lu-route"/></svg>The faceted router</h2>
+  <p>SKILL.md is a router, not a script. Every request selects the smallest sufficient route:
+  <b>one primary job</b> — the twelve below — combined with <b>at most one base surface</b> that
+  reshapes how the job applies to what's actually running, plus the <b>additive agentic overlay</b>
+  when a model decides which tool to call, in what order, or is the trigger itself. Read the selected
+  references completely; load one or two at most, never the whole pack.</p>
+  <div class="tblwrap"><table>
+    <tr><th>facet</th><th>options</th><th>rule</th></tr>
+    <tr>
+      <td class="job">① Primary job</td>
+      <td class="prod"><b>reconciliation ⭐</b> · integration-reliability · compensation-and-recovery · credentials-and-connections · approval-and-authority · trigger-design · sync-semantics · workflow-observability · cost-and-quota · platform-selection · workflow-testing · process-capture</td>
+      <td class="canon"><b>Exactly one.</b> Pick the single job the request needs; the flagship — reconcile against the vendor's own state, never your record of what you told it — is the loop every other job assumes exists somewhere, or states plainly that it does not.</td>
+    </tr>
+    <tr>
+      <td class="job">② Base surface</td>
+      <td class="prod">surface-hosted-ipaas <span style="color:var(--muted)">(default)</span> · surface-self-hosted-engine · surface-code-first-durable · surface-platform-native</td>
+      <td class="canon"><b>At most one.</b> The surface reshapes what each job means for where the workflow actually runs — it points to the job references, it doesn't redefine them.</td>
+    </tr>
+    <tr>
+      <td class="job">③ Agentic overlay <span style="color:var(--tok-dim)">⭐</span></td>
+      <td class="dim">surface-agentic — spend ceiling, step/iteration limit, wall-clock deadline, kill switch, blast-radius scope</td>
+      <td class="canon"><b>Additive.</b> Stacks <i>on top of</i> the base surface, only when a model decides which tool to call, in what order, or is the trigger. A model doing one bounded, deterministic task inside a step is not this overlay.</td>
+    </tr>
+  </table></div>
+  <div class="note"><b>Every claim on this page is true of the shipped pack.</b> Where a number is
+  cited — the retry windows, the registrar-style vendor delivery guarantees, the agent iteration
+  ceilings — it carries a source and a verification date; where a hazard is this pack's own judgment
+  rather than a sourced one (the recursion at n=1, the loop counter), the page says so rather than
+  dressing it up as a citation.</div>
+</section>
+
+<section id="jobs">
+  <h2><svg class="lu" aria-hidden="true"><use href="#lu-files"/></svg>The twelve primary jobs</h2>
+  <p>Each job is one reference, read fully only when its route is selected. Reconciliation is the
+  flagship because every other job either assumes this loop exists somewhere, or has to say plainly
+  that it does not — this is the whole surface, not a headline slice.</p>
+  <div class="tblwrap"><table>
+    <tr><th>I need to…</th><th>Read</th><th>Contribution</th></tr>
+    <tr>
+      <td class="job"><svg class="lu" aria-hidden="true" style="color:var(--accent)"><use href="#lu-scale"/></svg> Prove what actually happened — catch what the webhook missed, diff against the vendor <span style="color:var(--tok-dim)">⭐</span></td>
+      <td><code><a href="https://github.com/gabros20/automation-skill/blob/main/skills/automation/references/reconciliation.md">reconciliation.md</a></code></td>
+      <td class="prod"><b>Flagship.</b> Reconcile against the vendor's authoritative state, never your own record; cadence and window; ID-set diff before field diff; matched / within-tolerance / exception; alert-first at n=1</td>
+    </tr>
+    <tr>
+      <td class="job"><svg class="lu" aria-hidden="true" style="color:var(--accent)"><use href="#lu-shield-check"/></svg> Stop duplicates and missed work — delivery semantics, dedup</td>
+      <td><code><a href="https://github.com/gabros20/automation-skill/blob/main/skills/automation/references/integration-reliability.md">integration-reliability.md</a></code></td>
+      <td class="prod">Quick Acknowledgment (ack fast, process async); dedup keyed on the business event; the completion-check false positive; per-vendor delivery guarantees</td>
+    </tr>
+    <tr>
+      <td class="job"><svg class="lu" aria-hidden="true" style="color:var(--accent)"><use href="#lu-refresh-cw"/></svg> A step failed after an earlier one already sent, charged or wrote</td>
+      <td><code><a href="https://github.com/gabros20/automation-skill/blob/main/skills/automation/references/compensation-and-recovery.md">compensation-and-recovery.md</a></code></td>
+      <td class="prod">Compensation is a forward action, not a rollback; hardest-to-revert last; compensation as a human act; resume-vs-restart before any irreversible step</td>
+    </tr>
+    <tr>
+      <td class="job"><svg class="lu" aria-hidden="true" style="color:var(--accent)"><use href="#lu-lock"/></svg> Manage API keys and OAuth across many vendors; something silently stopped authenticating</td>
+      <td><code><a href="https://github.com/gabros20/automation-skill/blob/main/skills/automation/references/credentials-and-connections.md">credentials-and-connections.md</a></code></td>
+      <td class="prod">The credential <i>fleet</i>; silent-expiry traps; scheduled pre-expiry refresh; credential health as its own monitored resource; the shared-account bus factor</td>
+    </tr>
+    <tr>
+      <td class="job"><svg class="lu" aria-hidden="true" style="color:var(--accent)"><use href="#lu-users"/></svg> Put a human in the loop — who approves, what happens on timeout</td>
+      <td><code><a href="https://github.com/gabros20/automation-skill/blob/main/skills/automation/references/approval-and-authority.md">approval-and-authority.md</a></code></td>
+      <td class="prod">Translating meeting-paced GRC (maker-checker, delegation of authority) into machine-timeout policy; no engine ships a default; the n=1 compensating control</td>
+    </tr>
+    <tr>
+      <td class="job"><svg class="lu" aria-hidden="true" style="color:var(--accent)"><use href="#lu-zap"/></svg> Decide what starts the workflow; a trigger fires too often, too broadly, or twice</td>
+      <td><code><a href="https://github.com/gabros20/automation-skill/blob/main/skills/automation/references/trigger-design.md">trigger-design.md</a></code></td>
+      <td class="prod">Trigger taxonomy; over-broad conditions; the cron/DST comparison; trigger idempotency across two delivery paths</td>
+    </tr>
+    <tr>
+      <td class="job"><svg class="lu" aria-hidden="true" style="color:var(--accent)"><use href="#lu-arrow-left-right"/></svg> Keep two systems in step; records duplicated, deleted rows diverging, a loop</td>
+      <td><code><a href="https://github.com/gabros20/automation-skill/blob/main/skills/automation/references/sync-semantics.md">sync-semantics.md</a></code></td>
+      <td class="prod">The A→B→A loop; deletes are invisible to incremental sync; <code>updated_at</code> is a lie; conflict policy as a decision; backfill-to-incremental cutover</td>
+    </tr>
+    <tr>
+      <td class="job"><svg class="lu" aria-hidden="true" style="color:var(--accent)"><use href="#lu-eye"/></svg> Tell whether it is still running, and what "green" does not mean</td>
+      <td><code><a href="https://github.com/gabros20/automation-skill/blob/main/skills/automation/references/workflow-observability.md">workflow-observability.md</a></code></td>
+      <td class="prod">A workflow that stopped is not a workflow that failed; no engine alerts by default; missing-heartbeat over failure notification; audit of what ran on whose authority</td>
+    </tr>
+    <tr>
+      <td class="job"><svg class="lu" aria-hidden="true" style="color:var(--accent)"><use href="#lu-coins"/></svg> Cap what this costs; a loop or a retry is burning quota</td>
+      <td><code><a href="https://github.com/gabros20/automation-skill/blob/main/skills/automation/references/cost-and-quota.md">cost-and-quota.md</a></code></td>
+      <td class="prod">Per-task billing; the quota is the vendor's, and its blast radius is the whole account; retry × 429; the workflow circuit breaker</td>
+    </tr>
+    <tr>
+      <td class="job"><svg class="lu" aria-hidden="true" style="color:var(--accent)"><use href="#lu-split"/></svg> Choose or leave a platform — no-code, self-hosted, code-first</td>
+      <td><code><a href="https://github.com/gabros20/automation-skill/blob/main/skills/automation/references/platform-selection.md">platform-selection.md</a></code></td>
+      <td class="prod">The four tiers; resume-capability as a selection criterion; licence <b>and</b> liveness; exit cost asked up front</td>
+    </tr>
+    <tr>
+      <td class="job"><svg class="lu" aria-hidden="true" style="color:var(--accent)"><use href="#lu-search-check"/></svg> Test a workflow that spans vendors you cannot control</td>
+      <td><code><a href="https://github.com/gabros20/automation-skill/blob/main/skills/automation/references/workflow-testing.md">workflow-testing.md</a></code></td>
+      <td class="prod">What is genuinely untestable and what replaces it — dry run, narrow canary, first-then-bulk gate, fixture replay</td>
+    </tr>
+    <tr>
+      <td class="job"><svg class="lu" aria-hidden="true" style="color:var(--accent)"><use href="#lu-clipboard-list"/></svg> Turn a business rule into a workflow — or decide not to automate at all</td>
+      <td><code><a href="https://github.com/gabros20/automation-skill/blob/main/skills/automation/references/process-capture.md">process-capture.md</a></code></td>
+      <td class="prod">Capturing the rule at n=1; the control-flow vocabulary worth having; when not to automate; prefer the API, and what you buy when there isn't one</td>
+    </tr>
+  </table></div>
+  <p style="margin-top:12px">Full router table &amp; invariants: <a href="https://github.com/gabros20/automation-skill/blob/main/skills/automation/SKILL.md#route-before-acting">SKILL.md</a>.</p>
+</section>
+
+<section id="surfaces">
+  <h2><svg class="lu" aria-hidden="true"><use href="#lu-layers"/></svg>Four surfaces + one additive overlay</h2>
+  <p>One base surface, at most, reshapes every job for where the workflow actually runs — the same
+  reconciliation job is bounded differently on a hosted builder than on code-first durable execution.
+  The <b>agentic</b> overlay is <b>additive</b> — it stacks on top of whichever base you picked, never
+  replaces it — and carries a distinct violet identity throughout this page, the same convention
+  <code>operate</code>, <code>quality</code>, and <code>data</code> use for their own additive
+  overlay.</p>
+  <div class="overlays">
+    <div class="ov">
+      <h3><svg class="lu" aria-hidden="true"><use href="#lu-route"/></svg>Hosted iPaaS <span class="file">surface-hosted-ipaas.md</span></h3>
+      <p class="reshape">The <b>default</b>: Zapier/Make/Workato/Tray/Pipedream/IFTTT-class — you
+      rent execution on a vendor-run, connector-based builder. The reliability gaps are worst served
+      here, because the product's entire job is to make the wiring look easy.</p>
+      <p class="lens"><span class="k">reshapes</span>what the platform silently does not give you before you wire an irreversible step · the tier-selection question, paired with platform-selection</p>
+    </div>
+    <div class="ov">
+      <h3><svg class="lu" aria-hidden="true"><use href="#lu-server"/></svg>Self-hosted engine <span class="file">surface-self-hosted-engine.md</span></h3>
+      <p class="reshape">n8n / Windmill / Activepieces / Kestra / Node-RED — you run the engine
+      yourself. You trade the vendor's operational burden for your own, and take on a real licensing
+      decision the hosted tier never asks you to make.</p>
+      <p class="lens"><span class="k">reshapes</span>operational ownership of the engine itself · the licence position, per engine, before adopting or redistributing it</p>
+    </div>
+    <div class="ov">
+      <h3><svg class="lu" aria-hidden="true"><use href="#lu-git-fork"/></svg>Code-first durable <span class="file">surface-code-first-durable.md</span></h3>
+      <p class="reshape">Temporal / Inngest / Restate / Trigger.dev / Cloudflare Workflows / Step
+      Functions — the workflow is code, and the engine durably persists step state. Doesn't redefine
+      any job; changes what I9 (resume-vs-restart) costs to get right, and who else is in the room
+      (<code>backend</code>, <code>operate</code>).</p>
+      <p class="lens"><span class="k">reshapes</span>resume-vs-restart from a real guarantee, not a hope · where an irreversible early step needs a durable engine, not a visual builder</p>
+    </div>
+    <div class="ov">
+      <h3><svg class="lu" aria-hidden="true"><use href="#lu-clock"/></svg>Platform-native <span class="file">surface-platform-native.md</span></h3>
+      <p class="reshape">GitHub Actions, a cloud scheduler, plain cron — no engine at all. The
+      platform is the scheduler, and every reliability property an engine would otherwise supply
+      (retry, resume, alerting) has to be built by hand.</p>
+      <p class="lens"><span class="k">reshapes</span>whether a small periodic job needs an engine at all · the specific DST behaviour of the scheduler you're on</p>
+    </div>
+    <div class="ov wedge">
+      <h3><svg class="lu" aria-hidden="true"><use href="#lu-bot"/></svg>Agentic <span class="badge">additive ⭐</span></h3>
+      <p class="reshape">A model decides which tool to call, in what order, or is the trigger
+      itself — not a bounded, deterministic task inside one step. <b>Stacks on, does not replace.</b>
+      A named spend ceiling, step/iteration limit, wall-clock deadline, kill switch, and blast-radius
+      scope for every agentic step, on top of any base surface.</p>
+      <p class="lens"><span class="k">reshapes</span>I12 — an agentic step fails by continuing · what's <code>ai</code>'s (the model's cognition) vs ours (the deterministic envelope around it)</p>
+    </div>
+  </div>
+</section>
+
+<section id="flagship">
+  <h2><svg class="lu" aria-hidden="true"><use href="#lu-scale"/></svg>Reconciliation — the flagship</h2>
+  <p>Everything else in this pack assumes a reconciliation loop exists somewhere, or states plainly
+  that it does not. <b>I1 is the spine: reconcile against the vendor's authoritative state, never
+  against your own record of what you told it.</b> A 200 response, a queued job, a webhook
+  subscription you believe is active — none of these are evidence the vendor's side actually holds
+  what you think it holds. A webhook that never arrives leaves no trace in your logs at all — nothing
+  failed loudly, so there is nothing to notice.</p>
+  <div class="tblwrap"><table>
+    <tr><th>Signal</th><th>What it actually establishes</th><th>What it does <b>not</b></th></tr>
+    <tr><td class="job">A 200 response</td><td class="canon">The vendor accepted the request, at that moment</td><td class="prod">That the vendor's side still holds it later, or that nothing downstream reversed it</td></tr>
+    <tr><td class="job">An active webhook subscription</td><td class="canon">The subscription existed at setup time</td><td class="prod">That every event since actually fired — a dropped delivery leaves no trace at all (I1)</td></tr>
+    <tr><td class="job">Your own "handled" flag</td><td class="canon">You believe you finished processing it</td><td class="prod">That you did — a corrupted retry can read as confirmation instead of failure (I2)</td></tr>
+  </table></div>
+  <div class="wedgehead"><svg class="lu" aria-hidden="true"><use href="#lu-shield-alert"/></svg>Retries protect against a delivery you know was attempted — not one that never was</div>
+  <div class="wedgebody">
+    <div class="wedgegrid">
+      <div>
+        <h3>What reconciliation catches that retries can't</h3>
+        <ul class="ladder">
+          <li class="good"><span class="t">retries</span><span class="d">protect a delivery you know was attempted, retried against a known failure</span></li>
+          <li class="warn"><span class="t">dedup</span><span class="d">catches the same delivery arriving twice — still assumes a delivery happened</span></li>
+          <li class="bad"><span class="t">reconciliation</span><span class="d">the only control that catches a delivery <b>never attempted</b>, or attempted and silently dropped before it reached you</span></li>
+        </ul>
+        <p style="font-size:13px; color:var(--muted); margin:0">Compare the <b>ID set</b> first —
+        cheap, and it catches the two failure modes that matter most: something the vendor has that
+        you don't, and something you have that the vendor doesn't. Tolerance-banded field comparison
+        runs second, on IDs present in both sets only; full-field diff only on suspected drift.</p>
+      </div>
+      <div class="wcol">
+        <h3>Classify every discrepancy — never binary</h3>
+        <div class="popbar" aria-hidden="true"><div class="popcohort" style="width:62%">matched</div><div class="poptol" style="width:20%">tolerance</div><div class="poprest">exception</div></div>
+        <div class="poplegend">
+          <span class="pill good"><b>matched</b> — auto-close, no human touch needed</span>
+          <span class="pill amber"><b>within-tolerance</b> — timing skew and rounding, expected, not drift</span>
+          <span class="pill bad"><b>exception</b> — routes to a human queue; auto-heal only on high confidence, earned over time</span>
+        </div>
+      </div>
+    </div>
+    <div class="sharprule"><b>The recursion (I6):</b> COSO names independent reconciliation as the
+    standard escape hatch for missing segregation of duties. Stripe's own guidance requires the
+    opposite in the same breath — the reconciler must not be the recorder. For one person, the escape
+    hatch leads back into the room it was supposed to get you out of.
+      <div class="cc"><span>resolution: independence from the source, the clock, or a pre-committed rule — never a second person who doesn't exist</span><span>the function survives; the second body doesn't need to</span></div>
+    </div>
+  </div>
+  <p style="margin-top:22px">Cadence is tiered, not uniform — this is three jobs at different
+  altitudes, not one:</p>
+  <div class="tblwrap"><table>
+    <tr><th>Tier</th><th>What it does</th><th>What it leaves for the next tier</th></tr>
+    <tr><td class="job">Recent activity</td><td class="canon">Frequent, tight-window checks against whatever the vendor just processed</td><td class="prod">Anything left ambiguous rolls to the daily pass</td></tr>
+    <tr><td class="job">Daily accounting</td><td class="canon">A full pass over the prior period, closing what the fast tier left ambiguous</td><td class="prod">Drift that survives past the day rolls to the period close</td></tr>
+    <tr><td class="job">Periodic close</td><td class="canon">A slower, wider pass — the last backstop before numbers get reported anywhere external</td><td class="prod">Nothing — this is the floor</td></tr>
+  </table></div>
+  <p class="pcap"><b>The n=1 minimum viable loop:</b> one cron job, calling the provider's "list since
+  timestamp" endpoint, diffing the returned ID set against local IDs — and <b>alerting, never
+  auto-healing</b>, on any gap that survives a grace window. Adding this loop is not a free safety
+  net: it is a second delivery path for the same business event, so the idempotency key must be
+  derived from the event's own identity, not from whichever path delivered it (I4) — trigger-design's
+  job, named here as the obligation the moment reconciliation exists.</p>
+</section>
+
+<section id="distinct">
+  <h2><svg class="lu" aria-hidden="true"><use href="#lu-search-check"/></svg>What makes this different</h2>
+  <p>Two things set <b>automation</b> apart from a technique library: it names its own wedge as
+  <b>synthesis, not discovery</b>, and it grounds its agentic-overlay claim in filed bug reports and
+  merged fixes, not vendor marketing.</p>
+  <div class="bandgrid">
+    <div class="band sub">
+      <h3><svg class="lu" aria-hidden="true"><use href="#lu-search-check"/></svg>The wedge — five literatures that don't cite each other</h3>
+      <p class="sub2">Almost nothing here is unknown. The problem is that it is known in five places
+      that have never been introduced to each other.</p>
+      <ul class="subrules">
+        <li><svg class="lu" aria-hidden="true"><use href="#lu-git-fork"/></svg><span><b>distributed systems</b> <span class="d">— idempotency, saga, delivery semantics, framed for services you own, not vendors you don't</span></span></li>
+        <li><svg class="lu" aria-hidden="true"><use href="#lu-refresh-cw"/></svg><span><b>Hohpe's Conversation Patterns</b> <span class="d">— compensation and acks for parties you don't control, 20 years old, stalled since 2017, largely unread — no reconciliation practice, no credential fleet, no cost model</span></span></li>
+        <li><svg class="lu" aria-hidden="true"><use href="#lu-scale"/></svg><span><b>fintech / ledger engineering</b> <span class="d">— reconciliation, exhaustively — never generalises past money movement</span></span></li>
+        <li><svg class="lu" aria-hidden="true"><use href="#lu-users"/></svg><span><b>enterprise GRC</b> <span class="d">— maker-checker, delegation of authority, the n=1 escape hatch — paced by quarterly certifications, never says what to decide at 3am</span></span></li>
+        <li><svg class="lu" aria-hidden="true"><use href="#lu-bot"/></svg><span><b>the 2026 agentic wave</b> <span class="d">— guardrails and iteration ceilings, framed for models, not deterministic business processes</span></span></li>
+      </ul>
+    </div>
+    <div class="band stale">
+      <h3><svg class="lu" aria-hidden="true"><use href="#lu-bot"/></svg>An agentic step fails by continuing (I12)</h3>
+      <p class="sub2">Not vendor claims — filed issues and a merged fix, which is stronger evidence
+      than any retelling.</p>
+      <ul class="subrules">
+        <li><svg class="lu" aria-hidden="true"><use href="#lu-refresh-cw"/></svg><span><b>langgraph #7417</b> <span class="d">— a long tool call is silently re-executed from checkpoint on replay. The textbook duplicate, filed as a live open bug</span></span></li>
+        <li><svg class="lu" aria-hidden="true"><use href="#lu-zap"/></svg><span><b>microsoft/autogen #7071</b> <span class="d">— the reporter's own logs print "Termination condition evaluated to: True" and the stream keeps processing indefinitely. Not erroring — continuing after its own stop signal</span></span></li>
+        <li><svg class="lu" aria-hidden="true"><use href="#lu-shield-check"/></svg><span><b>CrewAI PR #6370</b> <span class="d">— merged; adds a hard ceiling of 500 on <code>max_iter</code> (default stays 25) and a 100-hop flow-router cap, citing CWE-770 and CWE-835</span></span></li>
+      </ul>
+      <p style="font-size:13px; color:var(--muted); margin:10px 0 0"><b style="color:var(--ink)">The refined claim:</b> an agentic step fails by continuing <i>by default</i>. It fails loudly only to the extent someone bolted a deterministic ceiling onto it — and the mechanism that makes failure loud again is itself a deterministic guardrail, not the model's own restraint.</p>
+    </div>
+  </div>
 </section>
 
 <section id="laws">
-  <h2><svg class="lu" aria-hidden="true"><use href="#lu-shield-check"/></svg>The non-negotiable laws</h2>
-  <p>These govern everything in the references below — the load-bearing ones, condensed.</p>
+  <h2><svg class="lu" aria-hidden="true"><use href="#lu-shield-check"/></svg>The universal invariants</h2>
+  <p>References cite these by number; the numbering is canonical. These rules govern every route,
+  whichever files it loads.</p>
   <ul class="rules">
-    <li><b><svg class="lu" aria-hidden="true"><use href="#lu-layers"/></svg>TODO law 1</b>TODO one to two sentences.</li>
-    <li><b><svg class="lu" aria-hidden="true"><use href="#lu-sliders-horizontal"/></svg>TODO law 2</b>TODO one to two sentences.</li>
-    <li><b><svg class="lu" aria-hidden="true"><use href="#lu-gauge"/></svg>TODO law 3</b>TODO one to two sentences, as a full-width capstone if it's the closing rule.</li>
+    <li><b><svg class="lu" aria-hidden="true"><use href="#lu-scale"/></svg>I1 — Reconcile against the vendor's state</b>Never your own record of what you told it. An ack is not evidence; a missed webhook leaves no trace.</li>
+    <li><b><svg class="lu" aria-hidden="true"><use href="#lu-shield-alert"/></svg>I2 — Your own record isn't proof it happened</b>Log the raw event and your interpretation as two separate facts, so a completion check can be falsified, not just confirmed.</li>
+    <li><b><svg class="lu" aria-hidden="true"><use href="#lu-refresh-cw"/></svg>I3 — Compensation is forward, not a rollback</b>A refund is not an un-charge. Where none exists, perform the hardest-to-revert action last.</li>
+    <li><b><svg class="lu" aria-hidden="true"><use href="#lu-zap"/></svg>I4 — Derive the idempotency key from the event</b>Not the trigger mechanism. The same event by webhook and by reconciliation poll must collapse to one.</li>
+    <li><b><svg class="lu" aria-hidden="true"><use href="#lu-arrow-left-right"/></svg>I5 — Assume your cursor can't see deletes</b>Unless the vendor names a mechanism — then check its retention window.</li>
+    <li><b><svg class="lu" aria-hidden="true"><use href="#lu-users"/></svg>I6 — At n=1, independence comes from the source</b>The source, the clock, or a pre-committed rule — never a second person who doesn't exist.</li>
+    <li><b><svg class="lu" aria-hidden="true"><use href="#lu-lock"/></svg>I7 — Credential health is its own monitored resource</b>Checked on its own schedule, independent of whether any workflow happened to run.</li>
+    <li><b><svg class="lu" aria-hidden="true"><use href="#lu-eye"/></svg>I8 — A stopped workflow is not a failed one</b>No engine alerts by default; the missing-heartbeat signal is yours to build.</li>
+    <li><b><svg class="lu" aria-hidden="true"><use href="#lu-refresh-cw"/></svg>I9 — Know if your engine resumes or restarts</b>Restart-only plus an irreversible early step is a duplicate generator on every retry.</li>
+    <li><b><svg class="lu" aria-hidden="true"><use href="#lu-coins"/></svg>I10 — The quota is the vendor's</b>Exhausting it is an availability event you can't fix by paying faster; the blast radius is every flow on the account.</li>
+    <li><b><svg class="lu" aria-hidden="true"><use href="#lu-zap"/></svg>I11 — Retrying into a 429 makes it worse</b>Converts a transient failure into a sustained ban. Backoff with jitter, honour <code>Retry-After</code>.</li>
+    <li><b><svg class="lu" aria-hidden="true"><use href="#lu-bot"/></svg>I12 — An agentic step fails by continuing</b>It fails loudly only where someone bolted a deterministic ceiling onto it.</li>
+    <li><b><svg class="lu" aria-hidden="true"><use href="#lu-users"/></svg>I13 — Timeout policy is a decision, not a default</b>No engine ships one. Name deny / allow / escalate before the gate goes live.</li>
+    <li><b><svg class="lu" aria-hidden="true"><use href="#lu-route"/></svg>I14 — Prefer the API</b>Where there is none, you've bought a maintenance liability with no deprecation notice.</li>
+    <li><b><svg class="lu" aria-hidden="true"><use href="#lu-clock"/></svg>I15 — Date-stamp every volatile vendor fact</b>Limits, retry schedules, retention windows, prices, and licences churn — and name the interest of anyone selling what they measure, including when it makes their own claim stronger.</li>
   </ul>
 </section>
 
-<section id="pick">
-  <h2><svg class="lu" aria-hidden="true"><use href="#lu-clipboard-list"/></svg>Pick by job</h2>
-  <p>The SKILL.md is a router — load only the reference your current job needs. A condensed cut of the full table:</p>
-  <div class="tblwrap"><table>
-    <tr><th>I need to…</th><th>Read</th></tr>
-    <tr><td>TODO job 1</td><td><code><a href="https://github.com/gabros20/automation-skill/blob/main/skills/automation/references/example.md">example.md</a></code></td></tr>
-    <tr><td>TODO job 2</td><td><code><a href="https://github.com/gabros20/automation-skill/blob/main/skills/automation/references/example.md">example.md</a></code></td></tr>
-  </table></div>
-  <p style="margin-top:12px">Full table: <a href="https://github.com/gabros20/automation-skill/blob/main/skills/automation/SKILL.md#route-before-acting">SKILL.md</a>.</p>
-  <div class="note"><b>Complementary, not duplicated:</b> TODO — name the adjacent skills this one hands off to instead of duplicating.</div>
+<section id="artifacts">
+  <h2><svg class="lu" aria-hidden="true"><use href="#lu-file-check"/></svg>What a pass produces</h2>
+  <p>automation's core workflow runs against whatever upstream artifacts exist — a business rule from
+  <code>product</code>, a contract from <code>backend</code>, an NFR budget from
+  <code>architecture</code> — and says so explicitly when none were supplied, rather than inventing
+  one.</p>
+  <div class="vloop" aria-label="the automation core workflow">
+    <div class="vstep"><span class="n">step 1</span><span class="t"><svg class="lu" aria-hidden="true"><use href="#lu-route"/></svg>route</span><span class="d">primary job + base surface; agentic overlay added only if a model decides or triggers</span></div>
+    <div class="vstep"><span class="n">step 2</span><span class="t"><svg class="lu" aria-hidden="true"><use href="#lu-clipboard-list"/></svg>name the rule</span><span class="d">state the business rule and its owner — or say plainly none was supplied</span></div>
+    <div class="vstep"><span class="n">step 3</span><span class="t"><svg class="lu" aria-hidden="true"><use href="#lu-refresh-cw"/></svg>inventory</span><span class="d">every irreversible step first; hardest-to-revert runs last (I3)</span></div>
+    <div class="vstep"><span class="n">step 4</span><span class="t"><svg class="lu" aria-hidden="true"><use href="#lu-scale"/></svg>key + reconcile</span><span class="d">idempotency key from the business event (I4); the reconciliation loop, cadence, and escalation (I1)</span></div>
+    <div class="vstep"><span class="n">step 5</span><span class="t"><svg class="lu" aria-hidden="true"><use href="#lu-users"/></svg>gate + learn</span><span class="d">a named timeout policy before any gate ships (I13); how you'll learn it stopped (I8)</span></div>
+    <div class="vstep"><span class="n">step 6</span><span class="t"><svg class="lu" aria-hidden="true"><use href="#lu-file-check"/></svg>record</span><span class="d">cost per run with a ceiling (I10); handoff when downstream work is expected</span></div>
+  </div>
+  <div class="artgrid">
+    <div class="art">
+      <h3><svg class="lu" aria-hidden="true"><use href="#lu-refresh-cw"/></svg>Irreversibility inventory</h3>
+      <span class="file">assets/irreversibility-inventory.md</span>
+      <p>One row per step that reaches outside your system, in <b>three tiers</b> — reverses cleanly, compensable only, cannot be taken back — filled before the run order is decided, not after.</p>
+    </div>
+    <div class="art">
+      <h3><svg class="lu" aria-hidden="true"><use href="#lu-scale"/></svg>Reconciliation worksheet</h3>
+      <span class="file">assets/reconciliation-worksheet.md</span>
+      <p>The vendor's authoritative source, cadence, comparison method, and tolerance — fixed <b>before</b> the loop's first cycle, not after a month of unread exceptions.</p>
+    </div>
+    <div class="art">
+      <h3><svg class="lu" aria-hidden="true"><use href="#lu-lock"/></svg>Credential register</h3>
+      <span class="file">assets/credential-register.md</span>
+      <p>One row per externally-issued credential — detection method written <b>before</b> the mitigation. Never records a real key, token, or secret value.</p>
+    </div>
+    <div class="art">
+      <h3><svg class="lu" aria-hidden="true"><use href="#lu-users"/></svg>Approval policy card</h3>
+      <span class="file">assets/approval-policy-card.md</span>
+      <p>Who may approve, requester ≠ approver, and the timeout default — filled <b>before</b> the gate goes live, not the first time a request times out.</p>
+    </div>
+    <div class="art">
+      <h3><svg class="lu" aria-hidden="true"><use href="#lu-zap"/></svg>Trigger audit sheet</h3>
+      <span class="file">assets/trigger-audit-sheet.md</span>
+      <p>One row per trigger — the business event it stands for, DST behavior, other paths on the same event, self-audited before calling trigger design done.</p>
+    </div>
+    <div class="art">
+      <h3><svg class="lu" aria-hidden="true"><use href="#lu-coins"/></svg>Run cost table</h3>
+      <span class="file">assets/run-cost-table.md</span>
+      <p>Billing unit named before the number; a monthly ceiling, a circuit breaker, and the blast radius if the quota is exhausted — <b>this workflow, this account, or the vendor's shared bucket.</b></p>
+    </div>
+    <div class="art">
+      <h3><svg class="lu" aria-hidden="true"><use href="#lu-git-fork"/></svg>handoff.yaml</h3>
+      <span class="file">assets/handoff.yaml</span>
+      <p>The routing companion carrying irreversible steps, idempotency, the reconciliation loop, credentials, human gates, evidence, and every volatile fact with its re-verify trigger.</p>
+    </div>
+  </div>
 </section>
 
-<section id="refs">
-  <h2><svg class="lu" aria-hidden="true"><use href="#lu-files"/></svg>Reference map</h2>
-  <p>TODO: how many references, grouped by the stage/strategy they serve. Every one is copy-pasteable rather than abstract — the whole point of the router is that you never read all of them at once.</p>
-  <dl class="refmap">
-    <div class="refrow">
-      <dt class="reflabel"><svg class="lu" aria-hidden="true"><use href="#lu-sliders-horizontal"/></svg>TODO stage 1<span class="ct">1</span></dt>
-      <dd class="refchips"><span class="ref"><code>example.md</code></span></dd>
+<section id="handoff">
+  <h2><svg class="lu" aria-hidden="true"><use href="#lu-git-fork"/></svg>The handoff seams</h2>
+  <p>automation consumes upstream artifacts without silently overriding them — the business rule from
+  <code>product</code>, a contract from <code>backend</code>, an NFR budget from
+  <code>architecture</code> — and says so explicitly when none exist, rather than inventing a rule or
+  a target to fill the gap. It is rarely terminal: it emits a compact <code>handoff.yaml</code>
+  beside the workflow artifacts whenever downstream work is expected.</p>
+  <div class="seam">
+    <div class="seambox">
+      <h3><svg class="lu" aria-hidden="true"><use href="#lu-file-check"/></svg>automation builds</h3>
+<pre class="seamyaml"><span class="k">objective</span>: <span class="v">&lt;one sentence&gt;</span>
+<span class="k">surface</span>: <span class="v">base + agentic?</span>
+<span class="req">irreversible_steps</span>: <span class="v">[step, order,</span>
+  <span class="v">compensation, resume_or_restart]</span>
+<span class="req">reconciliation_loop</span>: <span class="v">exists,</span>
+  <span class="v">compares, cadence, on_discrepancy</span>
+<span class="k">credentials</span>: <span class="v">[vendor, expires,</span>
+  <span class="v">refresh_mechanism]</span>
+<span class="k">human_gates</span>: <span class="v">[approvers, timeout,</span>
+  <span class="v">on_timeout]</span></pre>
     </div>
-  </dl>
-  <p style="margin-top:16px">Browse the full set: <a href="https://github.com/gabros20/automation-skill/tree/main/skills/automation/references">skills/automation/references/</a>.</p>
+    <div class="seamarrows"><span>→</span><span>→</span></div>
+    <div class="downstream">
+      <div class="seambox mid">
+        <h3><svg class="lu" aria-hidden="true"><use href="#lu-server"/></svg>operate</h3>
+        <p>The deployed process to run and watch — plus the missing-heartbeat gap this skill
+        deliberately leaves unfilled by default (I8), and credential expiries that need their own
+        monitored schedule (I7).</p>
+      </div>
+      <div class="seambox mid">
+        <h3><svg class="lu" aria-hidden="true"><use href="#lu-arrow-left-right"/></svg>quality</h3>
+        <p>Every claim this skill made about its own reliability — a step is idempotent, the
+        reconciliation loop actually catches drift, a timeout policy is enforced — as something to
+        independently verify, not to re-run and call independent.</p>
+      </div>
+      <div class="seambox mid">
+        <h3><svg class="lu" aria-hidden="true"><use href="#lu-server"/></svg>backend <span style="color:var(--muted); font-weight:400">(lateral)</span></h3>
+        <p>Owns the idempotency-key primitive, queues, outbox, and saga <b>inside</b> a system you
+        control; automation applies the same discipline across a boundary you don't, and hands back
+        a contract violation rather than silently working around it.</p>
+      </div>
+    </div>
+  </div>
+  <p class="seamnote"><svg class="lu" aria-hidden="true"><use href="#lu-shield-alert"/></svg><span><b>A standalone request with no downstream consumer needs no handoff.yaml at all.</b> Only <code>objective</code> is required — every other field may be empty, and a consumer must tolerate it absent, never treat absence as a schema violation. <code>reconciliation_loop.exists: no</code> is a valid, required answer when there is no loop; leaving the block blank is not the same statement. Never silently invoke a sibling skill — name it in <code>recommended_next</code>.</span></p>
 </section>
 
 <section id="start">
   <h2><svg class="lu" aria-hidden="true"><use href="#lu-file-input"/></svg>Start here</h2>
-  <p>Install once. It's a plain <code>SKILL.md</code> router — no flags, no config, no scripts —
-  so it activates on natural-language phrasing (TODO: a couple of real trigger examples) rather
-  than a fixed command.</p>
+  <p>Install once. It's a plain <code>SKILL.md</code> router — no flags, no config, no scripts — so it
+  activates on natural-language phrasing ("was the webhook ever sent," "set up nightly reconciliation
+  before we close the books," "the refund double-charged someone, what's the compensating action")
+  rather than a fixed command.</p>
   <div class="term"><span class="c"># skills.sh ecosystem</span>
 npx skills add gabros20/automation-skill
 
 <span class="c"># clone + installer (per-host targets)</span>
-git clone https://github.com/gabros20/automation-skill && cd automation-skill
-./install.sh codex   <span class="c"># or: claude | agents | cursor | antigravity | opencode | grok | hermes | all</span>
+git clone https://github.com/gabros20/automation-skill &amp;&amp; cd automation-skill
+./install.sh codex   <span class="c"># or: claude | cursor | antigravity | opencode | grok | hermes | agents | all</span>
 
-<span class="c"># use</span>
-<span class="p">/automation</span> TODO — a real, short invocation example
-<span class="p">/automation</span> TODO — a second real, short invocation example</div>
+<span class="c"># use — natural language, any host</span>
+<span class="p">/automation</span> the Stripe charge succeeded but the CRM record never got created — was the webhook ever sent?
+<span class="p">/automation</span> set up a nightly reconciliation between our order table and Shopify before we close the books
+<span class="p">/automation</span> the refund automation double-charged a customer — what's the compensating action, not a rollback?   <span class="c"># → compensation-and-recovery.md</span></div>
   <p style="margin-top:14px">The same install runs on any <a href="https://agentskills.io">Agent&nbsp;Skills</a>
-  host. Codex installs to <code>${CODEX_HOME:-$HOME/.codex}/skills</code>; <code>agents</code>
-  remains a separate cross-agent installation target.</p>
+  host. Codex installs to <code>${CODEX_HOME:-$HOME/.codex}/skills</code> and triggers with
+  <code>$automation</code>; <code>agents</code> remains a separate cross-agent installation target.</p>
   <details class="disc">
     <summary>install targets by host</summary>
     <div>
       <div class="tblwrap"><table>
         <tr><th>host</th><th>install target</th><th>command</th></tr>
-        <tr><td class="dim">Claude Code</td><td><code>~/.claude/skills</code></td><td><code>./install.sh claude</code></td></tr>
-        <tr><td class="dim">Codex</td><td><code>${CODEX_HOME:-$HOME/.codex}/skills</code></td><td><code>./install.sh codex</code></td></tr>
-        <tr><td class="dim">Cross-agent path</td><td><code>~/.agents/skills</code></td><td><code>./install.sh agents</code></td></tr>
-        <tr><td class="dim">Cursor CLI</td><td><code>~/.cursor/skills</code></td><td><code>./install.sh cursor</code></td></tr>
-        <tr><td class="dim">Antigravity (IDE + agy)</td><td><code>~/.gemini/…/skills</code></td><td><code>./install.sh antigravity</code></td></tr>
-        <tr><td class="dim">opencode</td><td><code>~/.config/opencode/skills</code></td><td><code>./install.sh opencode</code></td></tr>
-        <tr><td class="dim">Grok Build</td><td><code>~/.grok/skills</code></td><td><code>./install.sh grok</code></td></tr>
-        <tr><td class="dim">Hermes</td><td><code>~/.hermes/skills</code></td><td><code>./install.sh hermes</code></td></tr>
+        <tr><td class="job">Claude Code</td><td><code>~/.claude/skills</code></td><td><code>./install.sh claude</code></td></tr>
+        <tr><td class="job">Codex</td><td><code>${CODEX_HOME:-$HOME/.codex}/skills</code></td><td><code>./install.sh codex</code></td></tr>
+        <tr><td class="job">Cross-agent path</td><td><code>~/.agents/skills</code></td><td><code>./install.sh agents</code></td></tr>
+        <tr><td class="job">Cursor CLI</td><td><code>~/.cursor/skills</code></td><td><code>./install.sh cursor</code></td></tr>
+        <tr><td class="job">Antigravity (IDE + agy)</td><td><code>~/.gemini/…/skills</code></td><td><code>./install.sh antigravity</code></td></tr>
+        <tr><td class="job">opencode</td><td><code>~/.config/opencode/skills</code></td><td><code>./install.sh opencode</code></td></tr>
+        <tr><td class="job">Grok Build</td><td><code>~/.grok/skills</code></td><td><code>./install.sh grok</code></td></tr>
+        <tr><td class="job">Hermes</td><td><code>~/.hermes/skills</code></td><td><code>./install.sh hermes</code></td></tr>
       </table></div>
       <p style="margin-top:12px">Prefer <code>npx skills add gabros20/automation-skill</code> when you have Node — it maps supported clients itself.</p>
     </div>
@@ -337,9 +861,9 @@ git clone https://github.com/gabros20/automation-skill && cd automation-skill
   <details class="disc">
     <summary>what's in the repo</summary>
     <div>
-      <div class="files"><span class="hl">skills/automation/</span>          <span class="d">the skill: SKILL.md (router) + references/</span>
+      <div class="files"><span class="hl">skills/automation/</span>          <span class="d">the skill: SKILL.md (router) + 18 references/ + assets/</span>
 <span class="hl">docs/</span>                      <span class="d">installation · usage · recipes</span>
-<span class="hl">site/</span>                      <span class="d">optional guide — deploys to automation-skill.vercel.app</span>
+<span class="hl">site/</span>                      <span class="d">this guide — deploys to automation-skill.vercel.app</span>
 install.sh                 <span class="d">installer (claude | codex | cursor | antigravity | opencode | grok | hermes | agents | all)</span>
 README.md · CHANGELOG.md · LICENSE</div>
       <p>More docs: <a href="https://github.com/gabros20/automation-skill/blob/main/docs/installation.md">docs/installation.md</a> ·
@@ -356,11 +880,10 @@ README.md · CHANGELOG.md · LICENSE</div>
 </div>
 <script>
 (function () {
-  // Progressive enhancement over the static .arcline fallback above: swaps in the
-  // hero Remotion video (light/dark). On any load error it removes the
-  // slot and leaves the static arc line in place.
+  // Progressive enhancement over the static router fallback above: swaps in the hero Remotion
+  // video (light/dark). On any load error it removes the slot, leaving the static router in place.
   if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  if (innerWidth < 720) return; // the static line reads better on phones
+  if (innerWidth < 720) return; // the static router reads better on phones
   var wrap = document.getElementById("vidwrap");
   if (!wrap || !document.createElement("video").canPlayType) return;
   var mq = matchMedia("(prefers-color-scheme: dark)");
@@ -370,7 +893,7 @@ README.md · CHANGELOG.md · LICENSE</div>
   v.autoplay = true;
   v.playsInline = true;
   v.setAttribute("playsinline", "");
-  v.setAttribute("aria-label", "TODO: describe what the hero animation shows.");
+  v.setAttribute("aria-label", "The automation skill in motion: the claim that a deployed webhook handler is done gets corrected into ack, silence, and reconcile — an ack is not evidence, and a webhook that never arrives leaves no trace in your own logs; two tracks, your record and the vendor's authoritative state, drift silently apart when a delivery is dropped; the flagship image resolves the drift through a periodic reconciliation loop that diffs the ID set and classifies every discrepancy into matched, within-tolerance, or exception, never binary; the faceted router composes one primary job with at most one base surface, hosted iPaaS by default, plus the additive agentic overlay for when a model decides or triggers; three filed GitHub issues — a silent checkpoint replay, a stop signal that doesn't stop, and a merged 500-iteration ceiling — show an agentic step fails by continuing unless someone bolts a deterministic ceiling onto it; and a bidirectional handoff carries irreversible steps, the reconciliation loop, and credential health back to operate and quality while automation itself deploys nothing and fixes no code inside a system it doesn't own.");
   v.addEventListener("loadeddata", function () { document.body.classList.add("has-vid"); });
   v.addEventListener("error", function () { wrap.remove(); });
   function apply() {

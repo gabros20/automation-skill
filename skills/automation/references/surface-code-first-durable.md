@@ -61,8 +61,9 @@ code with a build step, a deploy target, and a runtime process (a worker, a dev 
 function) that must itself stay up. Two siblings become relevant in a way they are not on a visual
 builder:
 
-- **`backend`** — the workflow's code is ordinary application code once it's written: it wants code
-  review, its own test suite, and the same craft discipline as any other service. `automation` writes
+- **`backend`** — the workflow's code is ordinary application code once it's written: it becomes
+  reviewable if there is a second pair of eyes to review it, and it wants its own test suite and the
+  same craft discipline as any other service regardless. `automation` writes
   the workflow logic and its idempotency/compensation decisions; it does not re-teach `backend`'s
   testing or persistence practice for the code housing them.
 - **`operate`** — something must deploy this code, run the worker/engine process, and notice if it
@@ -80,10 +81,10 @@ side (I15).
 | Engine | Resume mechanism | What survives a crash/retry |
 |---|---|---|
 | **Temporal** | Event-sourced replay is the core execution mechanism, not an add-on — every continuation *is* a replay of history. | Only in-flight (not-yet-completed) Activities re-execute; completed ones are not repeated. |
-| **Inngest** | `step.run()` memoization: *"When step.run() finishes successfully, the response is saved in the function run state and the step will not re-run."* | Step-level — a retried/resumed function skips already-completed steps by design. |
-| **Restate** | Journal-based, invocation-level replay: *"skips completed steps and resumes from exactly where it left off."* Also ships a first-class idempotency-key header — duplicate requests return the identical prior result, the cleanest built-in dedup primitive of the tier (relevant to I4). | Whole invocation, journal-backed. |
-| **Cloudflare Workflows** | Memoization: *"Steps should be named deterministically... This ensures that their state is cached, and prevents the step from being rerun unnecessarily. Step names act as the 'cache key.'"* | Same family as Temporal — completed steps skipped on re-entry. |
-| **AWS Step Functions** | **Redrive**: *"Step Functions continues the failed execution from the unsuccessful step and uses the same input. Step Functions preserves the results and execution history of the successful steps, which are not rerun."* Eligible within 14 days of completion, execution not `SUCCEEDED`, under 1 year open, under 24,999 history events; retry counts reset to 0 on redrive. | The strongest resume primitive of the six — an explicit, bounded, named recovery path rather than an implicit replay side effect. |
+| **Inngest** | `step.run()` memoization — once a step completes successfully, its result is saved in the function's run state, and that step is skipped rather than re-executed on any later resume of the same run. | Step-level — a retried/resumed function skips already-completed steps by design. |
+| **Restate** | Journal-based, invocation-level replay: completed steps are skipped and execution resumes from wherever it left off. Also ships a first-class idempotency-key header — duplicate requests return the identical prior result, the cleanest built-in dedup primitive of the tier (relevant to I4). | Whole invocation, journal-backed. |
+| **Cloudflare Workflows** | Memoization keyed on deterministic step names: a step's result is cached under its name, so re-entry skips any step whose name already has a cached result. | Same family as Temporal — completed steps skipped on re-entry. |
+| **AWS Step Functions** | **Redrive**: resumes a failed execution from the unsuccessful step using the same input, and preserves the results and history of the steps that already succeeded rather than rerunning them. Eligibility is bounded by execution age, elapsed time since completion, and history-event count, all vendor-defined — read AWS's current limits before relying on it rather than assuming a fixed window; retry counts reset to zero on redrive. | The strongest resume primitive of the six — an explicit, bounded, named recovery path rather than an implicit replay side effect. |
 | **Trigger.dev** | **Not independently verified this session** — the fetched docs page covered retry/error semantics only; no resume-vs-restart claim was confirmed. Apache-2.0, self-hostable, live (pushed within 72h as of 2026-07-27, per the licence/liveness check). | **Gap, not a claim.** Re-verify against `trigger.dev/docs` before relying on any specific resume behaviour. |
 
 ## The Azure Durable Functions boundary case

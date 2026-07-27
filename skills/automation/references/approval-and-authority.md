@@ -38,7 +38,7 @@ Produces:
 - 3. Escalation, audit evidence, and bulk-approval as an anti-pattern
 - 4. The n=1 collapse — and where the resolution actually lives
 - 5. Timeout policy is a decision, not a config default (I13)
-- 6. The living proof: zero self-approval enforcement, shipped this week
+- 6. The living proof: zero self-approval enforcement, live as of 2026-07-27 (re-verify)
 - 7. Boundary: what belongs to `ai` instead
 
 ## Procedure
@@ -116,7 +116,7 @@ Name the decision before the gate goes live, per action class:
   decision by silence. This is the right default where a real second approver exists above the first;
   it is not a substitute for a decision at n=1, where there is nowhere to escalate to.
 
-### 6. The living proof: zero self-approval enforcement, shipped this week
+### 6. The living proof: zero self-approval enforcement, live as of 2026-07-27 (re-verify)
 `agentkitai/agentgate` (MIT license) is a real, production human-approval gate for agent actions —
 a policy engine plus chat routing plus an audit trail. Reading its authorization check directly
 (`rbac.ts`): `hasAgentGatePermission()` checks only whether a user holds the `approvals:decide`

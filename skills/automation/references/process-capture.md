@@ -82,7 +82,7 @@ think I built" against a small, stable vocabulary instead of reasoning from scra
 academic anchor is the 2003 workflow-patterns catalogue (van der Aalst, ter Hofstede, Kiepuszewski,
 Barros, "Workflow Patterns," *Distributed and Parallel Databases*, 2003; later collected as the 2016
 MIT Press book of the same name). Cite that, not workflowpatterns.com — the site no longer serves a
-working page.
+working page (verified 2026-07-27, re-verify).
 
 Eight patterns are worth having, at the altitude of someone building on top of an engine rather than
 building one:
@@ -140,9 +140,10 @@ because it isn't consuming a contract the vendor committed to — it is imitatin
 through a page that owes it nothing. The published critique of exactly this failure mode — MIT Sloan
 Management Review, Chris DeBrusk, "Five Robotic Process Automation Risks to Avoid," 2017-10-24 (name
 the interest: DeBrusk was an Oliver Wyman partner — a transformation-consulting interest, not an
-RPA-vendor one, milder but real) — names the same shape independently: this class of automation "lacks
-the ability to autonomously adapt to new conditions" and creates "a more complex maintenance
-environment" than the software it automates around. Teach the boundary, not the scraping tools:
+RPA-vendor one, milder but real; quoted here via Wikipedia's citation of the piece) — names the same
+shape independently: this class of automation creates "a more complex maintenance environment" than
+the software it automates around, and cannot adapt on its own when the underlying process changes out
+from under it. Teach the boundary, not the scraping tools:
 knowingly choosing UI automation because no API exists is a legitimate, bounded decision; not noticing
 you made that choice is the failure.
 

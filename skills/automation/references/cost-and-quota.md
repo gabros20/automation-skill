@@ -17,7 +17,8 @@ Skip when:
 - The runaway is an agentic step specifically and the question is its failure semantics, not its
   cost — [surface-agentic.md](surface-agentic.md) (I12).
 - You need the general cost-as-availability-control framing itself, not its cross-vendor extension —
-  `operate`'s `capacity-and-cost.md` (I7), which this file extends rather than repeats.
+  `operate`'s cost-is-an-availability-control invariant, in `operate`'s `capacity-and-cost.md`, which
+  this file extends rather than repeats.
 
 Inputs: the workflows in scope, their billing unit on the platform they run on, and whatever spend
 visibility the platform already exposes.
@@ -26,7 +27,8 @@ kill mechanism — recorded in [run-cost-table.md](../assets/run-cost-table.md).
 
 ## Contents
 
-- Extending I7: cost scales with complexity here, not just activity
+- Extending `operate`'s cost-is-an-availability-control invariant: cost scales with complexity here,
+  not just activity
 - I10 — the quota is the vendor's
 - The runaway classes
 - The workflow circuit breaker
@@ -35,11 +37,11 @@ kill mechanism — recorded in [run-cost-table.md](../assets/run-cost-table.md).
 - The n=1 minimum
 - Failure modes and handoff
 
-## Extending I7: cost scales with complexity here, not just activity
+## Extending `operate`'s cost-is-an-availability-control invariant: cost scales with complexity here, not just activity
 
-`operate`'s I7 already establishes the frame this file builds on: **cost is an availability control,
-not a finance report; cap anything whose spend scales with activity rather than with users.** That
-holds here unchanged — cite it, don't re-derive it.
+`operate`'s cost-is-an-availability-control invariant already establishes the frame this file builds
+on: **cost is an availability control, not a finance report; cap anything whose spend scales with
+activity rather than with users.** That holds here unchanged — cite it, don't re-derive it.
 
 The automation-specific twist is the billing unit. Per-task or per-operation billing, which most
 hosted iPaaS platforms use, means cost scales with **workflow complexity** as much as with usage
@@ -110,8 +112,10 @@ plan's task allotment is hit, offers replay once tasks are available again, and 
 approaching-limit email before the ceiling is reached (help.zapier.com, verified 2026-07-27) — a
 genuinely well-designed ceiling behaviour, not a silent cliff. n8n's overage model is similarly
 non-destructive: workflows keep running past the plan's included execution quota, with overage billed
-rather than blocked, and unresolved overage isn't invoiced until 45 days out (n8n.io/pricing, verified
-2026-07-27) — a long enough window to notice and act before it becomes a bill.
+rather than blocked, and the overage invoice itself lags behind the usage that generated it rather than
+landing immediately (n8n.io/pricing, verified 2026-07-27) — a window to notice and act before it becomes
+a bill, though the exact lag varies by plan tier and is worth confirming against your own plan rather
+than assumed.
 
 **That same good behaviour does not extend to loops.** Neither Zapier's nor Workato's own docs
 describe an automatic stop for a cross-system A→B→A loop — both hand the problem back to the operator:
@@ -193,10 +197,13 @@ The mitigations, in order of how much each one costs to skip:
 
 **Rate-limit schemes differ by vendor, and that difference matters more than any general rule above.**
 GitHub's REST API is a clean illustration of why reading the specific vendor's own limit documentation
-is not optional: alongside its published numeric ceilings — **60/hr unauthenticated, 5,000/hr for an
-authenticated personal-access-token request, 5,000/hr for a non-Enterprise GitHub App installation, and
-1,000/hr per repository for the `GITHUB_TOKEN` used inside Actions** (docs.github.com, verified
-2026-07-27) — GitHub's own docs add a second, deliberately undocumented layer on top: *"These secondary
+is not optional: the ceiling is tiered by how the request is authenticated — unauthenticated requests
+get the smallest allotment, an authenticated personal-access-token request or a non-Enterprise GitHub
+App installation get the same larger one, and the `GITHUB_TOKEN` used inside Actions is capped
+per-repository at **1,000/hr** (docs.github.com, verified 2026-07-27) — the one anchor worth
+remembering, since it's the figure most likely to bind an automation's own workflow runs. Read your
+own tier's number rather than trusting this list once it's more than a quarter old. On top of the
+published ceilings, GitHub's own docs add a second, deliberately undocumented layer: *"These secondary
 rate limits are subject to change without notice. You may also encounter a secondary rate limit for
 undisclosed reasons."* A vendor stating outright that you cannot know all of its limits is the clearest
 possible argument against tuning a retry policy to skim just under a published number — back off
@@ -233,7 +240,8 @@ defensible floor:
 - Assuming a well-designed quota ceiling implies a loop breaker is the specific mistake this file warns
   against above — a platform can get task-holding and overage billing right and still ship no automatic
   stop for a cross-system loop. Verify each mechanism separately; a vendor's competence in one area is
-  not evidence for the other, the same discipline §5 already establishes for default alerting (I8).
+  not evidence for the other, the same discipline the workflow-circuit-breaker section above already
+  establishes for default alerting (I8).
 - If a cost review surfaces that a workflow's design is the actual problem — an unbounded loop, a
   trigger that's simply wrong — route the fix to [trigger-design.md](trigger-design.md),
   [sync-semantics.md](sync-semantics.md), or [surface-agentic.md](surface-agentic.md) as appropriate;

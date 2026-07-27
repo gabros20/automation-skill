@@ -101,8 +101,9 @@ platform whose documentation is silent (n8n), no check can be designed against a
 because none was ever stated. Do not hand-wave this as one generic "cron has DST issues" line.
 
 ### 4. The silent-stop schedule
-Independent of DST: GitHub Actions auto-disables scheduled workflows on a repository after **60 days
-of inactivity** — a silent-stop mode specific to this platform, not a DST issue. This is exactly the
+Independent of DST: **GitHub Actions auto-disables scheduled workflows on public repositories after
+60 days of repository inactivity** (verified 2026-07-27, re-verify) — a silent-stop mode specific to
+this platform, not a DST issue. This is exactly the
 class of failure [workflow-observability](workflow-observability.md) exists to catch (I8, "a workflow
 that stopped is not a workflow that failed") — cite that reference for the detection mechanism rather
 than re-deriving a heartbeat check here.

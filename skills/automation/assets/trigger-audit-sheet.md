@@ -16,7 +16,7 @@ stated reason (e.g. "N/A — manual trigger, no schedule to check").
 ## Column definitions
 - **Business event it stands for**: one sentence, in business vocabulary, not implementation
   vocabulary ("invoice #4471 marked paid," not "webhook received on `/hooks/stripe`"). This is the
-  identity §7 of [trigger-design](../references/trigger-design.md) requires the idempotency key to be
+  identity §5 of [trigger-design](../references/trigger-design.md) requires the idempotency key to be
   derived from.
 - **False-positive class named?**: the "what else could make this true" check from
   [trigger-design](../references/trigger-design.md) §2 — a positive match on a keyword or field value

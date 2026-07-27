@@ -21,8 +21,8 @@ Skip when:
 - The question is what this will cost to run, not which tier to run it on —
   [cost-and-quota.md](cost-and-quota.md) (I10, I11).
 
-Inputs: the irreversible-step inventory (I3), whether the team can and will operate infrastructure,
-and expected run volume and growth.
+Inputs: the irreversible-step inventory (I3), whether there is anyone — a team, or you alone — who
+can and will operate infrastructure, and expected run volume and growth.
 Produces: a tier decision with its resume-capability, default-alerting posture, licence, and exit cost
 recorded against it — not just a vendor name.
 
@@ -46,7 +46,7 @@ next year.
 |---|---|---|---|
 | **Hosted iPaaS** (Zapier/Make-class) | A visual builder, a pre-built connector catalogue, and execution you don't operate. Fastest path from zero to a running workflow. | No distributable core — there is no local artifact to inspect, fork, version-control, or migrate off of a repo for. Per-run pricing that scales with volume, not with the value the workflow delivers. | Low-to-moderate volume, shallow branching logic, a non-technical team, and coverage by the vendor's connector catalogue. This is the default base surface for exactly that reason. |
 | **Self-hosted engine** (n8n/Windmill/Activepieces/Kestra-class) | You run the engine on your own infrastructure — version control, code review, and CI over the workflow definition become possible. | Someone operates the engine: patching, scaling, backup. "Self-hosted" answers *where it runs*, not *what you're allowed to do with it* — see licence below. | A team that can and will run infrastructure, and wants version-controlled workflow logic without going fully code-first. |
-| **Code-first durable execution** (Temporal/Inngest/Restate/Trigger.dev/Cloudflare Workflows/Step Functions-class) | The workflow is code: diffable, testable in the ordinary software sense, and — on the resume-capable engines — step output is preserved across a crash or retry. | Engineering time. This tier assumes a team that would rather write and test a workflow than configure one. | Volume or reliability requirements that outgrow a visual builder's retry/idempotency model, or a need for the workflow logic to go through the same review process as the rest of the codebase. |
+| **Code-first durable execution** (Temporal/Inngest/Restate/Trigger.dev/Cloudflare Workflows/Step Functions-class) | The workflow is code: diffable, testable in the ordinary software sense, and — on the resume-capable engines — step output is preserved across a crash or retry. | Engineering time. This tier assumes whoever is building would rather write and test a workflow than configure one. | Volume or reliability requirements that outgrow a visual builder's retry/idempotency model, or a need for the workflow logic to go through the same review process as the rest of the codebase. |
 | **Platform-native** (Actions/cron/cloud schedulers) | The platform you're already running on becomes the scheduler — no separate engine to operate or pay for. | No durable step state and no built-in retry primitive at the platform level. Reliability properties come entirely from what you bolt on yourself. | A small number of simple, mostly-independent scheduled jobs where a whole workflow engine would be more infrastructure than the job justifies. |
 
 ## I9 — resume-capability as a first-class selection criterion

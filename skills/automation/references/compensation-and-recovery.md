@@ -70,26 +70,32 @@ pattern (*Enterprise Integration Patterns — Conversation Patterns*,
 enterpriseintegrationpatterns.com, `/patterns/conversation/CompensatingAction.html`, © 2003, 2023,
 CC BY 4.0 on the pattern name and its bold problem/solution statements only — verified 2026-07-27,
 re-verify before quoting again since the grant is per-page, not site-wide) states the problem for
-exactly this case, verbatim:
+exactly this case. Its licensed problem and solution statements, verbatim:
 
-> "A participant is interacting with multiple, independent services, which change their state based
-> on the interaction."
+> **Problem:** "How can a requestor ensure a consistent outcome across multiple, independent
+> providers?"
+>
+> **Solution:** "The requestor performs operations optimistically. Should an operation fail, it
+> instructs the provider(s) to undo already completed operations."
 
-That sentence has described the reader of this file since 2003. The reason it feels unowned is that
-the collection is largely unread outside integration-architecture circles, not that the mechanism is
-new. Use Hohpe's name — **Compensating Action** — as the canonical term rather than inventing a house
-name for the same thing; it is both more precise and free to cite.
+*Multiple, independent providers* has described the reader of this file since 2003. The reason it
+feels unowned is that the collection is largely unread outside integration-architecture circles, not
+that the mechanism is new. Use Hohpe's name — **Compensating Action** — as the canonical term rather
+than inventing a house name for the same thing; it is both more precise and free to cite.
 
-Two more things the same pattern already settles, credited rather than reinvented:
+Two more things the same pattern already settles, credited rather than reinvented. **Both are
+paraphrased from the pattern's explanatory prose, which the CC BY grant does not cover:**
 
-- **When no compensating action exists at all**, the pattern's own guidance is to reorder the plan so
-  the least-recoverable step never has to be recovered from: *"apply PERFORM HARDEST TO REVERT ACTION
-  LAST to minimize the chances that this action has to be reverted."* This is the ordering rule the
+- **When no compensating action exists at all**, the pattern directs you to reorder the plan so the
+  least-recoverable step never has to be recovered from. Hohpe gives that ordering rule its own
+  pattern name — **Perform Hardest to Revert Action Last** — and the name is the part worth carrying,
+  because it states the whole discipline in five words. It is the ordering rule the
   [irreversibility inventory](../assets/irreversibility-inventory.md) exists to apply mechanically.
-- **Compensation may legitimately be a human act, not a system call.** Hohpe's own example: *"A
-  mailed letter to a customer can be compensated by a phone call asking the customer to ignore the
-  letter."* If the failed step's effect left your system entirely and nothing automatable can reach
-  it, a person picking up the phone is not a workaround — it is the pattern working as designed.
+- **Compensation may legitimately be a human act, not a system call.** The pattern's own illustration
+  is a letter already in the post: what undoes it is not an API call but a phone call asking the
+  recipient to disregard it. If the failed step's effect has left your systems entirely and nothing
+  automatable can reach it, a person picking up the phone is not a workaround — it is the pattern
+  working as designed.
 
 Everything past the problem/solution statements above — the pattern's worked examples, its
 discussion, its related-pattern commentary — is © 2003, 2023, all rights reserved; paraphrase it,
