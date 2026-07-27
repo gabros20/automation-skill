@@ -129,13 +129,18 @@ recursion, not feedback that runs out through a second system and back. The less
 circuit breaker scoped to a single workflow's own execution count cannot see a loop whose other half
 lives in a different system entirely.
 
-**Given that, treat two things as your own responsibility, not the platform's:** a **loop counter** —
-tracking executions of the same logical flow within a window and halting past a threshold you set,
-not the vendor's — and a **quiet/debounce window** before a downstream write is allowed to re-trigger
-the workflow that produced it. Neither is documented by any vendor surveyed here; they are this file's
-own addition, not a cited practice. See [sync-semantics.md](sync-semantics.md) for the correctness-side
-mitigations (source-tagging, updated-by filters) that a loop counter and debounce window complement
-but do not replace.
+**Given that, the loop counter and the quiet/debounce window are your responsibility, not the
+platform's.** Both are defined in [sync-semantics.md](sync-semantics.md) §1 "The A→B→A loop", which
+owns them — along with the source-tagging and updated-by filters they complement but do not replace.
+Neither is documented by any vendor surveyed here; **they are this pack's own addition, not a cited
+practice.**
+
+What this file adds is the **spend** reason for reaching for them, which is different from the
+correctness reason. A source-tag prevents the *wrong* write; a loop counter bounds the *number* of
+writes. On a per-task or per-operation plan those are separate failure modes: a loop that is
+correctly tagged and therefore harmless to your data can still empty a month's quota before anyone
+notices, because every wasted execution is billable and none of them is an error. **Set the counter's
+threshold against your quota, not against your data model.**
 
 ## Cost attribution at n=1
 
