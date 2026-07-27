@@ -1,27 +1,38 @@
 ---
 name: automation
 description: >-
-  Build business processes spanning systems you do not own — reconciliation against the vendor's
-  own state, idempotency and compensation, multi-vendor credentials, human approval, triggers,
-  sync, observability, quota and platform choice. Use to wire Stripe/CRM/email/Slack together, fix
-  a duplicate or a sync loop, catch an automation that silently stopped, design an approval gate,
-  or pick between Zapier/n8n/Temporal. Not your own server's jobs, queues or tests (→ backend), model
-  cognition (→ ai), analytics (→ data), deploy and monitoring (→ operate), or the ship gate
-  (→ quality).
+  Build reliable cross-system and human-in-the-loop processes — what to automate and whether to at
+  all, on which platform, triggered how, in what order, behind which approval, and how you learn it
+  stopped. Spans Zapier/Make, n8n/Windmill, Temporal/Inngest and cron. Use to wire Stripe, a CRM,
+  email and Slack together, fix a duplicate or a sync loop, catch an automation that silently died,
+  or design an approval gate. Not your own
+  server's jobs, queues or tests (→ backend), model cognition (→ ai), analytics (→ data), deploy and
+  monitoring (→ operate), or the ship gate (→ quality).
 ---
 
 # Workflow Automation
 
 ## Mission and boundary
 
-Build processes that span systems, schedules, events and human approvals — and make them survive the
-fact that **you cannot deploy a fix into someone else's system, and you cannot un-send.**
+**Build reliable cross-system and human-in-the-loop processes.** The workflow that fires when a
+customer upgrades, the nightly sync between two SaaS tools, the refund that waits for someone to
+approve it, the cron job nobody has looked at in six months.
 
-The distinguishing property is the substrate. `backend` owns async work inside a system you control:
-your queue, your workers, your database, deployable and testable end to end. `automation` owns the
-case where most of the steps belong to vendors you cannot deploy to, cannot unit-test, and cannot
-roll back — where the API changes with no deploy on your side, the quota belongs to someone else, and
-a person clicking "approve" is a node in the graph.
+This pack owns the **decisions**, not the click-path: whether to automate a thing at all, which of
+the four platform tiers to build it on, what triggers it, what order the steps run in, what happens
+when one fails halfway, who approves the risky one, and how you find out it stopped. It runs across
+hosted iPaaS (Zapier, Make), self-hosted engines (n8n, Windmill, Activepieces, Kestra), code-first
+durable execution (Temporal, Inngest, Restate, Step Functions), and plain cron — the techniques are
+the same; the surfaces say how each one reshapes.
+
+Two properties define the work and shape every technique in it: **a step may belong to a vendor you
+cannot deploy to, and a step may be a person.** Hence the through-line — *you cannot deploy a fix
+into someone else's system, and you cannot un-send.*
+
+That substrate is what separates this pack from `backend`, which owns async work inside a system you
+*do* control — your queue, your workers, your database, deployable and testable end to end. The
+primitives are shared; what differs is that here the API can change with no deploy on your side, the
+quota belongs to someone else, and a person clicking "approve" is a node in the graph.
 
 **The default reader is one person, or a small team, with no second pair of eyes.** That matters more
 here than it looks: nearly every control this domain teaches assumes a counterparty. Approval assumes
