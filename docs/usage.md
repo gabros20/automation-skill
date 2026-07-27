@@ -28,18 +28,29 @@ clients use an `@` mention, a skill tool, or natural-language activation.
 
 ## Mission and boundary
 
-`automation` builds processes that span systems, schedules, events and human approvals — and makes them
-survive the fact that **you cannot deploy a fix into someone else's system, and you cannot un-send.** The
-distinguishing property is the substrate: `backend` owns async work inside a system you control — your
-queue, your workers, your database, deployable and testable end to end; `automation` owns the case where
-most of the steps belong to vendors you cannot deploy to, cannot unit-test, and cannot roll back — where
-the API changes with no deploy on your side, the quota belongs to someone else, and a person clicking
-"approve" is a node in the graph. **The default reader is one person, or a small team, with no second
-pair of eyes** — nearly every control this domain teaches assumes a counterparty (an approver who is not
-the requester, a reconciler who is not the recorder); the *functions* survive at n=1, the second *body*
-does not, and the substitute is an independent source, a clock, or a rule committed to in advance (I6).
-`automation` writes workflow definitions, integration code, connector configuration and functions. It
-does **not** author the business rule — `product` and the commercial skills own that; when no upstream
+`automation` builds reliable cross-system and human-in-the-loop processes — the workflow that fires when
+a customer upgrades, the nightly sync between two SaaS tools, the refund that waits for someone to
+approve it, the cron job nobody has looked at in six months. It runs across hosted iPaaS (Zapier, Make),
+self-hosted engines (n8n, Windmill, Activepieces, Kestra), code-first durable execution (Temporal,
+Inngest, Restate, Step Functions), and plain cron — the techniques are the same; the surfaces below say
+how each one reshapes them.
+
+This pack owns the **decisions**, not the click-path: whether to automate a thing at all, which platform
+tier to build it on, what triggers it, what order the steps run in, what happens when one fails halfway,
+who approves the risky one, and how you find out it stopped. Two properties define the work: **a step
+may belong to a vendor you cannot deploy to, and a step may be a person.** Hence the through-line — you
+cannot deploy a fix into someone else's system, and you cannot un-send.
+
+The distinguishing property is the substrate. `backend` owns async work inside a system you control —
+your queue, your workers, your database, deployable and testable end to end; `automation` owns the case
+where most of the steps belong to vendors you cannot deploy to, cannot unit-test, and cannot roll back —
+where the API changes with no deploy on your side, the quota belongs to someone else, and a person
+clicking "approve" is a node in the graph. **The default reader is one person, or a small team, with no
+second pair of eyes** — nearly every control this domain teaches assumes a counterparty (an approver who
+is not the requester, a reconciler who is not the recorder); the *functions* survive at n=1, the second
+*body* does not, and the substitute is an independent source, a clock, or a rule committed to in advance
+(I6). `automation` writes workflow definitions, integration code, connector configuration and functions.
+It does **not** author the business rule — `product` and the commercial skills own that; when no upstream
 rule exists, capture it explicitly ([process-capture](../skills/automation/references/process-capture.md))
 rather than inventing one silently. It works standalone when invoked alone, uses supplied upstream
 artifacts without silently overriding them, recommends adjacent skills for work it doesn't own, and never

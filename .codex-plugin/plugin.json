@@ -1,7 +1,7 @@
 {
   "name": "automation-skill",
-  "version": "0.1.1",
-  "description": "Wire it across systems you don't own \u2014 then reconcile what you can't un-send",
+  "version": "0.1.2",
+  "description": "Build reliable cross-system and human-in-the-loop processes",
   "author": {
     "name": "gabros20",
     "url": "https://github.com/gabros20"
@@ -24,8 +24,8 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "Workflow Automation",
-    "shortDescription": "Wire it across systems you don't own \u2014 then reconcile what you can't un-send",
-    "longDescription": "Faceted-router skill for building business processes that span systems you do not own: 12 primary jobs (reconciliation, integration reliability, compensation and recovery, credentials and connections, approval and authority, trigger design, sync semantics, workflow observability, cost and quota, platform selection, workflow testing, process capture) across 4 base surfaces (hosted iPaaS, self-hosted engine, code-first durable execution, platform-native) plus an additive agentic overlay. Reconciles against the vendor's authoritative state rather than the system's own record of what it told it, treats compensation as a forward action rather than a rollback, and defaults to a solo/small-team posture where independence comes from the source, the clock, or a pre-committed rule rather than a second approver.",
+    "shortDescription": "Build reliable cross-system and human-in-the-loop processes",
+    "longDescription": "Build reliable cross-system and human-in-the-loop processes: the workflow that fires when a customer upgrades, the nightly sync between two SaaS tools, the refund that waits for approval. Faceted-router skill covering 12 primary jobs (reconciliation, integration reliability, compensation and recovery, credentials and connections, approval and authority, trigger design, sync semantics, workflow observability, cost and quota, platform selection, workflow testing, process capture) across 4 base surfaces \u2014 hosted iPaaS (Zapier, Make), self-hosted engine (n8n, Windmill, Activepieces, Kestra), code-first durable execution (Temporal, Inngest, Restate, Step Functions), platform-native (cron) \u2014 plus an additive agentic overlay. Reconciles against the vendor's authoritative state rather than the system's own record of what it told it, treats compensation as a forward action rather than a rollback, and defaults to a solo/small-team posture where independence comes from the source, the clock, or a pre-committed rule rather than a second approver.",
     "developerName": "gabros20",
     "category": "Productivity",
     "capabilities": [],

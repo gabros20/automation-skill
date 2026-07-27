@@ -1,84 +1,18 @@
 # automation — Workflow Automation
 
-**Wire it across systems you don't own — then reconcile what you can't un-send.**
+Build reliable cross-system and human-in-the-loop processes: the workflow that fires when a customer
+upgrades, the nightly sync between two SaaS tools, the refund that waits for someone to approve it, the
+cron job nobody has checked in six months.
 
-`automation` is the **Build** stage of the [Digital Product Skills](https://github.com/gabros20) family, a
-peer of `frontend`/`backend`/`data`/`ai`, for building business processes that span systems you cannot
-deploy to: Stripe, a CRM, email, Slack, a partner's API, a human approver. The distinguishing property
-is the substrate. `backend` owns async work inside a system you control — your queue, your workers, your
-database, deployable and testable end to end. `automation` owns the case where most of the steps belong
-to vendors you cannot deploy to, cannot unit-test, and cannot roll back — where the API changes with no
-deploy on your side, the quota belongs to someone else, and a person clicking "approve" is a node in the
-graph.
+It spans hosted iPaaS (Zapier, Make), self-hosted engines (n8n, Windmill, Activepieces, Kestra),
+code-first durable execution (Temporal, Inngest, Restate, Step Functions), and plain cron. `automation`
+owns the **decisions**, not the click-path: whether to automate a thing at all, which of the four
+platform tiers to build it on, what triggers it, what order the steps run in, what happens when one
+fails halfway, who approves the risky one, and how you find out it stopped.
 
-**The default reader is one person, or a small team, with no second pair of eyes.** That matters more
-here than it looks: nearly every control this domain teaches assumes a counterparty. Approval assumes an
-approver who is not the requester. Reconciliation assumes a reconciler who is not the recorder. The
-*functions* survive at n=1; the second *body* does not, and the substitute is an independent source, a
-clock, or a rule committed to in advance.
-
-`automation` writes workflow definitions, integration code, connector configuration and functions. It
-does **not** author the business rule — `product` and the commercial skills own that; when no upstream
-rule exists, it is captured explicitly rather than invented silently. It works standalone when invoked
-alone, consumes compatible upstream artifacts without silently overriding them, and recommends adjacent
-skills without invoking them automatically.
-
-## Four things this pack does differently
-
-**The wedge is synthesis, not discovery, and it says so rather than dressing itself up.** Almost nothing
-in this pack is unknown — it is known in five places that have never cited each other. Distributed
-systems teaches idempotency and saga **for services you own**. Gregor Hohpe's *Conversation Patterns*
-teaches compensation **for parties you don't** — and is CC BY, twenty years old, and largely unread.
-Fintech teaches reconciliation exhaustively **as a ledger control** and never generalizes it past money
-movement. Enterprise GRC (COSO, maker-checker, delegation of authority) teaches approval authority at
-**meeting pace**, decades deep, and never answers what a system should decide at 3am. The 2026 agentic
-wave teaches guardrails **for models**. A reader wiring their business across vendors they cannot deploy
-to has to assemble one discipline out of five literatures that were never introduced to each other. That
-assembly is the pack.
-
-**Reconciliation is the flagship, and four independent channels converge on it without ever citing each
-other.** Fintech owns the *word* and never generalizes it. General integration engineering teaches the
-*mechanism* — poll a provider on a schedule to catch what a webhook missed — and never uses the word.
-Hohpe names it exactly once in his 25-pattern catalogue, in a 2005 aside, and then walked away from it
-for twenty years. And it is absent across every other shipped pack in this family. [reconciliation.md](skills/automation/references/reconciliation.md)
-states the spine plainly: **reconcile against the vendor's authoritative state, never against your own
-record of what you told it** — an ack is not evidence, and a webhook that never arrived leaves no trace
-in your logs at all.
-
-**The n=1 approval-and-reconciliation recursion is resolved, not just named.** COSO's own escape hatch
-for missing segregation of duties *is* independent reconciliation — but reconciliation, as fintech
-practices it, itself demands a reconciler who is not the recorder. For one person, the escape hatch leads
-back into the room it was supposed to get you out of. The resolution this pack ships: independence has to
-come from the source, the clock, or a rule committed to in advance — never from a second person who does
-not exist. The function survives; the second body does not need to.
-
-**Hohpe's vocabulary is used, credited — and the pack is explicit about where its own claim stops.**
-Quick Acknowledgment, Compensating Action, Heartbeat, Lease, and half a dozen more already have names in
-the *Conversation Patterns* catalogue, and this pack cites the specific pattern page rather than
-reinventing a house term. But Hohpe's Quick Acknowledgment pattern never mentions duplicates or retries —
-the reasoning that slow acknowledgment causes duplicate side effects is this pack's own addition, not
-his, and it says so rather than letting a real citation quietly absorb an uncredited claim.
-
-## What it does
-
-A **faceted router**: pick one primary job × one base surface (the agentic overlay stacks additively on
-top).
-
-**Primary jobs** — **reconciliation ⭐** · integration-reliability · compensation-and-recovery ·
-credentials-and-connections · approval-and-authority · trigger-design · sync-semantics ·
-workflow-observability · cost-and-quota · platform-selection · workflow-testing · process-capture.
-
-**Surfaces** — hosted iPaaS (default) · self-hosted engine · code-first durable execution ·
-platform-native · **agentic** (additive).
-
-Two grounded numbers stand in for the pack's habit of naming its source rather than repeating a folk
-figure. Google's own OAuth documentation caps refresh tokens at **100 per account per client ID**, and
-reaching the cap invalidates the oldest token **"without warning"** — two vendor blogs report the cap as
-50; both are wrong, and this pack cites Google's own docs instead. And Salesforce's `getDeleted()`
-delete-tracking API covers **no more than 15 days**, with a background purge that can invalidate the
-window *early* and return `INVALID_REPLICATION_DATE` — whose documented recovery is a full re-sync, not
-a resumable cursor. Neither number is safe to memorize past this quarter; both carry a re-verify pointer
-in the reference that cites them.
+Two properties shape every technique in this pack: **a step may belong to a vendor you cannot deploy
+to, and a step may be a person.** Hence the through-line — you cannot deploy a fix into someone else's
+system, and you cannot un-send.
 
 ## Install
 
@@ -103,6 +37,18 @@ $automation we're moving off Zapier onto n8n — tell me what actually breaks
 
 $automation design a Stripe-to-CRM sync that survives a missed webhook
 ```
+
+## What it does
+
+A **faceted router**: pick one primary job × one base surface (the agentic overlay stacks additively on
+top).
+
+**Primary jobs** — **reconciliation ⭐** · integration-reliability · compensation-and-recovery ·
+credentials-and-connections · approval-and-authority · trigger-design · sync-semantics ·
+workflow-observability · cost-and-quota · platform-selection · workflow-testing · process-capture.
+
+**Surfaces** — hosted iPaaS (default) · self-hosted engine · code-first durable execution ·
+platform-native · **agentic** (additive).
 
 ## Route by job
 
@@ -133,6 +79,62 @@ $automation design a Stripe-to-CRM sync that survives a missed webhook
 
 Plus [handoff](skills/automation/references/handoff.md) — the `handoff.yaml` companion for downstream
 work, typically to `operate` to run and watch the workflow, or to `quality` to verify it before it ships.
+
+## Four things this pack does differently
+
+**The substrate, not the industry, is the boundary — and the default reader has no second pair of
+eyes.** `backend` owns async work inside a system you control: your queue, your workers, your database,
+deployable and testable end to end. `automation` starts where most of the steps belong to vendors you
+cannot deploy to, cannot unit-test, and cannot roll back — the API changes with no deploy on your side,
+the quota belongs to someone else, and a person clicking "approve" is a node in the graph. That matters
+more than it looks, because nearly every control this domain teaches assumes a counterparty: approval
+assumes an approver who is not the requester, reconciliation assumes a reconciler who is not the
+recorder. The *functions* survive at n=1; the second *body* does not, and the substitute is an
+independent source, a clock, or a rule committed to in advance.
+
+**The wedge is synthesis, not discovery, and it says so rather than dressing itself up.** Almost nothing
+in this pack is unknown — it is known in five places that have never cited each other. Distributed
+systems teaches idempotency and saga **for services you own**. Gregor Hohpe's *Conversation Patterns*
+teaches compensation **for parties you don't** — and is CC BY, twenty years old, and largely unread.
+Fintech teaches reconciliation exhaustively **as a ledger control** and never generalizes it past money
+movement. Enterprise GRC (COSO, maker-checker, delegation of authority) teaches approval authority at
+**meeting pace**, decades deep, and never answers what a system should decide at 3am. The 2026 agentic
+wave teaches guardrails **for models**. A reader wiring their business across vendors they cannot deploy
+to has to assemble one discipline out of five literatures that were never introduced to each other. That
+assembly is the pack.
+
+**Did what you think happened actually happen? That plain question is the pack's flagship — and four
+independent channels converge on the answer, under the name reconciliation, without ever citing each
+other.** Fintech owns the *word* and never generalizes it. General integration engineering teaches the
+*mechanism* — poll a provider on a schedule to catch what a webhook missed — and never uses the word.
+Hohpe names it exactly once in his 25-pattern catalogue, in a 2005 aside, and then walked away from it
+for twenty years. And it is absent across every other shipped pack in this family. [reconciliation.md](skills/automation/references/reconciliation.md)
+states the spine plainly: **reconcile against the vendor's authoritative state, never against your own
+record of what you told it** — an ack is not evidence, and a webhook that never arrived leaves no trace
+in your logs at all.
+
+**The n=1 approval-and-reconciliation recursion is resolved, not just named.** COSO's own escape hatch
+for missing segregation of duties *is* independent reconciliation — but reconciliation, as fintech
+practices it, itself demands a reconciler who is not the recorder. For one person, the escape hatch leads
+back into the room it was supposed to get you out of. The resolution this pack ships: independence has to
+come from the source, the clock, or a rule committed to in advance — never from a second person who does
+not exist. The function survives; the second body does not need to.
+
+**Hohpe's vocabulary is used, credited — and the pack is explicit about where its own claim stops.**
+Quick Acknowledgment, Compensating Action, Heartbeat, Lease, and half a dozen more already have names in
+the *Conversation Patterns* catalogue, and this pack cites the specific pattern page rather than
+reinventing a house term. But Hohpe's Quick Acknowledgment pattern never mentions duplicates or retries —
+the reasoning that slow acknowledgment causes duplicate side effects is this pack's own addition, not
+his, and it says so rather than letting a real citation quietly absorb an uncredited claim.
+
+Two grounded numbers stand in for the pack's habit of naming its source rather than repeating a folk
+figure. Google's own OAuth documentation caps refresh tokens at **100 per account per client ID**, and
+reaching the cap invalidates the oldest token **"without warning"** — two vendor blogs report the cap as
+50; both are wrong, and this pack cites Google's own docs instead. And Salesforce's `getDeleted()`
+delete-tracking API covers **no more than 15 days**, with a background purge that can invalidate the
+window *early* and return `INVALID_REPLICATION_DATE` — whose documented recovery is a full re-sync, not
+a resumable cursor. Neither number is safe to memorize past this quarter; both carry a re-verify pointer
+in the reference that cites them.
 
 ## Outputs
 
@@ -176,7 +178,7 @@ docs/                installation, usage, and recipes
 
 - [docs/installation.md](docs/installation.md) · [docs/usage.md](docs/usage.md) ·
   [docs/recipes.md](docs/recipes.md)
-- [CHANGELOG.md](CHANGELOG.md) — release history (current: v0.1.0)
+- [CHANGELOG.md](CHANGELOG.md) — release history (current: v0.1.2)
 - [SOURCES.md](skills/automation/SOURCES.md) — source attribution and license posture, including the
   four-clause licensing rule this skill follows and the numbers it refuses to ship
 - [CONTRIBUTING.md](CONTRIBUTING.md) — local validation (`scripts/lint-skill`, `scripts/check-sync`)

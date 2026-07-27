@@ -12,15 +12,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f6f7fa">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#12151d">
-<title>automation — Wire it across systems you don't own — then reconcile what you can't un-send</title>
-<meta name="description" content="A faceted agent skill for workflow automation — reconciliation against a vendor's authoritative state, idempotency and compensation, multi-vendor credentials, human approval, triggers, sync, observability, quota, and platform choice. Defaults to a solo operator with no second pair of eyes; the agentic overlay is additive, never assumed. 12 jobs across 4 surfaces plus the overlay and a handoff — flagship is reconciliation, because an ack is not evidence and a webhook that never arrived leaves no trace.">
+<title>automation — build reliable cross-system and human-in-the-loop workflows</title>
+<meta name="description" content="A faceted agent skill for workflow automation — the workflow that fires when a customer upgrades, the nightly sync between two SaaS tools, the refund that waits for someone to approve it, the cron job nobody has checked in six months. Spans hosted iPaaS (Zapier, Make), self-hosted engines (n8n, Windmill, Activepieces, Kestra), code-first durable execution (Temporal, Inngest, Restate, Step Functions), and plain cron. A step may belong to a vendor you cannot deploy to, and a step may be a person — you cannot deploy a fix into someone else's system, and you cannot un-send. 12 jobs across 4 surfaces plus an additive agentic overlay — flagship is reconciliation, proving what actually happened against the vendor's own state.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://automation-skill.vercel.app/">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 
 <meta property="og:type" content="website">
-<meta property="og:title" content="automation — Wire it across systems you don't own — then reconcile what you can't un-send">
-<meta property="og:description" content="You cannot deploy a fix into someone else's system, and you cannot un-send. 12 jobs across 4 surfaces plus an additive agentic overlay — reconciled against the vendor's own state, never your record of what you told it.">
+<meta property="og:title" content="automation — build reliable cross-system and human-in-the-loop workflows">
+<meta property="og:description" content="The workflow that fires on a customer upgrade, the nightly sync between two tools, the refund waiting on approval, the cron job nobody's checked in months. Spans Zapier/Make, n8n/Windmill, Temporal/Inngest, and cron. A step may belong to a vendor you can't deploy to, and a step may be a person — you cannot deploy a fix into someone else's system, and you cannot un-send.">
 <meta property="og:url" content="https://automation-skill.vercel.app/">
 <meta property="og:image" content="https://automation-skill.vercel.app/og.png">
 <meta property="og:image:width" content="1200">
@@ -28,8 +28,8 @@
 <meta property="og:site_name" content="automation">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="automation — Wire it across systems you don't own — then reconcile what you can't un-send">
-<meta name="twitter:description" content="Deploy is theirs, not yours. Reconcile against the vendor's own state, never your record of what you told it. Solo/small-team is the default reader; the agentic overlay is additive.">
+<meta name="twitter:title" content="automation — build reliable cross-system and human-in-the-loop workflows">
+<meta name="twitter:description" content="Cross-system processes where a step may belong to a vendor you can't deploy to, and a step may be a person. 12 jobs across 4 surfaces plus an additive agentic overlay — flagship is reconciliation: proving what actually happened, not what a webhook claimed.">
 <meta name="twitter:image" content="https://automation-skill.vercel.app/og.png">
 
 <script type="application/ld+json">
@@ -39,7 +39,7 @@
   "name": "automation",
   "applicationCategory": "DeveloperApplication",
   "operatingSystem": "Claude Code / agent CLIs",
-  "description": "A faceted agent skill for workflow automation — processes spanning systems you do not own. Reconciliation against a vendor's authoritative state (flagship), integration reliability and delivery semantics, compensation and recovery, multi-vendor credential fleets, human approval and timeout policy, trigger design, sync semantics, workflow observability, cost and quota, platform selection, workflow testing, and process capture. Covers hosted iPaaS, self-hosted engine, code-first durable execution, and platform-native surfaces, plus an additive agentic overlay for when a model is a step or the trigger. Defaults to a solo operator or small team with no second pair of eyes. Not for jobs/queues inside a system you control, model cognition, the analytical data plane, deployment and monitoring, or independent verification — those route to backend, ai, data, operate, and quality respectively.",
+  "description": "A faceted agent skill for workflow automation — reliable cross-system and human-in-the-loop processes: the workflow that fires when a customer upgrades, the nightly sync between two SaaS tools, the refund that waits for someone to approve it, the cron job nobody has checked in six months. Reconciliation against a vendor's authoritative state (flagship), integration reliability and delivery semantics, compensation and recovery, multi-vendor credential fleets, human approval and timeout policy, trigger design, sync semantics, workflow observability, cost and quota, platform selection, workflow testing, and process capture. Covers hosted iPaaS, self-hosted engine, code-first durable execution, and platform-native surfaces, plus an additive agentic overlay for when a model is a step or the trigger. Defaults to a solo operator or small team with no second pair of eyes. Not for jobs/queues inside a system you control, model cognition, the analytical data plane, deployment and monitoring, or independent verification — those route to backend, ai, data, operate, and quality respectively.",
   "url": "https://automation-skill.vercel.app/",
   "offers": {
     "@type": "Offer",
@@ -172,7 +172,8 @@
   .tblwrap{overflow-x:auto; border:1px solid var(--line); border-radius:8px; margin-top:20px}
   table{border-collapse:collapse; width:100%; font-size:14px; background:var(--panel)}
   th{font-family:"Avenir Next Condensed","Arial Narrow",system-ui,sans-serif; text-transform:uppercase; letter-spacing:.08em; font-size:12.5px; font-weight:600; text-align:left; color:var(--muted); padding:10px 16px; border-bottom:1px solid var(--line)}
-  td{padding:11px 16px; border-bottom:1px solid var(--line); vertical-align:top; overflow-wrap:break-word; word-break:break-word}
+  td{padding:11px 16px; border-bottom:1px solid var(--line); vertical-align:top; overflow-wrap:break-word}
+  @media (max-width:700px){ .tblwrap table{width:auto; min-width:640px} }
   tr:last-child td{border-bottom:none}
   td code{background:var(--code-bg); padding:1px 6px; border-radius:4px; font-size:12.5px; white-space:nowrap}
   td code a{color:inherit; text-decoration:none}
@@ -338,19 +339,22 @@
 </svg>
 <div class="wrap">
 <header>
-  <div class="eyebrow">an agent skill · workflow automation — the Build stage, spanning what you don't own</div>
+  <div class="eyebrow">an agent skill · workflow automation — cross-system and human-in-the-loop</div>
   <nav class="toplinks" aria-label="external links">
     <a href="https://github.com/gabros20/automation-skill" target="_blank" rel="noopener">GitHub</a>
     <a href="https://github.com/gabros20/automation-skill#install" target="_blank" rel="noopener">Install</a>
     <a href="/llms.txt">llms.txt</a>
   </nav>
   <h1><span class="sl">/</span>automation</h1>
-  <p class="lede">Ask an agent to wire Stripe to your CRM and it writes the webhook handler, watches it
-  return <code>200</code>, and calls the integration done. Nobody checked whether the vendor's side
-  still holds what you think it holds, what a refund actually undoes, or what happens when the
-  approval gate times out at 3am with nobody watching. <b>automation</b> builds the processes that
-  span vendors — credentials, triggers, sync, approval, cost — on the property every technique here
-  has to survive: <b>you cannot deploy a fix into someone else's system, and you cannot un-send.</b></p>
+  <p class="lede"><b>automation</b> builds the workflow that fires when a customer upgrades, the
+  nightly sync between two SaaS tools, the refund that waits for someone to approve it, and the cron
+  job nobody has checked in six months. It owns the decisions, not the click-path: whether to automate
+  a thing at all, which platform to build it on, what triggers it, what order the steps run in, who
+  approves the risky one, and how you learn it stopped — across hosted iPaaS (Zapier, Make),
+  self-hosted engines (n8n, Windmill), code-first durable execution (Temporal, Inngest), and plain
+  cron. Two properties shape every technique here: a step may belong to a vendor you cannot deploy
+  to, and a step may be a person — hence <b>you cannot deploy a fix into someone else's system, and
+  you cannot un-send.</b></p>
   <div class="term" style="margin-top:22px"><span class="c"># natural language — no flags, no fixed pipeline</span>
 <span class="p">/automation</span> the Stripe charge succeeded but the CRM record never got created — was the webhook ever sent?</div>
   <p class="hosts"><span class="hl">runs on</span><span class="ref">Claude Code</span><span>Codex</span><span>Cursor</span><span>Antigravity</span><span>opencode</span><span>Grok Build</span><span>Hermes</span></p>
@@ -608,12 +612,17 @@
 
 <section id="flagship">
   <h2><svg class="lu" aria-hidden="true"><use href="#lu-scale"/></svg>Reconciliation — the flagship</h2>
-  <p>Everything else in this pack assumes a reconciliation loop exists somewhere, or states plainly
-  that it does not. <b>I1 is the spine: reconcile against the vendor's authoritative state, never
-  against your own record of what you told it.</b> A 200 response, a queued job, a webhook
-  subscription you believe is active — none of these are evidence the vendor's side actually holds
-  what you think it holds. A webhook that never arrives leaves no trace in your logs at all — nothing
-  failed loudly, so there is nothing to notice.</p>
+  <p>Ask an agent to wire Stripe to your CRM and it writes the webhook handler, watches it return
+  <code>200</code>, and calls the integration done. Nobody checked whether the vendor's side still
+  holds what you think it holds, what a refund actually undoes, or what happens when the approval
+  gate times out at 3am with nobody watching. Closing that gap — proving what actually happened, not
+  what a 200 response or your own "handled" flag claims happened — is reconciliation, and everything
+  else in this pack assumes a reconciliation loop exists somewhere, or states plainly that it does
+  not. <b>I1 is the spine: reconcile against the vendor's authoritative state, never against your own
+  record of what you told it.</b> A 200 response, a queued job, a webhook subscription you believe is
+  active — none of these are evidence the vendor's side actually holds what you think it holds. A
+  webhook that never arrives leaves no trace in your logs at all — nothing failed loudly, so there is
+  nothing to notice.</p>
   <div class="tblwrap"><table>
     <tr><th>Signal</th><th>What it actually establishes</th><th>What it does <b>not</b></th></tr>
     <tr><td class="job">A 200 response</td><td class="canon">The vendor accepted the request, at that moment</td><td class="prod">That the vendor's side still holds it later, or that nothing downstream reversed it</td></tr>
@@ -875,7 +884,7 @@ README.md · CHANGELOG.md · LICENSE</div>
 </section>
 
 <footer>
-  <span><span class="mono">/automation</span> — Wire it across systems you don't own — then reconcile what you can't un-send</span>
+  <span><span class="mono">/automation</span> — build reliable cross-system and human-in-the-loop workflows</span>
   <span><a href="https://github.com/gabros20/automation-skill">github.com/gabros20/automation-skill</a> · <a href="/llms.txt">llms.txt</a> · MIT</span>
 </footer>
 </div>

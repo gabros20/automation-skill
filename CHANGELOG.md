@@ -10,6 +10,25 @@ The release procedure synchronizes `.codex-plugin/plugin.json`, this changelog, 
 ### Added
 - Queue unreleased changes here.
 
+## [0.1.2] — 2026-07-27
+
+### Changed
+
+- **Repositioned the storefront — README, docs/usage.md, .codex-plugin/plugin.json.** A reader who
+  read only the README and the site could not tell this was the skill for building workflow
+  automations (n8n/Zapier/Make/Temporal/cron). Three faults, all in prose order, none in the pack
+  itself: the README opened with the `backend` boundary argument (relevant only to the question "why
+  isn't this `backend`?"), it led with the term "reconciliation" before the plain question it answers,
+  and the tool names were buried inside the surfaces table where a scanning reader never reached them.
+  The opening now states the subject first (cross-system and human-in-the-loop processes), names the
+  four platform tiers once as scope, and states the two defining properties — a step may belong to a
+  vendor you cannot deploy to, a step may be a person — as the rationale for the through-line rather
+  than the headline. The `backend`-boundary argument and the n=1-reader point moved out of the lead into
+  "Four things this pack does differently," where the reconciliation paragraph now opens with "did what
+  you think happened actually happen?" before naming the term. `docs/usage.md`'s "Mission and boundary"
+  section was reordered to match. No claim, number, or citation changed; reconciliation remains the
+  flagship.
+
 ## [0.1.1] — 2026-07-27
 
 ### Fixed

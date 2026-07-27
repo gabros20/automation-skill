@@ -1,14 +1,21 @@
 # automation
 
-> Wire it across systems you don't own — then reconcile what you can't un-send. Installs as an agent skill.
+> Build reliable cross-system and human-in-the-loop workflows. Installs as an agent skill.
 
-`automation` builds processes that span systems, schedules, events and human approvals — and makes
-them survive the fact that you cannot deploy a fix into someone else's system, and you cannot
-un-send. Where `backend` owns async work inside a system you control, `automation` owns the case
-where most of the steps belong to vendors you cannot deploy to, cannot unit-test, and cannot roll
-back. Its flagship move is reconciliation: diffing your local record against the vendor's own
-authoritative state on a schedule, because an ack is not evidence — a webhook that never arrives
-leaves no trace in your logs at all. `SKILL.md` is a faceted router: one primary job (of 12, e.g.
+`automation` builds the workflow that fires when a customer upgrades, the nightly sync between two
+SaaS tools, the refund that waits for someone to approve it, and the cron job nobody has checked in
+six months. It owns the decisions, not the click-path: whether to automate a thing at all, which of
+four platform tiers to build it on, what triggers it, what order the steps run in, what happens when
+one fails halfway, who approves the risky one, and how you learn it stopped — across hosted iPaaS
+(Zapier, Make), self-hosted engines (n8n, Windmill, Activepieces, Kestra), code-first durable
+execution (Temporal, Inngest, Restate, Step Functions), and plain cron. Two properties shape every
+technique here: a step may belong to a vendor you cannot deploy to, and a step may be a person —
+hence you cannot deploy a fix into someone else's system, and you cannot un-send. Where `backend`
+owns async work inside a system you control, `automation` owns the case where most of the steps
+belong to vendors you cannot deploy to, cannot unit-test, and cannot roll back. Its flagship move is
+reconciliation: diffing your local record against the vendor's own authoritative state on a
+schedule, because an ack is not evidence — a webhook that never arrives leaves no trace in your logs
+at all. `SKILL.md` is a faceted router: one primary job (of 12, e.g.
 `reconciliation` ⭐) composes with at most one base surface (of 4: hosted-ipaas, self-hosted-engine,
 code-first-durable, platform-native) plus an additive `surface-agentic` overlay when a model decides
 which tool to call or is the trigger itself — read only the one or two references the request needs,
