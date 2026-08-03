@@ -190,3 +190,11 @@ surface-platform-native · surface-agentic (additive) · handoff
 
 Assets — `irreversibility-inventory.md` · `reconciliation-worksheet.md` · `credential-register.md` ·
 `approval-policy-card.md` · `trigger-audit-sheet.md` · `run-cost-table.md` · `handoff.yaml`
+
+## Artifact home
+
+Deliverables this skill produces default to `digital-product/automation/` at the working repository's
+root, with cross-skill state in `digital-product/LEDGER.md` — created on first use and committed
+with the repo. The `digital-product` composer skill owns this convention; solo use writes to the
+same place. Never write into `.orchestrate/` — that folder belongs to an orchestration run's
+execution state, not to this family's deliverables.
