@@ -13,8 +13,8 @@ Read when:
 
 Skip when:
 - The rule already exists in writing, owned by `product`, `marketing`, `sales`, or `success` — read it
-  and cite the owner; do not recapture it here. (At this pack's launch those three commercial upstreams
-  do not yet exist as shipped skills — say that plainly rather than inventing an owner.)
+  and cite the owner; do not recapture it here. (All four commercial upstreams are shipped skills;
+  route to the owner rather than inventing one.)
 - The step already has its rule and just failed partway →
   [compensation-and-recovery](compensation-and-recovery.md).
 - You need the trigger's technical shape (schedule vs. webhook vs. poll), not the rule it fires →
