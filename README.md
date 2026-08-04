@@ -1,5 +1,7 @@
 # automation — Workflow Automation
 
+**Family hub:** [digital-product-skill.vercel.app](https://digital-product-skill.vercel.app) — the 15-skill Digital Product family and its composer.
+
 Build reliable cross-system and human-in-the-loop processes: the workflow that fires when a customer
 upgrades, the nightly sync between two SaaS tools, the refund that waits for someone to approve it, the
 cron job nobody has checked in six months.
