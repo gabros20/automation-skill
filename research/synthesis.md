@@ -223,6 +223,30 @@ My original §5 under-populated this. Source quality is **differentiated**; the 
   **quiet/debounce window** are mitigations **no vendor documents.** Source-tagging and updated-by
   filters are theirs; these two are our addition.
 
+**§5 AMENDMENT 6 — CORRECTION TO MY OWN EARLIER QUOTE (controller error, found by review).**
+
+The stage-1 gate and my own earlier reporting presented this sentence as Compensating Action's
+framing, and writers then quoted it under the CC BY grant:
+
+> ~~"A participant is interacting with multiple, independent services, which change their state
+> based on the interaction."~~
+
+**It is CONTEXT PROSE, not the bold problem statement — therefore © 2003, 2023 all rights reserved
+and NOT covered by CC BY.** Re-verified directly 2026-07-27. My earlier fetch asked whether the
+pattern was *framed for independent parties* and returned a setup sentence; I recorded the answer as
+if it were the licensed statement. **The lesson: when a licence grant is scoped to specific named
+elements, verify you have that element — not merely a true sentence from the same page.**
+
+**The actual CC BY-licensed pair for Compensating Action, verified verbatim:**
+- Problem: *"How can a requestor ensure a consistent outcome across multiple, independent providers?"*
+- Solution: *"The requestor performs operations optimistically. Should an operation fail, it instructs
+  the provider(s) to undo already completed operations."*
+
+**Also confirmed:** the mailed-letter/phone-call sentence sits **inside the pattern's explanatory
+prose**, not in the bold statements — so it is all-rights-reserved and **must be paraphrased, never
+lifted.** Same for the "perform hardest to revert action last" wording. **The pattern *name* is CC BY
+and remains safe to use.**
+
 **§5 AMENDMENT 2 — Hohpe pattern URLs + an ATTRIBUTION TRAP (controller-verified 2026-07-27).**
 
 Exact filenames, so no one fabricates a deep link (a writer correctly refused to invent one):
