@@ -52,5 +52,15 @@
       "Does not treat 'should be simple' as license to skip the cost per run and its ceiling, or the credential(s)' expiry — a minimal-sounding request still gets a complete artifact",
       "Names what this trigger will also fire on (e.g. a contact updated rather than newly created, or a bulk import creating many contacts at once) as an explicit false-positive class, rather than leaving it implicit"
     ]
+  },
+  {
+    "id": "scheduled-agent-job-envelope",
+    "prompt": "Set up a daily agent that reads new support emails, drafts replies, and sends the easy ones automatically. It should run every morning at 8.",
+    "assertions": [
+      "Uses draft-and-queue as the default: the agent prepares replies and the send is a separate gated step, with any auto-send limited to a class released by a rule committed in advance and sampled by hand — not 'approve everything pending'",
+      "Treats each scheduled run as a fresh session whose job definition carries the full instructions, and pins the model per job rather than inheriting a global default that can change with no deploy (I15)",
+      "Names a deterministic gate before the model (check whether new mail exists before waking the agent) and the spend / step / wall-clock ceilings (I12)",
+      "Gives the job a missing-heartbeat check that would catch the scheduler itself stopping, not only a run that errors (I8)"
+    ]
   }
 ]

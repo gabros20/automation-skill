@@ -8,7 +8,25 @@ The release procedure synchronizes `.codex-plugin/plugin.json`, this changelog, 
 ## [Unreleased]
 
 ### Added
-- Queue unreleased changes here.
+
+- **Practitioner fold — scheduled agent jobs, durable-engine mechanics, and lying statuses.** New
+  material folded into the existing references, every vendor fact re-verified at its primary source
+  on 2026-10-17 and dated: `surface-code-first-durable` closes its Trigger.dev gap (a retry restarts
+  the task and reuses only cached subtasks; waitpoint tokens default to no timeout), adds DBOS as the
+  database-as-journal family, and gains "Code changes against open runs" (Temporal determinism and
+  versioning, memoized output surviving a logic change, model calls in a step, claim check for large
+  payloads); `surface-agentic` gains the checkpointer-is-not-an-engine point (vendor interest
+  named), a deterministic gate before the model, three blast-radius refinements, graduated autonomy,
+  provenance on model-written fields, and "Scheduled agent runs" (fresh session, pin the model per
+  job); `approval-and-authority` gains draft-and-queue as the n=1 maker-checker for agent-proposed
+  actions and the rule-vs-bulk line; `trigger-design` gains overlap policy (Kubernetes
+  `concurrencyPolicy`) and "One trigger, one consumer"; `workflow-observability` gains "running" and
+  "completed" as statuses that lie, and the quiet monitor that needs its own heartbeat;
+  `platform-selection` gains the maintainer and worst-failure criteria and side-effect-free parallel
+  runs; `process-capture` gains vendor terms that forbid automation and the hand-run-first rollout;
+  `cost-and-quota` gains billing units as a shape decision, the shared unauthenticated pool, and
+  pause-at-cap; `workflow-testing` gains opt-in live-vendor tests and the dry run as a cost forecast.
+  SOURCES lists DBOS and Hatchet (MIT) and the new own-judgment items. Three eval cases added.
 
 ## [0.1.2] — 2026-07-27
 

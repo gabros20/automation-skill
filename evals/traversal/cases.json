@@ -121,5 +121,25 @@
       "Captures the rule as a one-page rule card — a trigger statement, ordered steps, a decision table covering every branch, and an exceptions list — rather than running a facilitated workshop process that assumes a gap between who knows the rule and who builds it",
       "States plainly that no upstream owner exists rather than inventing one, since the reader is both the source of the rule and its implementer"
     ]
+  },
+  {
+    "id": "code-first-trigger-dev-irreversible-step-retry",
+    "prompt": "Our onboarding task on Trigger.dev charges the card and then calls a flaky CRM API in the same task body. If the CRM call throws and the task retries, will the customer get charged twice?",
+    "expected_references": ["references/surface-code-first-durable.md", "references/compensation-and-recovery.md"],
+    "forbidden_references": [],
+    "must_include": [
+      "States that a Trigger.dev retry starts the task from the beginning and reuses only cached subtask results, so a charge written inline in the task body re-executes on retry (I9) — the fix is to move the charge into its own subtask or give it an idempotency key derived from the business event (I4)",
+      "Dates the engine behaviour as a volatile vendor fact to re-verify against Trigger.dev's own docs rather than asserting it as permanent (I15)"
+    ]
+  },
+  {
+    "id": "overlapping-cron-runs-and-second-consumer",
+    "prompt": "My nightly sync sometimes takes longer than the interval, and I also just spun up a staging copy of the bot with the same token. Since then some runs double-process records and some messages never reach production. What's going on?",
+    "expected_references": ["references/trigger-design.md"],
+    "forbidden_references": [],
+    "must_include": [
+      "Names an explicit overlap policy for the schedule (skip / queue / replace) instead of inheriting concurrent runs by omission, and makes the run idempotent on the business event so an unforeseen overlap collapses (I4)",
+      "Identifies the staging copy holding the production consumer credential as a second consumer silently taking deliveries, and prescribes stripping consumer credentials from clones and registering webhooks per environment"
+    ]
   }
 ]

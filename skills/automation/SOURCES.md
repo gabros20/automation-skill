@@ -38,6 +38,7 @@ check liveness, because **archived ≠ recommendable**.
 | Activepieces (core) · Temporal · `agentkitai/agentgate` | MIT | Cite freely |
 | Windmill | AGPLv3 core + Apache-2.0 clients | Cite; note the split |
 | Kestra · **Trigger.dev** | Apache-2.0 | Cite freely |
+| **DBOS** · **Hatchet** | MIT (verified 2026-10-17, both live) | Cite freely |
 | **Restate** | **Business Source License 1.1**, converting to Apache-2.0 after four years | Source-available, not OSI open source today. Describe accurately |
 | **Inngest** | **Server Side Public License 1.0** | Not OSI open source. Describe accurately |
 | **Pipedream** | **Not open source**, despite listicles implying otherwise | Describe accurately |
@@ -90,6 +91,17 @@ Named here so no reader mistakes them for established practice.
 - **"An agentic step fails by continuing"** — and that the fix is to reintroduce the deterministic
   ceiling that made non-agentic automation fail loudly.
 - **Rotation calendars and a credential inventory** for a team with no IAM function.
+- **Draft-and-queue as the n=1 maker-checker for agent- or rule-proposed actions**, and reviewer
+  capacity as the limit on how many producers a queue can honestly take — COSO's segregation logic
+  applied to a maker that is not the owner.
+- **One trigger, one consumer** — that a cloned deployment, a shared channel, or a command anyone
+  can post silently gives one event a second consumer — and a schedule's overlap policy stated as a
+  decision. The `concurrencyPolicy` vocabulary is Kubernetes'; generalising it to every scheduler is
+  ours.
+- **"Running" and "completed" as statuses that lie by construction**, and the quiet-unless-wrong
+  monitor that needs its own heartbeat. Lease and Heartbeat are Hohpe's names; this application is
+  ours.
+- **The tier criteria "who maintains it in six months" and "prototype the worst failure first."**
 - **Binding a credential to a named human, and the offboarding revocation that follows** — the pack
   teaches the hazard and a checklist, not a succession plan. We did not search this to exhaustion and
   do not claim it is unwritten.
@@ -106,8 +118,8 @@ Named here so no reader mistakes them for established practice.
   depend on it is laundering with extra steps.
 - **Any claim about which model or product version is "current."**
 
-Every volatile fact in this pack carries a verification date of **2026-07-27** and a re-verify
-pointer. This domain changes without your deploy.
+Every volatile fact in this pack carries a verification date — **2026-07-27** for the original build,
+**2026-10-17** for facts added since, marked individually — and a re-verify pointer. This domain changes without your deploy.
 
 ## 6. Where this pack routes rather than competes
 
