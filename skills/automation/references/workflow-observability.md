@@ -89,6 +89,20 @@ The gap between those two claims is exactly what a missing-heartbeat check (§4)
 loop ([reconciliation](reconciliation.md), I1) are for: one confirms the process is still moving, the
 other confirms what it produced actually matches the vendor's state.
 
+Two more statuses that lie by construction:
+- **"Running" is the last thing a worker wrote, not proof one is alive.** A worker that crashes
+  mid-run leaves the run marked running; with no lease or heartbeat timeout on the run itself,
+  nothing ever moves it to failed. Give every run a deadline after which "still running" is treated
+  as stopped. Hohpe's *Conversation Patterns* name the ancestors — **Lease** (a held resource
+  expires unless renewed) and **Heartbeat** (enterpriseintegrationpatterns.com,
+  `/patterns/conversation/Lease.html` and `/HeartBeat.html`, CC BY 4.0 on the pattern names); the
+  application to a run's own status is ours.
+- **"Completed" can mean every item was skipped.** A step built to skip cleanly when a precondition
+  is missing — no key configured, a lookup field blank — reports success while doing nothing.
+  Count skips per step, alert when the skip rate departs from normal, and log every skipped item with
+  its reason as a record of its own: what the workflow deliberately did *not* do is audit evidence
+  too (§6).
+
 ## 4. Build the missing-heartbeat signal — cite, don't re-teach
 
 The mechanism is a scheduled check-in, not a passive wait for an error: a workflow (or the credential
@@ -105,6 +119,16 @@ The per-credential instance of this same check is what
 [credential-register](../assets/credential-register.md)'s "Detection (canary / heartbeat)" column
 is for — fill it with the actual mechanism (a canary call, a heartbeat ping), not left blank on the
 assumption that a dead credential will announce itself.
+
+**A quiet-unless-something's-wrong monitor needs its own heartbeat.** The convention is sound and
+common — Hermes Agent's script-only cron jobs, verbatim: *"Empty stdout → silent tick, no
+delivery"* and *"Non-zero exit or timeout → an error alert is delivered, so a broken watchdog can't
+fail silently"* (hermes-agent.nousresearch.com docs, verified 2026-10-17). That covers a watchdog
+that runs and breaks. It cannot cover one that stops being *run* — the scheduler or its host is
+down — because then silence is the healthy signal and the dead one alike. Point a dead-man's switch
+at the watchdog itself. And give scheduled output an explicit, dedicated destination per job, apart
+from conversational traffic: a job that inherits a default destination reports wherever the default
+points this month, and a report drowned in chat makes its absence invisible.
 
 ## 5. Scheduled workflows can be disabled out from under you
 
@@ -144,6 +168,8 @@ matter of trust in the system's own word:
 
 ## Validation
 
+- Every run has a deadline after which "running" counts as stopped, and every skip-capable step
+  reports its skip count.
 - Every automation that runs on a schedule or a trigger has a missing-heartbeat check on a cadence
   shorter than its expected run interval, alerting on absence rather than on failure.
 - For every engine in use, you can state plainly whether failure alerting is wired, and confirm it is

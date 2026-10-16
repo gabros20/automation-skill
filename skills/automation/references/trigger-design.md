@@ -44,8 +44,10 @@ Produces:
 - Over-broad trigger conditions
 - The cron/DST comparison
 - The silent-stop schedule
+- Overlapping runs
 - I4 — trigger idempotency across two delivery paths
 - Polling vs. rate limits vs. freshness
+- One trigger, one consumer
 
 ## Procedure
 
@@ -108,6 +110,17 @@ class of failure [workflow-observability](workflow-observability.md) exists to c
 that stopped is not a workflow that failed") — cite that reference for the detection mechanism rather
 than re-deriving a heartbeat check here.
 
+### 4a. Overlapping runs — a schedule's concurrency policy is a decision
+A scheduled run that outlasts its interval meets the next one. Kubernetes CronJob makes the choice
+explicit and shows what you get by not making it — `concurrencyPolicy` is *"`Allow` (default): The
+CronJob allows concurrently running Jobs"*; `Forbid` *"skips the new Job run"*; `Replace` kills the
+running one (kubernetes.io, verified 2026-10-17). Most schedulers expose no such field, which means
+`Allow` by omission: two runs over the same records, the same cursor, the same sends. Name one per
+schedule — **skip** (and count the skip as an expected-run miss for
+[workflow-observability](workflow-observability.md)), **queue**, or **replace** — and make the run
+itself idempotent on the business event (I4) so an overlap you did not foresee collapses rather than
+duplicates.
+
 ### 5. I4 — trigger idempotency across two delivery paths
 This is distinct from the provider-redelivery dedup `backend` owns (one vendor, one delivery channel,
 retrying the same webhook). The automation-specific residue is **the same business event arriving
@@ -130,6 +143,23 @@ at the busiest moment (e.g. a month-end batch), which is also when the vendor's 
 most likely to bite. Treat polling frequency, rate-limit budget, and freshness requirement as one
 three-way decision, not three independent settings.
 
+### 7. One trigger, one consumer — unless you designed for more
+The mirror of §5: one delivery path reaching **two consumers**. Three shapes, all silent, all this
+pack's judgment rather than a cited practice:
+- **A cloned deployment with the original's consumer credential.** Polling and webhooks are often
+  exclusive per credential — Telegram's Bot API names *"two mutually exclusive ways of receiving
+  updates"*, and its polling method *"will not work if an outgoing webhook is set up"*
+  (core.telegram.org/bots/api, verified 2026-10-17). A staging copy, a new instance cloned from the
+  old, or a second process started with the same token or webhook registration silently takes the
+  events the live one was getting. Strip consumer credentials from every clone; register webhooks
+  per environment.
+- **Several agents or workflows listening on one shared channel.** Every listener that matches acts
+  on the same message. Give each event class exactly one owner — an explicit address or mention
+  rule, or a router — before a second listener joins.
+- **A chat or command trigger is an authorization surface.** Anyone who can post the command can
+  start the workflow. Allowlist who may fire it and default to deny; "who may trigger this" is the
+  trigger-side twin of "who may approve this" ([approval-and-authority](approval-and-authority.md)).
+
 ## Validation
 - [ ] The trigger's false-positive class is written down, not implied
 - [ ] Every schedule states its platform's DST behavior (from §3) or has been forced to UTC
@@ -138,6 +168,10 @@ three-way decision, not three independent settings.
       business event covers both paths (I4)
 - [ ] Polling frequency has been set against the rate-limit budget and the freshness requirement
       together, not independently
+- [ ] Every schedule names its overlap policy (skip / queue / replace) rather than inheriting
+      concurrent runs by omission
+- [ ] Every trigger has exactly one consumer per environment, and a command trigger allowlists who
+      may fire it
 - [ ] [trigger-audit-sheet](../assets/trigger-audit-sheet.md) has one filled row per trigger shipped
 
 ## Failure modes and handoff
