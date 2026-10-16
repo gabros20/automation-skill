@@ -2,8 +2,9 @@
 
 Purpose: Reshape the twelve jobs for the surface where the workflow is written in code and the
 engine durably persists step state — Temporal, Inngest, Restate, Trigger.dev, DBOS, Cloudflare
-Workflows, AWS Step Functions. This surface does not redefine any job; it changes what I9 (resume-vs-restart)
-costs to get right, and it changes who else is now in the room (`backend`, `operate`).
+Workflows, AWS Step Functions. This surface does not redefine any job; it changes what I9
+(resume-vs-restart) costs to get right, and it changes who else is now in the room (`backend`,
+`operate`).
 
 Read when:
 - The workflow is defined as code against an SDK, not a visual canvas — you will write functions,
@@ -49,8 +50,9 @@ event-sourced journal replay means a completed step's output is reused, not re-e
 run continues after a crash or a retry. That is precisely what makes an irreversible early step
 (charge the card, send the email, write the CRM record) safe to place early in a flow: the engine's
 own durability mechanism, not a bespoke idempotency key you built by hand, is what stops it firing
-twice. Fill [irreversibility-inventory.md](../assets/irreversibility-inventory.md) against your
-chosen engine's actual resume model — not against the tier's reputation — before trusting this.
+twice — provided the call sits inside the unit the engine caches (see the per-engine table). Fill
+[irreversibility-inventory.md](../assets/irreversibility-inventory.md) against your chosen engine's
+actual resume model — not against the tier's reputation — before trusting this.
 
 This is not the same claim as "the flow cannot fail" or "every failure is recoverable" — see the
 Azure boundary case below, and see I8: resuming past a completed step says nothing about whether
@@ -77,15 +79,22 @@ builder:
 
 Verified 2026-07-27 against each vendor's own docs (`docs.temporal.io`, `inngest.com/docs`,
 `docs.restate.dev`, `developers.cloudflare.com/workflows`, `docs.aws.amazon.com/step-functions`;
-Trigger.dev and DBOS 2026-10-17, `trigger.dev/docs`, `docs.dbos.dev`) — re-verify before depending
+Trigger.dev and DBOS 2026-10-17, `trigger.dev/docs/how-it-works`,
+`docs.dbos.dev/architecture`) — re-verify before depending
 on exact mechanics, this class of doc changes without a deploy on your side (I15).
 
-**The mechanism family decides what *your* code must obey, not just what survives.** A replay engine
-re-runs the workflow function itself, so the function must be deterministic — Temporal states this
-outright (see "Code changes against open runs" below); journal, memoization and checkpoint engines (Restate, Inngest,
-Cloudflare, Trigger.dev, DBOS) cache only at their own unit — a journaled action, a `step.run()`, a
-named step, a subtask, a step function — and re-run whatever code sits between units. In every family the rule is the same one
-I9 asks for: **an irreversible call lives inside the unit the engine caches, never between units.**
+**One mechanism underneath, one rule for your code.** On recovery, every engine in this table
+re-runs the workflow body, returns the cached result for each completed unit — an Activity, a
+journaled action, a `step.run()`, a named step, a subtask, a DBOS step — and executes the rest. (On
+Trigger.dev that re-run happens on a retry; a checkpoint-restored wait resumes without re-running
+code.) So the code *between* units must be deterministic in which units it calls and with what
+inputs, and the vendors say so themselves, verbatim: Restate — *"Non-deterministic operations
+(database calls, HTTP requests, UUID generation) must be wrapped to ensure deterministic replay"*;
+Inngest — *"Code outside a step can run again each time the handler replays"*; DBOS — a workflow
+*"should invoke the same steps with the same inputs in the same order"* (all verified 2026-10-17;
+Temporal's own statement is under "Code changes against open runs" below). The rule I9 asks for
+follows: **an irreversible or non-deterministic call lives inside the unit the engine caches, never
+between units.**
 
 | Engine | Resume mechanism | What survives a crash/retry |
 |---|---|---|
@@ -113,7 +122,8 @@ at all.
 ## Code changes against open runs, and what belongs in a step
 
 Durable runs outlive deploys — a run waiting a week for an approval will resume on code you shipped
-after it started. Temporal's docs, verbatim: *"Workflow code must be deterministic to support
+after it started, and on any engine that re-runs the body (above) an incompatible change can break
+it. Temporal's docs, verbatim: *"Workflow code must be deterministic to support
 replay"*; change it incompatibly under an open execution and *"The Workflow Execution would fail and
 return a nondeterminism error"* — their remedy is Workflow Versioning (verified 2026-10-17). Three
 rules follow on this surface:
@@ -163,7 +173,8 @@ Verified 2026-07-27 against each repo's root `LICENSE` file: **Temporal** MIT ·
 Source License 1.1 (not OSI open source; converts to Apache-2.0 four years after each version's
 release; explicitly prohibits offering it as a competing managed service) · **Inngest** Server Side
 Public License 1.0 (not OSI open source — the same non-permissive family as MongoDB's licence,
-routinely under-disclosed in comparison content) · **Trigger.dev** Apache-2.0 · **DBOS** MIT (re-verified 2026-10-17, all live — pushed within 24h). Cloudflare Workflows
+routinely under-disclosed in comparison content) · **Trigger.dev** Apache-2.0 · **DBOS** MIT
+(re-verified 2026-10-17, all live — pushed within 24h). Cloudflare Workflows
 and AWS Step Functions are cloud-proprietary managed services with no distributable core at all —
 "self-hostable" is not a question that applies to them. Full selection criteria (licence as a
 selection factor, exit cost, the vendor-lock recursion of running your glue logic somewhere you don't

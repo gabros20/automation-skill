@@ -38,7 +38,7 @@ check liveness, because **archived ≠ recommendable**.
 | Activepieces (core) · Temporal · `agentkitai/agentgate` | MIT | Cite freely |
 | Windmill | AGPLv3 core + Apache-2.0 clients | Cite; note the split |
 | Kestra · **Trigger.dev** | Apache-2.0 | Cite freely |
-| **DBOS** · **Hatchet** | MIT (verified 2026-10-17, both live) | Cite freely |
+| **DBOS** | MIT (verified 2026-10-17, live) | Cite freely |
 | **Restate** | **Business Source License 1.1**, converting to Apache-2.0 after four years | Source-available, not OSI open source today. Describe accurately |
 | **Inngest** | **Server Side Public License 1.0** | Not OSI open source. Describe accurately |
 | **Pipedream** | **Not open source**, despite listicles implying otherwise | Describe accurately |
@@ -119,7 +119,8 @@ Named here so no reader mistakes them for established practice.
 - **Any claim about which model or product version is "current."**
 
 Every volatile fact in this pack carries a verification date — **2026-07-27** for the original build,
-**2026-10-17** for facts added since, marked individually — and a re-verify pointer. This domain changes without your deploy.
+**2026-10-17** for facts added since, marked individually — and a re-verify pointer. This domain
+changes without your deploy.
 
 ## 6. Where this pack routes rather than competes
 

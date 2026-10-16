@@ -71,8 +71,10 @@ Not vendor claims — filed bug reports and a merged fix, which is stronger evid
 **An agent framework's checkpointer is not a durable-execution engine.** It saves state; it does not
 notice the crash, restart the run, or stop a completed side effect repeating — #7417 above is that
 gap filed as a bug. Diagrid's own framing, verbatim: a checkpoint is *"a snapshot of state that you,
-the developer, are responsible for detecting the need to use, manually triggering"* (diagrid.io blog,
-2026-02 — **name the interest**: Diagrid sells a durable runtime for exactly these frameworks). Run
+the developer, are responsible for detecting the need to use, manually triggering"* (Diagrid blog,
+2026-02,
+`diagrid.io/blog/checkpoints-are-not-durable-execution-why-langgraph-crewai-google-adk-and-others-fall-short-for-production-agent-workflows`
+— **name the interest**: Diagrid sells a durable runtime for exactly these frameworks). Run
 the agent inside a base surface that resumes (I9), or own detection and resume yourself.
 
 ## The refined claim
@@ -155,12 +157,10 @@ log of "what the agent decided to do" is not a reliable record of what happened 
 diffing against the vendor's authoritative state (I1, see [reconciliation](reconciliation.md)) the
 only way to know, rather than one of several ways.
 
-**Graduate autonomy; don't grant it.** Start a new agentic flow as draft-and-queue — the agent
-prepares, a person releases the irreversible step ([approval-and-authority](approval-and-authority.md)
-§4) — review every output, then only flagged ones once a run of clean outputs justifies it, and
-promote a path to unattended only when its success criterion is explicit enough to check
-deterministically. That is the same move as compiling a stable path back into a deterministic
-subflow, reached from the approval side.
+**Graduate autonomy; don't grant it.** Start a new agentic flow as draft-and-queue
+([approval-and-authority](approval-and-authority.md) §4), then widen it one step at a time: review
+every output → review flagged outputs only → unattended, and only once the path's success criterion
+can be checked deterministically.
 
 **A model-produced value written into a system of record carries its provenance.** Store the run ID,
 the workflow and prompt version, the source it was derived from, and a verified/unverified flag
@@ -173,16 +173,20 @@ A scheduled agentic job is a fresh run every time, not a continuation of the con
 created it. Hermes Agent's cron docs state both halves plainly, verbatim: jobs *"run in isolated
 sessions with no memory of previous runs"*, so *"The prompt must contain everything the agent needs
 that is not already provided by attached skills"* — and on model choice, *"Change your main model and
-every unpinned job follows on its next run"* (hermes-agent.nousresearch.com docs, verified
-2026-10-17; the shape holds for any harness that resolves a job's model from a global default).
+every unpinned job follows on its next run"* — unless a schedule-scoped default is set, which the
+same docs describe as *"a cron-fleet default: every unpinned job runs on this model, independent of
+your chat model"* (hermes-agent.nousresearch.com/docs/user-guide/features/cron, verified 2026-10-17;
+the shape holds for any harness that resolves a job's model from a default).
 
-- **The job definition is the whole specification.** Anything the agent "knew" from the chat where
-  you set it up is gone; write it into the job or an attached skill.
-- **Pin the model per scheduled job.** An unpinned job changes behaviour the day someone changes the
-  default for interactive use — a change with no deploy, no diff on the job, and no alert (I15).
-  Record the pinned model as a `volatile_facts` row in [handoff.yaml](../assets/handoff.yaml).
-- **Fresh context per run is the property you want** — runs stay independent and comparable; carry
-  state forward only through a durable record you can read and reconcile, never through a transcript.
+- **The job definition is the whole specification, and the transcript is not state.** Anything the
+  agent "knew" from the chat where you set it up is gone — write it into the job or an attached
+  skill. Fresh context per run is the property you want: runs stay independent and comparable, and
+  state moves forward only through a durable record you can read and reconcile.
+- **Pin the model per job, or resolve scheduled jobs from a schedule-scoped default decoupled from
+  the interactive one.** Otherwise a job changes behaviour the day someone changes the default for
+  interactive use — no deploy, no diff on the job, no alert (I15). *Which* model is `ai`'s call;
+  that it is pinned and recorded is ours — as a `volatile_facts` row in
+  [handoff.yaml](../assets/handoff.yaml).
 
 ## The `ai` decline row — confirm it holds
 

@@ -123,7 +123,8 @@ assumption that a dead credential will announce itself.
 **A quiet-unless-something's-wrong monitor needs its own heartbeat.** The convention is sound and
 common — Hermes Agent's script-only cron jobs, verbatim: *"Empty stdout → silent tick, no
 delivery"* and *"Non-zero exit or timeout → an error alert is delivered, so a broken watchdog can't
-fail silently"* (hermes-agent.nousresearch.com docs, verified 2026-10-17). That covers a watchdog
+fail silently"* (hermes-agent.nousresearch.com/docs/user-guide/features/cron, verified
+2026-10-17). That covers a watchdog
 that runs and breaks. It cannot cover one that stops being *run* — the scheduler or its host is
 down — because then silence is the healthy signal and the dead one alike. Point a dead-man's switch
 at the watchdog itself. And give scheduled output an explicit, dedicated destination per job, apart

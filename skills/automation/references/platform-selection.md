@@ -99,7 +99,7 @@ to, not merely correctly licensed and abandoned.
 | **Windmill** | AGPLv3 (core) + Apache-2.0 (clients) | Yes, for the licensed portions |
 | **Kestra** | Apache-2.0 | Yes |
 | **Temporal** | MIT | Yes |
-| **DBOS** · **Hatchet** | MIT | Yes (verified 2026-10-17) |
+| **DBOS** | MIT | Yes (verified 2026-10-17) |
 | **Pipedream** | — | **No** — despite comparison listicles routinely listing it alongside the MIT/Apache engines above as if it belonged in the same column. |
 
 (Verified 2026-07-27, against each project's own licence text; re-verify — licence terms and

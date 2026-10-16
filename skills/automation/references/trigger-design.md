@@ -114,7 +114,8 @@ than re-deriving a heartbeat check here.
 A scheduled run that outlasts its interval meets the next one. Kubernetes CronJob makes the choice
 explicit and shows what you get by not making it — `concurrencyPolicy` is *"`Allow` (default): The
 CronJob allows concurrently running Jobs"*; `Forbid` *"skips the new Job run"*; `Replace` kills the
-running one (kubernetes.io, verified 2026-10-17). Most schedulers expose no such field, which means
+running one (kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/, verified
+2026-10-17). Most schedulers expose no such field, which means
 `Allow` by omission: two runs over the same records, the same cursor, the same sends. Name one per
 schedule — **skip** (and count the skip as an expected-run miss for
 [workflow-observability](workflow-observability.md)), **queue**, or **replace** — and make the run

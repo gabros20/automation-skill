@@ -26,7 +26,7 @@ The release procedure synchronizes `.codex-plugin/plugin.json`, this changelog, 
   runs; `process-capture` gains vendor terms that forbid automation and the hand-run-first rollout;
   `cost-and-quota` gains billing units as a shape decision, the shared unauthenticated pool, and
   pause-at-cap; `workflow-testing` gains opt-in live-vendor tests and the dry run as a cost forecast.
-  SOURCES lists DBOS and Hatchet (MIT) and the new own-judgment items. Three eval cases added.
+  SOURCES lists DBOS (MIT) and the new own-judgment items. Three eval cases added.
 
 ## [0.1.2] — 2026-07-27
 
