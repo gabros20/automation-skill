@@ -37,6 +37,7 @@ next year.
 - Silent-stop alerting — none of them default to it
 - Licence and liveness
 - Exit cost, asked up front
+- Who maintains it, and the worst failure, before the vendor
 - Sequencing the decision
 - Failure modes and handoff
 
@@ -46,7 +47,7 @@ next year.
 |---|---|---|---|
 | **Hosted iPaaS** (Zapier/Make-class) | A visual builder, a pre-built connector catalogue, and execution you don't operate. Fastest path from zero to a running workflow. | No distributable core — there is no local artifact to inspect, fork, version-control, or migrate off of a repo for. Per-run pricing that scales with volume, not with the value the workflow delivers. | Low-to-moderate volume, shallow branching logic, a non-technical team, and coverage by the vendor's connector catalogue. This is the default base surface for exactly that reason. |
 | **Self-hosted engine** (n8n/Windmill/Activepieces/Kestra-class) | You run the engine on your own infrastructure — version control, code review, and CI over the workflow definition become possible. | Someone operates the engine: patching, scaling, backup. "Self-hosted" answers *where it runs*, not *what you're allowed to do with it* — see licence below. | A team that can and will run infrastructure, and wants version-controlled workflow logic without going fully code-first. |
-| **Code-first durable execution** (Temporal/Inngest/Restate/Trigger.dev/Cloudflare Workflows/Step Functions-class) | The workflow is code: diffable, testable in the ordinary software sense, and — on the resume-capable engines — step output is preserved across a crash or retry. | Engineering time. This tier assumes whoever is building would rather write and test a workflow than configure one. | Volume or reliability requirements that outgrow a visual builder's retry/idempotency model, or a need for the workflow logic to go through the same review process as the rest of the codebase. |
+| **Code-first durable execution** (Temporal/Inngest/Restate/Trigger.dev/DBOS/Cloudflare Workflows/Step Functions-class) | The workflow is code: diffable, testable in the ordinary software sense, and — on the resume-capable engines — step output is preserved across a crash or retry. | Engineering time. This tier assumes whoever is building would rather write and test a workflow than configure one. | Volume or reliability requirements that outgrow a visual builder's retry/idempotency model, or a need for the workflow logic to go through the same review process as the rest of the codebase. |
 | **Platform-native** (Actions/cron/cloud schedulers) | The platform you're already running on becomes the scheduler — no separate engine to operate or pay for. | No durable step state and no built-in retry primitive at the platform level. Reliability properties come entirely from what you bolt on yourself. | A small number of simple, mostly-independent scheduled jobs where a whole workflow engine would be more infrastructure than the job justifies. |
 
 ## I9 — resume-capability as a first-class selection criterion
@@ -98,6 +99,7 @@ to, not merely correctly licensed and abandoned.
 | **Windmill** | AGPLv3 (core) + Apache-2.0 (clients) | Yes, for the licensed portions |
 | **Kestra** | Apache-2.0 | Yes |
 | **Temporal** | MIT | Yes |
+| **DBOS** · **Hatchet** | MIT | Yes (verified 2026-10-17) |
 | **Pipedream** | — | **No** — despite comparison listicles routinely listing it alongside the MIT/Apache engines above as if it belonged in the same column. |
 
 (Verified 2026-07-27, against each project's own licence text; re-verify — licence terms and
@@ -130,6 +132,10 @@ becomes necessary.
   usually bound to the vendor account that registered them, not portable to a new host without
   re-authorizing every connected app — see
   [credentials-and-connections.md](credentials-and-connections.md).
+- **Run old and new side by side only where the path has no side effects.** A parallel run is the
+  safe way to prove a migrated report or alert before sunsetting the old one; for a flow with an
+  irreversible step it is a duplicate generator (I4) — run the new one in dry-run or against a
+  canary ([workflow-testing.md](workflow-testing.md)) until cutover.
 - **Self-hosting is not exit-cost-free.** Choosing a self-hosted engine because it's "self-hostable"
   still leaves you inside that project's licence — SUL, AGPL, or otherwise. Self-hosted answers *where
   it runs*; it does not answer *what you're allowed to do with what you built on it*.
@@ -144,9 +150,31 @@ becomes necessary.
 the options being compared, including this reference's own sources — read the licence and the exit
 cost yourself rather than taking a vendor's or a competitor's framing of either on faith (I15).
 
+## Who maintains it, and the worst failure, before the vendor
+
+Two questions decide the tier before any feature does, and both are this pack's own judgment, not a
+cited framework:
+
+- **Who will author and change this workflow six months from now?** An ops person wiring three SaaS
+  tools together is best served by a connector canvas. An engineer — or a coding agent — maintaining
+  it is best served by a tier whose definition is a text file in version control (SDK code,
+  declarative YAML such as Kestra's), because that is what can be diffed, reviewed, and tested.
+  Picking the tier for the builder you have today, not the maintainer you will have, is how a flow
+  ends up rebuilt in another tier a year later at full exit cost.
+- **What does the worst failure look like on this engine?** Prototype it before committing: kill a
+  worker mid-step, hit a rate limit, and deploy new code while a run is open. Those three are where
+  resume (I9), backoff (I11), and replay-on-changed-code
+  ([surface-code-first-durable](surface-code-first-durable.md)) actually show themselves; a happy-
+  path demo exercises none of them.
+
+**Mixing tiers on purpose is legitimate.** One engine rarely fits payments, a nightly sync, and Slack
+glue equally; the cost is one more silent-stop surface (I8) and one more credential store (I7) per
+tier, so mix deliberately and count them.
+
 ## Sequencing the decision
 
-Work in this order rather than picking a tier by feature list first: (1) inventory the irreversible
+Work in this order rather than picking a tier by feature list first: (0) name who will maintain the
+workflow (above); (1) inventory the irreversible
 steps (I3) — if the earliest one is irreversible, resume-capability (I9) may eliminate several
 candidates before anything else is weighed; (2) confirm none of the tier's default alerting
 assumptions are wrong — assume silent-stop by default everywhere; (3) read the licence text of any
@@ -160,6 +188,10 @@ builder ergonomics — those are real, but they are the least consequential axis
   actual irreversible steps in the flow, is the single most common way this decision goes wrong.
 - Calling a project "open source" because a comparison page said so, without reading the licence file,
   is a decision made on someone else's unverified summary — read the text.
+- Comparing across categories that do different jobs — a data orchestrator (Airflow/Dagster-class)
+  as the engine for an order flow, or a connector canvas against a durable-execution SDK on
+  features — compares nothing; data pipelines are `data`'s, and the four tiers above are the
+  comparison set for cross-system business processes.
 - A tier decision with no exit-cost line is a decision made as if the platform will never need to be
   left; state the exit cost even when the answer is "acceptable for now."
 - If the tier choice surfaces that the workflow's real requirement is an irreversible-step problem, not
