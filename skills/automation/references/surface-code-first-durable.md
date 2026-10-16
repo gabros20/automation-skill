@@ -80,7 +80,9 @@ builder:
 Verified 2026-07-27 against each vendor's own docs (`docs.temporal.io`, `inngest.com/docs`,
 `docs.restate.dev`, `developers.cloudflare.com/workflows`, `docs.aws.amazon.com/step-functions`;
 Trigger.dev and DBOS 2026-10-17, `trigger.dev/docs/how-it-works`,
-`docs.dbos.dev/architecture`) — re-verify before depending
+`docs.dbos.dev/architecture`; the determinism quotes below 2026-10-17,
+`docs.restate.dev/develop/ts/durable-steps`, `inngest.com/docs/learn/how-functions-are-executed`,
+`docs.dbos.dev/python/tutorials/workflow-tutorial`) — re-verify before depending
 on exact mechanics, this class of doc changes without a deploy on your side (I15).
 
 **One mechanism underneath, one rule for your code.** On recovery, every code-defined engine in
