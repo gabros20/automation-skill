@@ -36,6 +36,7 @@ of which parts of the flow are non-deterministic and therefore untestable in the
 - [Do not overclaim: bounded agents do fail loudly](#do-not-overclaim-bounded-agents-do-fail-loudly)
 - [What's `ai`'s, what's ours](#whats-ais-what-is-ours)
 - [Non-determinism as an operational property](#non-determinism-as-an-operational-property)
+- [Scheduled agent runs](#scheduled-agent-runs)
 - [The `ai` decline row — confirm it holds](#the-ai-decline-row-confirm-it-holds)
 - [Handoff](#handoff)
 
@@ -66,6 +67,13 @@ Not vendor claims — filed bug reports and a merged fix, which is stronger evid
   attacks where a misconfigured config (e.g. `max_iter=10_000_000`) would burn unbounded API
   credits."* The framework's own maintainers naming runaway cost as the failure mode, and fixing it
   with a deterministic ceiling.
+
+**An agent framework's checkpointer is not a durable-execution engine.** It saves state; it does not
+notice the crash, restart the run, or stop a completed side effect repeating — #7417 above is that
+gap filed as a bug. Diagrid's own framing, verbatim: a checkpoint is *"a snapshot of state that you,
+the developer, are responsible for detecting the need to use, manually triggering"* (diagrid.io blog,
+2026-02 — **name the interest**: Diagrid sells a durable runtime for exactly these frameworks). Run
+the agent inside a base surface that resumes (I9), or own detection and resume yourself.
 
 ## The refined claim
 
@@ -111,6 +119,18 @@ decides:
   is capable of reasoning around. Scope the credential, not the sentence.
 - **Kill switch** — a mechanism to stop the run from outside it, independent of the agent's own
   loop-exit logic.
+- **A deterministic gate before the model** — check cheaply whether anything changed, and wake the
+  agent only when it did. A polling agent pays for a model call to discover nothing happened, on
+  every tick; a script that diffs first pays almost nothing.
+
+Three refinements of blast-radius scoping, all this pack's judgment rather than a cited practice:
+agents co-located on one host or one account share **the union** of everything that host holds —
+give each client's work its own isolated runtime, credentials, and approval queue, and pass back
+only summaries; split one agent into two identities **only where they need different credential
+scope, tools, or schedule**, because that line *is* the blast-radius line and any other split only
+adds a process to supervise; and the narrowest construction is the engine as a credential proxy —
+the agent calls one narrow endpoint, the deterministic engine holds the vendor credential and
+performs only the action that endpoint allows.
 
 Fill spend ceiling and step limit into [run-cost-table.md](../assets/run-cost-table.md); fill
 blast-radius scope into [irreversibility-inventory.md](../assets/irreversibility-inventory.md)
@@ -134,6 +154,35 @@ fixture-replayed run to run; and **reconciliation** — if the agent's chosen ac
 log of "what the agent decided to do" is not a reliable record of what happened (I2), which makes
 diffing against the vendor's authoritative state (I1, see [reconciliation](reconciliation.md)) the
 only way to know, rather than one of several ways.
+
+**Graduate autonomy; don't grant it.** Start a new agentic flow as draft-and-queue — the agent
+prepares, a person releases the irreversible step ([approval-and-authority](approval-and-authority.md)
+§4) — review every output, then only flagged ones once a run of clean outputs justifies it, and
+promote a path to unattended only when its success criterion is explicit enough to check
+deterministically. That is the same move as compiling a stable path back into a deterministic
+subflow, reached from the approval side.
+
+**A model-produced value written into a system of record carries its provenance.** Store the run ID,
+the workflow and prompt version, the source it was derived from, and a verified/unverified flag
+beside the value — so the next person or process acting on that CRM field can tell an inference from
+a fact, and a reconciliation can find every value one bad run wrote (I2).
+
+## Scheduled agent runs
+
+A scheduled agentic job is a fresh run every time, not a continuation of the conversation that
+created it. Hermes Agent's cron docs state both halves plainly, verbatim: jobs *"run in isolated
+sessions with no memory of previous runs"*, so *"The prompt must contain everything the agent needs
+that is not already provided by attached skills"* — and on model choice, *"Change your main model and
+every unpinned job follows on its next run"* (hermes-agent.nousresearch.com docs, verified
+2026-10-17; the shape holds for any harness that resolves a job's model from a global default).
+
+- **The job definition is the whole specification.** Anything the agent "knew" from the chat where
+  you set it up is gone; write it into the job or an attached skill.
+- **Pin the model per scheduled job.** An unpinned job changes behaviour the day someone changes the
+  default for interactive use — a change with no deploy, no diff on the job, and no alert (I15).
+  Record the pinned model as a `volatile_facts` row in [handoff.yaml](../assets/handoff.yaml).
+- **Fresh context per run is the property you want** — runs stay independent and comparable; carry
+  state forward only through a durable record you can read and reconcile, never through a transcript.
 
 ## The `ai` decline row — confirm it holds
 

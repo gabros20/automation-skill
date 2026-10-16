@@ -73,7 +73,11 @@ step."
 - **Bulk-approval is a named anti-pattern, not a shortcut.** Approving a stack of pending requests
   without individually reviewing each one is documented in audit practice as a control failure —
   sometimes named certification fatigue or rubber-stamping — not a productivity feature. A UI that
-  makes "approve all" one click has made the anti-pattern one click too.
+  makes "approve all" one click has made the anti-pattern one click too. **The line is whether a
+  rule decided, not whether a button was bulk.** Auto-releasing only items that passed a check
+  committed to before the batch existed, with a random sample of them reviewed by hand and every
+  rejection's reason logged, is a pre-committed rule (I6) plus sampling; "approve everything still
+  pending" is no decision at all.
 
 ### 4. The n=1 collapse — and where the resolution actually lives
 At one person, §2's rule looks unsolvable: if the owner is the only party in the business, they are
@@ -97,6 +101,17 @@ committed to in advance, never from a second person who does not exist (I6).** F
 specifically, that means a pre-committed decision table (§2's delegation matrix, decided before the
 case arose) or a mandatory delay standing in for the missing second signature — not a rubber stamp
 wearing an approval's name.
+
+**When the maker is a rule or an agent, the owner is a real checker again.** The n=1 collapse binds
+only actions the owner originated. An action an automation or an agent *proposed* has a maker that is
+not the owner — so the agentic default at n=1 is **draft-and-queue**: the agent prepares the send,
+the charge, the publish or the invoice as a reviewable artifact, and the irreversible step is a
+separate, gated step the owner releases. Ending an automated pipeline at the artifact — an export, a
+queue of drafts — rather than at the send is the same control. Two conditions keep it honest: the
+owner must not be able to silently edit the rule that generates the proposals (the worked example in
+[`approval-policy-card.md`](../assets/approval-policy-card.md) names this), and **reviewer capacity
+sizes the producers, not the other way round** — add drafting agents faster than one person can
+genuinely review and the queue degrades into §3's rubber stamp.
 
 ### 5. Timeout policy is a decision, not a config default (I13)
 Every workflow engine that supports a human-in-the-loop step gives you the same three primitives:
