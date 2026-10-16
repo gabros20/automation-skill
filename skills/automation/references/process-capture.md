@@ -126,6 +126,23 @@ Weigh three axes before building anything:
   ([approval-and-authority](approval-and-authority.md)) regardless of how deterministic the rest of the
   flow is.
 
+A fourth check overrides all three: **does the vendor's own agreement forbid automating this
+step?** LinkedIn's User Agreement §8.2, verbatim, bars members from using *"bots or other
+unauthorized automated methods to access the Services, add or download contacts, send or redirect
+messages"* (effective 2025-11-03, verified 2026-10-17). A step like that stays manual whatever the
+three axes say — automate the preparation around it, and leave the act itself to a person —
+because the penalty lands on the account, and the account's blast radius is every flow that uses it
+(I10).
+
+**Run it by hand, then automate the hand run, then schedule it.** Do the process once manually with
+the tooling you will automate, capture that run as the rule card, automate it, watch it run on
+demand, and only then put it on a trigger. Each stage surfaces a different class of mistake — the
+rule, the mapping, the trigger — and skipping straight to the schedule meets all three at once,
+unattended. An **imported template** — a community workflow export, a marketplace recipe — skips the
+first two stages by construction: treat it as a workflow you did not write, and fill the
+[irreversibility inventory](../assets/irreversibility-inventory.md) and
+[trigger audit](../assets/trigger-audit-sheet.md) for it before it is switched on.
+
 Two failure modes to name explicitly rather than discover in production: automating a process that was
 broken to begin with (automation reliably makes an inefficient process cost more, faster — it does not
 fix it), and a maintenance cost that quietly exceeds the manual cost it replaced. The decision table

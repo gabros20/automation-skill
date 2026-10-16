@@ -116,6 +116,13 @@ tests tells you your logic still does what it did when you recorded the fixture;
 the vendor still behaves the way the fixture assumes. Re-record fixtures on a schedule, not once at
 launch, and treat a long-unrefreshed fixture as itself a source of false confidence.
 
+Two habits keep the boundary between this and the live vendor explicit. **Gate every test that
+touches a live vendor behind an explicit opt-in** (an environment flag, a separate suite), so the
+default run never spends money, sends a message, or burns quota by accident. And **use a dry run as
+a cost forecast, not only a logic check**: a dry run that walks the full flow and counts the paid
+calls it *would* have made tells you a run's price before the first real one — set the run's budget
+cap ([cost-and-quota](cost-and-quota.md)) from that count.
+
 ## What is genuinely untestable, and what replaces it
 
 An irreversible mutation against a vendor with no sandbox — a live message sent, a live record

@@ -52,6 +52,15 @@ fine in isolation can become expensive the moment someone adds a step to it, wit
 at all. Reviewing a workflow's cost means reviewing its step count and branching, not just its trigger
 frequency.
 
+**The billing unit decides which workload shape is cheap, so read it before choosing the shape.**
+Three code-first anchors, verified 2026-10-17 against each vendor's pricing page — the units, not
+the prices: Inngest meters *"per function run and per step inside that run"*; AWS Step Functions
+Standard bills *"based on the number of state transitions"*; Trigger.dev bills compute time plus a
+per-run invocation charge, and *"You are only charged when your tasks are executing."* On a
+per-step or per-transition meter an agent loop's iteration count *is* the bill; on a compute-time
+meter a long wait for a human is nearly free and a CPU-heavy step is not. Splitting a flow into
+finer steps for durability multiplies a per-step bill — price the step count you actually intend.
+
 ## I10 — the quota is the vendor's
 
 > **I10 — The quota is the vendor's. Exhausting it is an availability event you cannot fix by paying
@@ -72,6 +81,12 @@ Two consequences follow directly:
   groups into separate accounts or vendor connections trades convenience for a smaller failure domain —
   worth doing deliberately for anything where one workflow failing to respect its own limits should not
   take every other workflow down with it.
+
+**An unauthenticated tier is a quota you share with strangers.** Semantic Scholar's API states it
+outright, verbatim: unauthenticated requests *"are rate-limited to 1000 requests per second shared
+among all unauthenticated users"* (semanticscholar.org/product/api, verified 2026-10-17). Someone
+else's traffic can exhaust it, and nothing on your side can see why — register a key before anything
+depends on the call, and treat a vendor's manual key approval as lead time on the build plan.
 
 ## The runaway classes
 
@@ -226,7 +241,9 @@ defensible floor:
    manually — recorded in [run-cost-table.md](../assets/run-cost-table.md).
 3. **A kill switch that actually disables the workflow**, not merely alerts on it — a human checking a
    dashboard on a schedule, or an external monitor wired to a real stop, since no confirmed automatic
-   breaker exists to rely on (see above).
+   breaker exists to rely on (see above). Where the engine resumes (I9), prefer a per-run budget that
+   **pauses** the run at the cap over one that fails it: a paused run resumes from its completed
+   steps once someone raises the cap, while a failed one pays again for everything it already did.
 4. **A deliberate blast-radius decision** — whether unrelated automation groups share one account and
    one quota bucket, or are isolated into separate ones, stated as a choice rather than left as
    whatever the signup flow defaulted to (I10).
