@@ -83,11 +83,12 @@ Trigger.dev and DBOS 2026-10-17, `trigger.dev/docs/how-it-works`,
 `docs.dbos.dev/architecture`) — re-verify before depending
 on exact mechanics, this class of doc changes without a deploy on your side (I15).
 
-**One mechanism underneath, one rule for your code.** On recovery, every engine in this table
-re-runs the workflow body, returns the cached result for each completed unit — an Activity, a
-journaled action, a `step.run()`, a named step, a subtask, a DBOS step — and executes the rest. (On
-Trigger.dev that re-run happens on a retry; a checkpoint-restored wait resumes without re-running
-code.) So the code *between* units must be deterministic in which units it calls and with what
+**One mechanism underneath, one rule for your code.** On recovery, every code-defined engine in
+this table re-runs the workflow body, returns the cached result for each completed unit — an
+Activity, a journaled action, a `step.run()`, a named step, a subtask, a DBOS step — and executes
+the rest. (On Trigger.dev that re-run happens on a retry; a checkpoint-restored wait resumes without
+re-running code. Step Functions has no body to re-run: its state machine redrives from the failed
+state.) So the code *between* units must be deterministic in which units it calls and with what
 inputs, and the vendors say so themselves, verbatim: Restate — *"Non-deterministic operations
 (database calls, HTTP requests, UUID generation) must be wrapped to ensure deterministic replay"*;
 Inngest — *"Code outside a step can run again each time the handler replays"*; DBOS — a workflow
