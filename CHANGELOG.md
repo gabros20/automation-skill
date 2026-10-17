@@ -8,6 +8,11 @@ The release procedure synchronizes `.codex-plugin/plugin.json`, this changelog, 
 ## [Unreleased]
 
 ### Added
+- Queue unreleased changes here.
+
+## [0.2.0] — 2026-10-17
+
+### Added
 
 - **Practitioner fold — scheduled agent jobs, durable-engine mechanics, and lying statuses.** New
   material folded into the existing references, every vendor fact re-verified at its primary source
@@ -106,4 +111,5 @@ The release procedure synchronizes `.codex-plugin/plugin.json`, this changelog, 
 - Research corpora + build-gate synthesis in `research/` (11 stage-2 workers + 5 stage-1 workers,
   date-stamped 2026-07-27).
 
+[0.2.0]: https://github.com/gabros20/automation-skill/releases/tag/v0.2.0
 [0.1.0]: https://github.com/gabros20/automation-skill/releases/tag/v0.1.0
