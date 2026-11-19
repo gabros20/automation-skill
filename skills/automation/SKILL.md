@@ -65,14 +65,14 @@ Before producing anything the user will have to live with:
    answers that would change it most.
 6. **Write it down.** Answers and assumptions go to the LEDGER's Context block.
 
-This pack's questions:
-1. What starts it, and how often does it run? (Rarely → consider not automating it.)
+This pack's questions (a pool — ask the top four that step 1 left open):
+1. What starts it, and how often? (Rarely → consider not automating it.)
 2. What happens if it runs twice, or not at all? (Recommended: make every step safe to repeat.)
-3. Who must approve before it sends money, emails a customer or deletes? (Recommended: you approve
+3. Who must approve before it sends money, emails a customer or deletes? (Recommended: you, for
    anything that can't be undone.)
 4. Which tools does it connect, and which automation platform do you already pay for? (Recommended:
    the hosted default.)
-5. How should you hear that it stopped? (Recommended: an alert when a scheduled run is missing.)
+5. How should you hear that it stopped? (Recommended: alert on a missing scheduled run.)
 
 These answers fill [Process capture](references/process-capture.md)
 "2. The rule card" and "4. When not to automate".
