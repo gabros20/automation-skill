@@ -62,5 +62,15 @@
       "Names a deterministic gate before the model (check whether new mail exists before waking the agent) and the spend / step / wall-clock ceilings (I12)",
       "Gives the job a missing-heartbeat check that would catch the scheduler itself stopping, not only a run that errors (I8)"
     ]
+  },
+  {
+    "id": "standalone-context-check",
+    "prompt": "Automate sending an invoice and a welcome email whenever someone signs up on our site.",
+    "assertions": [
+      "Before designing it reads the repo and any digital-product/LEDGER.md Context, and asks nothing already answered there (tools in use, existing platform).",
+      "It asks at most four questions in one round (for example how often it runs, what happens if it runs twice, who approves before money or email goes out, how they should hear it stopped), each with a recommended answer — or, if it cannot ask, proceeds on the hosted default and opens the result with the assumptions that would change it most.",
+      "Its default makes every step safe to repeat, keyed on the signup event, and orders the steps so the hardest to revert runs last.",
+      "Answers and assumptions are recorded in the LEDGER's Context block, each assumption with its basis and cost to reverse."
+    ]
   }
 ]

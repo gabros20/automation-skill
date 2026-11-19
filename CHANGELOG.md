@@ -8,7 +8,14 @@ The release procedure synchronizes `.codex-plugin/plugin.json`, this changelog, 
 ## [Unreleased]
 
 ### Added
-- Queue unreleased changes here.
+- SKILL.md **Standalone context check** (before routing): the family's common core (look first,
+  size it, ask at most four owner-only questions with recommended answers, decide as the expert,
+  never block, record in the LEDGER) and five automation questions (what starts it and how often,
+  running twice or not at all, who approves, tools and platform, how you hear it stopped); answers
+  fill `process-capture.md` "2. The rule card" and "4. When not to automate". Offset to stay under
+  the 3,500-token threshold (3205 → 3490): the Resources job and surface lists that repeated the
+  routing tables are cut, and the no-platform step, the standalone sentence and route steps 4–5 are
+  tightened without changing what they say. Output eval `standalone-context-check`.
 
 ## [0.2.0] — 2026-10-17
 

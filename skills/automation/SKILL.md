@@ -45,22 +45,49 @@ does **not** author the business rule — `product` and the commercial skills ow
 rule exists, capture it explicitly ([process-capture](references/process-capture.md)) rather than
 inventing one silently.
 
-Operate independently when invoked alone. When compatible upstream artifacts are provided, use them
-without silently overriding established decisions. Recommend adjacent skills when useful; do not
-invoke them automatically unless the user explicitly requested a composition workflow.
+Operate independently when invoked alone; use compatible upstream artifacts without silently
+overriding their decisions. Recommend adjacent skills; never invoke them unless the user asked for a
+composition workflow.
+
+## Standalone context check
+
+Before producing anything the user will have to live with:
+1. **Look first.** Read `digital-product/LEDGER.md` (Context), `digital-product/<pack>/`, upstream
+   artifacts, the repo and this conversation. A fact found is never asked; a fact recorded is never
+   re-asked.
+2. **Size it.** Reversible and small → proceed, stating assumptions. New, costly or hard to undo →
+   check.
+3. **Ask only what the owner alone knows**, in their words: one round, at most four, highest
+   leverage first, each with a recommended answer ("ok" accepts all). Two rounds at most.
+4. **No or thin answers → decide as the expert.** Record each assumption with its basis and cost to
+   reverse; prefer the reversible option; show the cheapest proof early.
+5. **No way to ask → never block.** Proceed, and open the artifact with the assumptions and the
+   answers that would change it most.
+6. **Write it down.** Answers and assumptions go to the LEDGER's Context block.
+
+This pack's questions:
+1. What starts it, and how often does it run? (Rarely → consider not automating it.)
+2. What happens if it runs twice, or not at all? (Recommended: make every step safe to repeat.)
+3. Who must approve before it sends money, emails a customer or deletes? (Recommended: you approve
+   anything that can't be undone.)
+4. Which tools does it connect, and which automation platform do you already pay for? (Recommended:
+   the hosted default.)
+5. How should you hear that it stopped? (Recommended: an alert when a scheduled run is missing.)
+
+These answers fill [Process capture](references/process-capture.md)
+"2. The rule card" and "4. When not to automate".
 
 ## Route before acting
 
-1. Identify the **one primary job** and the **one base surface**. Read one of each. **If the request
-   names no platform, do not stall — proceed on the job alone, or assume the default surface
-   (hosted iPaaS) and say which you assumed.** Many questions (approval policy, when not to automate)
+1. Identify the **one primary job** and the **one base surface**. Read one of each. **No platform
+   named → do not stall: proceed on the job alone, or assume hosted iPaaS and say so.** Many questions (approval policy, when not to automate)
    are surface-independent.
 2. Add `surface-agentic.md` **on top of** a base surface only when a model is a step or the trigger.
    It is additive, never a replacement.
 3. **Re-verify anything volatile before using it.** Vendor limits, retry schedules, retention
    windows, pricing and licences churn, and a dependency can change with no deploy on your side (I15).
-4. Read every selected reference completely before producing the affected artifact.
-5. Do not load unrelated references.
+4. Read every selected reference completely before producing the affected artifact; load nothing
+   unrelated.
 
 ### Jobs
 
@@ -181,12 +208,7 @@ Before completion:
 
 ## Resources
 
-Jobs — **reconciliation ⭐** · integration-reliability · compensation-and-recovery ·
-credentials-and-connections · approval-and-authority · trigger-design · sync-semantics ·
-workflow-observability · cost-and-quota · platform-selection · workflow-testing · process-capture
-
-Surfaces — surface-hosted-ipaas (default) · surface-self-hosted-engine · surface-code-first-durable ·
-surface-platform-native · surface-agentic (additive) · handoff
+Jobs and surfaces — the routing tables above.
 
 Assets — `irreversibility-inventory.md` · `reconciliation-worksheet.md` · `credential-register.md` ·
 `approval-policy-card.md` · `trigger-audit-sheet.md` · `run-cost-table.md` · `handoff.yaml`
